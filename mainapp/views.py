@@ -6,10 +6,28 @@ from django.shortcuts import render
 #     return render(request, 'index.html')
 
 
-def mainapp(request):
-    # 임시 날씨에 따라 배경화면 바뀔 예정
-    background = "static/videos/rainy.mp4"
+def main(request):
+    if request.method == 'POST':
+        background = "/static/videos/rainy.mp4"
+        lat = request.POST.get('startLat')
+        lon = request.POST.get('startLon')
+        context = {
+            'background': background,
+            'latitude': lat,
+            'longitude': lon,
+        }
+        print(lat, lon)# 안 받아와 지네 ㅅㅂ
+        return render(request, 'mainapp/main.html', context)
+    else:
+        # 날씨 정보 차단시 default 값 출력.
+        background = "/static/videos/rainy.mp4"
+        context = {
+            'background': background
+        }
+        return render(request, 'mainapp/main.html', context)
+
+
+def checkin(request):
     context = {
-        'background': background
     }
-    return render(request, 'mainapp/main.html', context)
+    return render(request, 'mainapp/checkin.html', context)
