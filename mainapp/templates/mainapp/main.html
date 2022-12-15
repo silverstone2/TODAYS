@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -31,14 +31,16 @@ nav {
 {% include "mainapp/navbar.html" %}
 <div class="jb-box">
 	<video muted autoplay loop>
-		<source src={{ background }} type="video/mp4">
+		<source src= {{ background }} type="video/mp4">
 	</video>
 	<div class="dv-text">
 		<p>
 			하루 내내 우천 예정입니다.</br>
 			최고 10°C 최저 -3°C</br>
 			풍속은 최대 4m/s 입니다.</br>
-			미세먼지 농도는 맑습니다.
+			미세먼지 농도는 맑습니다.<br>
+            위도 : {{ latitude }} </br>
+            경도 : {{ longitude }}
 		</p>
 	</div>
 	<div class="dv-text2">
