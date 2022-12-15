@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+</head>
+<body>
+
+<button id="currentGeoLocation">버튼을 누르면 위치정보를 허용합니다.</button>
+
+<form action="{% url 'main' %}" method="POST">{% csrf_token %}
+    <input type="hidden" id="startLat" name="startLat" value="default_latitude">
+    <input type="hidden" id="startLon" name="startLon" value="default_longitude">
+    <input type="submit" id="submit" value="버튼을 누르면 메인 페이지 이동.">
+</form>
+<div id="nudge"></div>
+<script>
+    locationCheck();
+
+    function locationCheck() {
+        const currentGeoLocation = document.getElementById("currentGeoLocation");
+        currentGeoLocation.onclick = function () {
+            let startPos;
+            let geoOptions = {timeout: 10 * 1000};
+            let geoSuccess = function (position) {
+                startPos = position;
+                let lat = String(startPos.coords.latitude);
+                document.getElementById("startLat").setAttribute("value", lat);
+                document.getElementById("startLon").value=startPos.coords.longitude;
+                //왜 안 넘어가 ㅅㅂ
+            };
+            let geoError = function (error) {
+                console.log('Error occurred. Error code: ' + error.code);
+            };
+            navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);
+            // 참고 https://hacktiming.tistory.com/4
+        };
+    }
+</script>
+</body>
+</html>
