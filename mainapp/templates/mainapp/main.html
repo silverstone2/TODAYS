@@ -18,15 +18,24 @@ video { width: 100%; height: 100%; } /*좌우 꽉차게 하기*/
 
 .dv-text4 { position: absolute; top: 60%; width: 100%; }
 .dv-text4 p { margin-bottom: 1vw; text-align: center; font-size: 2vw; color: #ffffff; }
+.btn1 { border : none; background-color : rgba(0,0,0,0);}
+
+.cafe-text p { margin-top: 10vw; text-align: center; font-size: 2vw; color: #ffffff; }
+
 nav {
     position: fixed;
 }
 </style>
+<script>
+const btn1 = () => {
+   window.scrollTo({top:1000, behavior:'smooth'});
+    }
+</script>
 </head>
 <!-- Bootstrap CSS -->
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
-<body>
+<body style="background-color: black;">
 <!-- 네비게이션바 -->
 {% include "mainapp/navbar.html" %}
 <div class="jb-box">
@@ -64,32 +73,74 @@ nav {
 	<div class="dv-text4">
 		<p>
 			오늘의 추천 카페 보기<br />
-			▼
+			<button id="btn1" onclick="btn1()">▼</button>
 		</p>
 	</div>
 </div>
-<!-- 스크롤 확인용 -->
-<div>1</div>
-<div>2</div>
-<div>3</div>
-<div>4</div>
-<div>5</div>
-<div>6</div>
-<div>7</div>
-<div>8</div>
-<div>9</div>
-<div>1</div>
-<div>1</div>
-<div>2</div>
-<div>3</div>
-<div>4</div>
-<div>5</div>
-<div>6</div>
-<div>7</div>
-<div>8</div>
-<div>9</div>
-<div>1</div>
+<div class="cafe-index1">
+   <div class="cafe-text" style= "float:left; width: 40%;">
+      <p>
+         <span style="font-size: 5vw;"><strong>카페 드 220V볼트 춘천</strong></span><br />
+         <br />
+         강원도 추천시 동내면 신촌리 107 <br />
+         영업중 - 오후 10:00 영업종료 <br />
+         033-263-0202 <br />
+         <a href="#">위치 확인하기</a>
+      </p>
+   </div>
+   <img src="/static/images/cafe.jpg" style="float: left; height: 100%; width: 60%; margin-top: -1vw;"/>
+</div>
+<div class="cafe-index2">
+   <div class="cafe-text" style= "float:left; width: 40%;">
+      <p>
+         <span style="font-size: 5vw;"><strong>모시깽이 카페</strong></span><br />
+         <br />
+         강원도 추천시 동내면 신촌리 107 <br />
+         영업중 - 오후 10:00 영업종료 <br />
+         033-263-0202 <br />
+         <a href="#">위치 확인하기</a>
+      </p>
+   </div>
+   <img src="/static/images/cafe2.jpg" style="float: left; height: 100%; width: 60%; margin-top: 1vw;"/>
+</div>
+
+
+<div class="cafe-index3">
+   <div class="cafe-text" style= "float:left; width: 40%;">
+      <p>
+         <span style="font-size: 5vw;"><strong>어쩌구 카페</strong></span><br />
+         <br />
+         강원도 추천시 동내면 신촌리 107 <br />
+         영업중 - 오후 10:00 영업종료 <br />
+         033-263-0202 <br />
+         <a href="#">위치 확인하기</a>
+      </p>
+   </div>
+   <img src="/static/images/cafe3.jpg" style="float: left; height: 100%; width: 60%; margin-top: 1vw;"/>
+</div>
 <!-- Bootstrap JS -->
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script>
+    const API_KEY = '391a7452f0305886198698bfedb179e0';
+    function onGeoOk(position) {
+        const latitude = {{ latitude }};
+        const longitude = {{ longitude }};
+        //console.log(`You live in ${latitude} and ${longitude}`);
+        fetch(
+            `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`,
+        )
+        .then(response => response.json())
+        .then(data => console.log(`온도 : ${data.main.temp}, 날씨 : ${data.weather[0].main},
+            구름 정도 : ${data.clouds.all+"%"}
+            날씨 설명 : ${data.weather[0].description},
+            현재 위치 : ${data.name}`));
+        //document.getElementById("weather").innerText=${data.weather[0].main};
+    }
+    function onGeoError() {
+        alert("Can't find you. No weather for you.");
+    }
+
+    navigator.geolocation.getCurrentPosition(onGeoOk, onGeoError);
+</script>
 </body>
 </html>
