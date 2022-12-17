@@ -39,6 +39,27 @@
             // 참고 https://hacktiming.tistory.com/4
         };
     }
+    
+    const API_KEY = '391a7452f0305886198698bfedb179e0';
+    function onGeoOk(position) {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+        //console.log(`You live in ${latitude} and ${longitude}`);
+        fetch(
+            `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`,
+        )
+        .then(response => response.json())
+        .then(data => console.log(`온도 : ${data.main.temp}, 날씨 : ${data.weather[0].main},
+            구름 정도 : ${data.clouds.all+"%"}
+            날씨 설명 : ${data.weather[0].description},
+            현재 위치 : ${data.name}`));
+        //document.getElementById("weather").innerText=${data.weather[0].main};
+    }
+    function onGeoError() {
+        alert("Can't find you. No weather for you.");
+    }
+
+    navigator.geolocation.getCurrentPosition(onGeoOk, onGeoError);
 </script>
 </body>
 </html>
