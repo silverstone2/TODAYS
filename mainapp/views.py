@@ -1,8 +1,14 @@
+from django.contrib.auth import authenticate
 from django.shortcuts import render, redirect
 from mainapp import functions as func  # 기능 함수들 모두 functions.py 로 분리
 # 로그인에 필요한 내장 함수 사용
 from django.contrib.auth.models import User
 from django.contrib import auth
+
+from mainapp.templates.users.forms import UserForm
+
+
+# 로그인 구현 중
 
 #  기본값: 서울
 nx_ny = {'x': "60", 'y': "127"}
@@ -10,7 +16,7 @@ sel_lat_long = {'x': "60", 'y': "127"}
 current_location = {'dist1': "서울특별시", 'dist2': "중구"}
 selected_location = {'dist1': "서울특별시", 'dist2': "중구"}
 current_weather = {}
-# 온도 TMP 강수량 PCP 풍속 WSD 습도 REH 적설량 SNO 전운량1 - 10(범주)
+# 온도 TMP / 강수량 PCP / 풍속 WSD / 습도 REH / 적설량 SNO / 전운량1 - 10(범주)
 selected_weather = {}
 
 
@@ -60,11 +66,22 @@ def result(request):
 
 
 def login(request):
-    return render(request, 'users/loginform.html')
+    return render(request, 'users/login.html')
 
 
 def signup(request):
-    return render(request, 'users/signup.html')
+    if request.method == "POST":
+        form = UserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('index')
+    else:
+        form = UserForm()
+    return render(request, 'signup.html', {'form': form})
 
 
 def mypage(request):
