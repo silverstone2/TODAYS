@@ -3,6 +3,61 @@
 <head>
 <meta charset="UTF-8">
 <title>Today's</title>
+<style>
+.form {
+	border-radius:20px;
+	background-color: #F5F5F5;
+	padding:1vw;
+	box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.5);
+}
+select {
+     width:300px;
+     padding:5px;
+     border:1px solid #999;
+     font-family:'Nanumgothic';
+     border-radius:3px;
+     -webkit-appearance: none;
+     -moz-appearance: none;
+     appearance : none;}
+
+.wrap {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn_search {
+  width: 10vw;
+  height: 4vw;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1vw;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+  background-color: #fff;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  }
+
+.btn_search:hover {
+  background-color: #C0DFFA;
+  box-shadow: 0px 15px 20px rgba();
+  color: #fff;
+  transform: translateY(-7px);
+}
+
+.index {
+	text-align: center;
+
+}
+
+</style>
 <!-- Bootstrap CSS -->
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
@@ -12,7 +67,6 @@
 <!-- jQurey -->
 <script src="https://code.jquery.com/jquery-latest.min.js" type="application/javascript"></script>
 <script type="text/javascript">
-
 $('document').ready(function() {
  var area0 = ["구/군 선택","강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구","동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"];
    var area1 = ["개포동","논현동","대치동","도곡동","삼성동","세곡동","수서동","신사동","압구정동","역삼동","율현동","일원동","자곡동","청담동"];
@@ -41,7 +95,10 @@ $('document').ready(function() {
    var area24 = ["광희동1가","광희동2가","남대문로1가","남대문로2가","남대문로3가","남대문로4가","남대문로5가","남산동1가","남산동2가","남산동3가","남창동","남학동","다동","만리동1가","만리동2가","명동1가","명동2가","무교동","무학동","묵정동","방산동","봉래동1가","봉래동2가","북창동","산림동","삼각동","서소문동","소공동","수표동","수하동","순화동","신당동","쌍림동","예관동","예장동","오장동","을지로1가","을지로2가","을지로3가","을지로4가","을지로5가","을지로6가","을지로7가","의주로1가","의주로2가","인현동1가","인현동2가","입정동","장교동","장충동1가","장충동2가","저동1가","저동2가","정동","주교동","주자동","중림동","초동","충무로1가","충무로2가","충무로3가","충무로4가","충무로5가","충정로1가","태평로1가","태평로2가","팔동1가","팔동2가","팔동3가","황학동","회현동1가","회현동2가","회현동3가","흥인동"];
    var area25 = ["망우동","면목동","묵동","상봉동","신내동","중화동"];
 
+
+
  // 구/군 선택 박스 초기화
+
  $("select[name^=sido]").each(function() {
   $selsido = $(this);
   $.each(eval(area0), function() {
@@ -50,9 +107,10 @@ $('document').ready(function() {
   $selsido.next().append("<option value=''>구/군 선택</option>");
  });
 
- 
+
 
  // 구/군 선택시 동 설정
+
  $("select[name^=sido]").change(function() {
   var area = "area"+$("option",$(this)).index($("option:selected",$(this))); // 선택지역의 구군 Array
   var $gugun = $(this).next(); // 선택영역 동 객체
@@ -71,54 +129,59 @@ $('document').ready(function() {
 });
 </script>
 </head>
-
 <body>
 <!-- 네비게이션바 -->
 {% include "navbar.html" %}
+<div id="contentArea" class="container" style= "width: 60%; height: 100%;">
+	<div id = "banner" class="container">
+		<img src="/static/images/banner.png" style= "width: 100%; height: 100%; overflow: hidden;"/>
+	</div>
+	<div class="index">
+		<h2>기분에 따라 카페를 추천받고싶을땐?</h2>
+		<br />
+		<p>이 웹페이지는 흔한 카페찾기로부터 시작되었습니다.</p>
+		<p>설명 어쩌구저쩌구설명 어쩌구저쩌구설명 어쩌구저쩌구</p>
 
-<div class="container">
-	<fieldset>
-	<legend>
-		서울시 지역선택(군/구, 동)
-	</legend>
-		<div class = "col">
-			<select name="sido" id="sido"></select>
-			<select name="gugun" id="gugun"></select>
-		</div>
-	<legend>
-		기분
-	</legend>
-		<div>
-			<select name="feeling" id="feeling"></select>
-		</div>
-	<legend>
-		카페 주 먹거리
-	</legend>
-		<div>
-			<select name="food" id="food"></select>
-		</div>
-		<button onclick="location.href='/result'" type="button" id="btn_search" title="검색">검색</button>
-        <input type="submit" id="submit" value="검색">
+	</div>
+
+	<form action="" method="post">
+	<fieldset class="form">
+		<legend>
+			서울시 지역선택(군/구, 동)
+		</legend>
+			<div class = "selectBox">
+				<select name="sido" id="sido"></select>
+				<select name="gugun" id="gugun"></select>
+			</div>
+		<legend>
+			기분
+		</legend>
+			<div class = "selectBox">
+				<select name="feeling" id="feeling">
+					<option selected>기쁨</option>
+					<option>슬픔</option>
+					<option>화남</option>
+					<option>즐거움</option>
+				</select>
+			</div>
+		<legend>
+			카페 주 먹거리
+		</legend>
+			<div class = "selectBox">
+				<select name="food" id="food">
+					<option selected>빵</option>
+					<option>커피</option>
+					<option>디저트</option>
+					<option>음료수</option>
+				</select>
+			</div>
+			<div class="wrap">
+				<button onclick="location.href='/result'" type="button" id="btn_search" class="btn_search" style="float: right;">추천받기</button>
+			</div>
 	</fieldset>
+	</form>
+
+
 </div>
-<script>
-
-    const API_KEY = '391a7452f0305886198698bfedb179e0';
-    function onGeoOk(position) {
-    const latitude = position.coords.latitude;
-    const longitude = position.coords.longitude;
-        //console.log(`You live in ${latitude} and ${longitude}`);
-
-        fetch(
-            `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`,
-        )
-    }
-    function onGeoError() {
-        alert("Can't find you. No weather for you.");
-    }
-
-    navigator.geolocation.getCurrentPosition(onGeoOk, onGeoError);
-
-</script>
 </body>
 </html>

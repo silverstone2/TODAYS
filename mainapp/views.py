@@ -1,12 +1,6 @@
 from django.contrib.auth import authenticate
 from django.shortcuts import render, redirect
 from mainapp import functions as func  # 기능 함수들 모두 functions.py 로 분리
-# 로그인에 필요한 내장 함수 사용
-from django.contrib.auth.models import User
-from django.contrib import auth
-
-from mainapp.templates.users.forms import UserForm
-
 
 # 로그인 구현 중
 
@@ -27,7 +21,18 @@ def main(request):
 def result(request):
     if request.method == 'POST':
         background = "/static/videos/rainy.mp4"
+        sido = request.POST.get('sido')
+        gugun = request.POST.get('gugun')
+        feeling = request.POST.get('feeling')
+        food = request.POST.get('food')
 
+        # 임시
+        sido = "종로구"
+        gugun = "청운효자동"
+        feeling = "슬픔"
+        food = "빵"
+
+        print('넘어온 값 확인 :', sido, gugun, feeling, food)
         lat = request.POST.get('startLat')
         long = request.POST.get('startLon')
         location = "판교로 242"  # 임시 주소명
@@ -55,7 +60,7 @@ def result(request):
             'current_location1': current_location['dist1'],
             'current_location2': current_location['dist2'],
         }
-        return render(request, 'main.html', context)
+        return render(request, 'result.html', context)
     else:
         # 날씨 정보 차단시 default 값 출력.
         background = "/static/videos/rainy.mp4"

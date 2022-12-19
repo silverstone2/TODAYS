@@ -4,7 +4,6 @@ import requests
 import math
 from datetime import date, datetime, timedelta
 import json
-import pandas as pd
 
 
 def grid(v1, v2):
