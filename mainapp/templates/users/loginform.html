@@ -13,15 +13,15 @@
 {% include "navbar.html" %}
 
 <h1>로그인</h1>
-<form method="post" action="">
+<form method="POST" action="">
   {% csrf_token %}
   <div>
     <label>사용자 ID</label>
-    <input type="text" name="username" id="username">
+    <input type="text" name="username">
   </div>
   <div>
     <label>비밀번호</label>
-    <input type="text" name="password" id="password">
+    <input type="text" name="password1">
   </div>
   <button type="submit">로그인</button>
 </form>

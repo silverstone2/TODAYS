@@ -10,7 +10,6 @@
 <body>
 <!-- 네비게이션바 -->
 {% include "navbar.html" %}
-<h1>회원가입 양식</h1>
 <div>
     <div>
       <form action = "" method="POST"> {% csrf_token %}
@@ -23,15 +22,15 @@
             </tr>
             <tr>
               <td>아이디 : </td>
-              <td><input type ="text" name ="id" placeholder="아이디를 입력하세요"></td>
+              <td><input type ="text" name ="username" placeholder="아이디를 입력하세요"></td>
             </tr>
             <tr>
               <td>비밀번호 : </td>
-              <td><input type="password1" name ="pw1" placeholder="최소 8 자, 최소 하나의 문자, 하나의 숫자 및 하나의 특수 문자로 비밀번호를 입력하세요"></td>
+              <td><input type="password" name ="password1" placeholder="최소 8 자, 최소 하나의 문자, 하나의 숫자 및 하나의 특수 문자로 비밀번호를 입력하세요"></td>
             </tr>
             <tr>
               <td>비밀번호 확인: </td>
-              <td><input type="password2" name ="pw2" placeholder="비밀번호를 다시 한 번 입력하세요"></td>
+              <td><input type="password" name ="password2" placeholder="비밀번호를 다시 한 번 입력하세요"></td>
             </tr>
             <tr>
               <td>이메일 : </td>
