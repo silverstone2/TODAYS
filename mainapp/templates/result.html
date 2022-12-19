@@ -45,14 +45,16 @@ const btn1 = () => {
 			최고 10°C 최저 -3°C</br>
 			풍속은 최대 4m/s 입니다.</br>
 			미세먼지 농도는 맑습니다.<br>
-            위도 : {{ latitude }} </br>
-            경도 : {{ longitude }}
+            <!--
+            위도 경도는 콘솔창에 표시.
+            -->
 		</p>
 	</div>
 	<div class="dv-text2">
 		<p>
-			서울특별시 <br />
-			<span style="font-size: 8vw;">&nbsp;6°C</span>
+            {{ current_location1 }} <br />
+            {{ current_location2 }} <br />
+			<span style="font-size: 8vw;">&nbsp;{{ current_tmp }}°C</span>
 		</p>
 	</div>
 	<div class="dv-text3">
@@ -118,26 +120,8 @@ const btn1 = () => {
 <!-- Bootstrap JS -->
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
 <script>
-    const API_KEY = '391a7452f0305886198698bfedb179e0';
-    function onGeoOk(position) {
-        const latitude = {{ latitude }};
-        const longitude = {{ longitude }};
-        //console.log(`You live in ${latitude} and ${longitude}`);
-        fetch(
-            `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`,
-        )
-        .then(response => response.json())
-        .then(data => console.log(`온도 : ${data.main.temp}, 날씨 : ${data.weather[0].main},
-            구름 정도 : ${data.clouds.all+"%"}
-            날씨 설명 : ${data.weather[0].description},
-            현재 위치 : ${data.name}`));
-        //document.getElementById("weather").innerText=${data.weather[0].main};
-    }
-    function onGeoError() {
-        alert("Can't find you. No weather for you.");
-    }
-
-    navigator.geolocation.getCurrentPosition(onGeoOk, onGeoError);
+    console.log('현위치 위도, 경도 :', {{ latitude }},',', {{ longitude }})
+    console.log('선택 위치 위도, 경도 :', {{ selected_latitude }},',', {{ selected_longitude }})
 </script>
 </body>
 </html>
