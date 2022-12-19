@@ -3,6 +3,9 @@ from mainapp import functions as func  # 기능 함수들 모두 functions.py �
 # 로그인에 필요한 내장 함수 사용
 from django.contrib.auth.models import User
 from django.contrib import auth
+from mainapp.models import Member
+from datetime import datetime
+
 
 #  기본값: 서울
 nx_ny = {'x': "60", 'y': "127"}
@@ -60,8 +63,30 @@ def login(request):
     return render(request, 'users/loginform.html')
 
 def signup(request):
-    return render(request, 'users/signup.html')
+    return render(request, 'users/signup.html', {})
 
 def mypage(request):
     return render(request, 'users/mypage.html')
+
+def member_insert(request):
+    context = {}
+    
+    memberid = request.POST.get('member_id')
+    memberpwd = request.POST.get('member_pwd')
+    membername = request.POST.get('member_name')
+    memberemail = request.POST.get('member_email')
+    
+    rs = Member.objects.create(member_id = memberid,
+                               member_pwd = memberpwd,
+                               member_name = membername,
+                               member_email = memberemail,
+                               usage_flag='1',
+                               register_date=datetime.now()
+                               )
+    
+    context['result_msg'] = '회원 가입하였습니다.'
+    
+    return redirect('/users/loginform')
+     
+
 
