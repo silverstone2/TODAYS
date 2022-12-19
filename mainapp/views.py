@@ -87,6 +87,44 @@ def member_insert(request):
     context['result_msg'] = '회원 가입하였습니다.'
     
     return redirect('/users/loginform')
-     
+
+def member_login(request):
+    context = {}
+    
+    memberid = request.POST.get('member_id')
+    memberpwd = request.POST.get('member_pwd')
+
+    
+    rs = Member.objects.filter(member_id = memberid,
+                               member_pwd = memberpwd,)
+    
+    if 'member_no' in request.session:
+        context['flag'] = "1"
+        context['result_msg'] = 'Already logged in ...'
+    else:
+        rs = Member.objects.filter(member_id=memberid, member_pwd=memberpwd)
+        
+        if(len(rs)) == 0:
+            context['flag'] = "1"
+            context['result_msg'] = 'Log in error...'
+        else:
+            
+            rsMember = Member.objects.get(member_id=memberid, member_pwd = memberpwd)
+            memberno = rsMember.member_no
+            membername = rsMember.member_name
+            rsMember.access_latest = datetime.now()
+            rsMember.save()
+            
+            request.session['member_no'] = memberno
+            request.session['member_name'] = membername
+            
+            
+            context['flag'] = "0"
+            context['result_msg'] = 'Log in 되었습니다.'
+            
+            
+    
+    return redirect('/users/loginform')
+    
 
 
