@@ -39,6 +39,8 @@ def main(request):
         }
         return render(request, 'main.html', context)
 
+def result(request):
+    return render(request, 'result.html')
 
 def checkin(request):
     context = {

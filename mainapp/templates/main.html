@@ -1,146 +1,104 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-<style>
-body { padding: 0px; margin: 0px; } /*웹페이지에 여백이 없게 만들기*/
-.jb-box { width: 100%; height: 100%; overflow: hidden;margin: 0px auto; position: relative; } /*동영상이 정해진 높이를 벗어나면 보이지 않도록 overflow 속성을 정하기*/
-video { width: 100%; height: 100%; } /*좌우 꽉차게 하기*/
-.dv-text { position: absolute; top: 18%; width: 100%; } /*텍스트가 동영상 위로 올라가도록 하기*/
-.dv-text p { margin-top: -50px; text-align: center; font-size: 2vw; color: #ffffff; } /*텍스트 위치를 조정하고, 모양을 정하기*/
-
-.dv-text2 { position: absolute; top: 20%; width: 100%; }
-.dv-text2 p { margin-left: 1vw; text-align: left; font-size: 4vw; color: #ffffff; }
-
-.dv-text3 { position: absolute; top: 20%; width: 100%; }
-.dv-text3 p { margin-right: 1vw; text-align: right; font-size: 2vw; color: #ffffff; }
-
-.dv-text4 { position: absolute; top: 60%; width: 100%; }
-.dv-text4 p { margin-bottom: 1vw; text-align: center; font-size: 2vw; color: #ffffff; }
-.btn1 { border : none; background-color : rgba(0,0,0,0);}
-
-.cafe-text p { margin-top: 10vw; text-align: center; font-size: 2vw; color: #ffffff; }
-
-nav {
-    position: fixed;
-}
-</style>
-<script>
-const btn1 = () => {
-   window.scrollTo({top:1000, behavior:'smooth'});
-    }
-</script>
-</head>
+<title>Today's</title>
 <!-- Bootstrap CSS -->
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
-<body style="background-color: black;">
-<!-- 네비게이션바 -->
-{% include "navbar.html" %}
-<div class="jb-box">
-	<video muted autoplay loop>
-		<source src= {{ background }} type="video/mp4">
-	</video>
-	<div class="dv-text">
-		<p>
-			하루 내내 우천 예정입니다.</br>
-			최고 10°C 최저 -3°C</br>
-			풍속은 최대 4m/s 입니다.</br>
-			미세먼지 농도는 맑습니다.<br>
-            위도 : {{ latitude }} </br>
-            경도 : {{ longitude }}
-		</p>
-	</div>
-	<div class="dv-text2">
-		<p>
-			서울특별시 <br />
-			<span style="font-size: 8vw;">&nbsp;6°C</span>
-		</p>
-	</div>
-	<div class="dv-text3">
-		<p>
-			<strong>이번주 날씨</strong><br />
-			월 7°C<br />
-			화 3°C<br />
-			수 4°C<br />
-			목 10°C<br />
-			금 11°C<br />
-			토 8°C<br />
-			일 4°C<br />
-		</p>
-	</div>
-	<div class="dv-text4">
-		<p>
-			오늘의 추천 카페 보기<br />
-			<button id="btn1" onclick="btn1()">▼</button>
-		</p>
-	</div>
-</div>
-<div class="cafe-index1">
-   <div class="cafe-text" style= "float:left; width: 40%;">
-      <p>
-         <span style="font-size: 5vw;"><strong>카페 드 220V볼트 춘천</strong></span><br />
-         <br />
-         강원도 추천시 동내면 신촌리 107 <br />
-         영업중 - 오후 10:00 영업종료 <br />
-         033-263-0202 <br />
-         <a href="#">위치 확인하기</a>
-      </p>
-   </div>
-   <img src="/static/images/cafe.jpg" style="float: left; height: 100%; width: 60%; margin-top: -1vw;"/>
-</div>
-<div class="cafe-index2">
-   <div class="cafe-text" style= "float:left; width: 40%;">
-      <p>
-         <span style="font-size: 5vw;"><strong>모시깽이 카페</strong></span><br />
-         <br />
-         강원도 추천시 동내면 신촌리 107 <br />
-         영업중 - 오후 10:00 영업종료 <br />
-         033-263-0202 <br />
-         <a href="#">위치 확인하기</a>
-      </p>
-   </div>
-   <img src="/static/images/cafe2.jpg" style="float: left; height: 100%; width: 60%; margin-top: 1vw;"/>
-</div>
-
-
-<div class="cafe-index3">
-   <div class="cafe-text" style= "float:left; width: 40%;">
-      <p>
-         <span style="font-size: 5vw;"><strong>어쩌구 카페</strong></span><br />
-         <br />
-         강원도 추천시 동내면 신촌리 107 <br />
-         영업중 - 오후 10:00 영업종료 <br />
-         033-263-0202 <br />
-         <a href="#">위치 확인하기</a>
-      </p>
-   </div>
-   <img src="/static/images/cafe3.jpg" style="float: left; height: 100%; width: 60%; margin-top: 1vw;"/>
-</div>
 <!-- Bootstrap JS -->
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
-<script>
-    const API_KEY = '391a7452f0305886198698bfedb179e0';
-    function onGeoOk(position) {
-        const latitude = {{ latitude }};
-        const longitude = {{ longitude }};
-        //console.log(`You live in ${latitude} and ${longitude}`);
-        fetch(
-            `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`,
-        )
-        .then(response => response.json())
-        .then(data => console.log(`온도 : ${data.main.temp}, 날씨 : ${data.weather[0].main},
-            구름 정도 : ${data.clouds.all+"%"}
-            날씨 설명 : ${data.weather[0].description},
-            현재 위치 : ${data.name}`));
-        //document.getElementById("weather").innerText=${data.weather[0].main};
-    }
-    function onGeoError() {
-        alert("Can't find you. No weather for you.");
-    }
+<script src="{% static 'js/address.js' %}"></script>
+<!-- jQurey -->
+<script src="https://code.jquery.com/jquery-latest.min.js" type="application/javascript"></script>
+<script type="text/javascript">
+$('document').ready(function() {
+ var area0 = ["구/군 선택","강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구","동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"];
+   var area1 = ["개포동","논현동","대치동","도곡동","삼성동","세곡동","수서동","신사동","압구정동","역삼동","율현동","일원동","자곡동","청담동"];
+   var area2 = ["강일동","고덕동","길동","둔춘동","명일동","상일동","성내동","암사동","천호동"];
+   var area3 = ["미아동","번동","수유동","우이동"];
+   var area4 = ["가양동","개화동","공항동","과해동","내발산동","등촌동","마곡동","방화동","염창동","오곡동","오쇠동","외발산동","화곡동"];
+   var area5 = ["남현동","봉천동","신림동"];
+   var area6 = ["광장동","구의동","군자동","능동","자양동","중곡동","화양동"];
+   var area7 = ["가리봉동","개봉동","고척동","구로동","궁동","신도림동","오류동","온수동","천왕동","항동"];
+   var area8 = ["가산동","독산동","시흥동"];
+   var area9 = ["공릉동","상계동","월계동","중계동","하계동"];
+   var area10 = ["도봉동","방학동","쌍문동","창동"];
+   var area11 = ["답십리동","신설동","용두동","이문동","장안동","전농동","제기동","청량리동","회기동","휘경동"];
+   var area12 = ["노량진동","대방동","동작동","본동","사당동","상도1동","상도동","신대방동","흑석동"];
+   var area13 = ["공덕동","구수동","노고산동","당인동","대흥동","도화동","동교동","마포동","망원동","상수동","상암동","서교동","성산동","신공덕동","신수동","신정동","아현동","연남동","염리동","용강동","중동","창전동","토정동","하중동","합정동","현석동"];
+   var area14 = ["남가좌동","냉천동","대신동","대현동","미근동","봉원동","북가좌동","북아현동","신촌동","연희동","영천동","옥천동","창천동","천연동","충정로2가","충정로3가","합동","현저동","홍은동","홍제동"];
+   var area15 = ["내곡동","반포동","방배동","서초동","신원동","양재동","염곡동","우면동","원지동","잠원동"];
+   var area16 = ["금호동1가","금호동2가","금호동3가","금호동4가","도선동","마장동","사근동","상왕십리동","성수동1가","성수동2가","송정동","옥수동","용답동","응봉동","하왕십리동","행당동","홍익동"];
+   var area17 = ["길음동","돈암동","동선동1가","동선동2가","동선동3가","동선동4가","동소문동1가","동소문동2가","동소문동3가","동소문동4가","동소문동5가","동소문동6가","동소문동7가","보문동1가","보문동2가","보문동3가","보문동4가","보문동5가","보문동6가","보문동7가","삼성동1가","삼성동1가","삼성동2가","삼성동3가","삼성동4가","삼성동5가","상월곡동","석관동","성북동","성북동1가","안암동1가","안암동2가","안암동3가","안암동4가","안암동5가","장위동","정릉동","종암동","하월곡동"];
+   var area18 = ["가락동","거여동","마천동","문정동","방이동","삼전동","석촌동","송파동","신천동","오금동","잠실동","장지동","풍납동"];
+   var area19 = ["목동","신월동","신정동"];
+   var area20 = ["당산동","당산동1가","당산동2가","당산동3가","당산동4가","당산동5가","당산동6가","대림동","도림동","문래동1가","문래동2가","문래동3가","문래동4가","문래동5가","문래동6가","신길동","양평동","양평동1가","양평동2가","양평동3가","양평동4가","양평동5가","양평동6가","양화동","여의도동","영등포동","영등포동1가","영등포동2가","영등포동3가","영등포동4가","영등포동5가","영등포동6가","영등포동7가","영등포동8가"];
+   var area21 = ["갈월동","남영동","도원동","동빙고동","동자동","문배동","보광동","산천동","서계동","서빙고동","신계동","신창동","용문동","용산동1가","용산동2가","용산동3가","용산동4가","용산동5가","용산동6가","원효로1가","원효로2가","원효로3가","원효로4가","이촌동","이태원동","주성동","청암동","청파동1가","청파동2가","청파동3가","한강로1가","한강로2가","한강로3가","한남동","효창동","후암동"];
+   var area22 = ["갈현동","구산동","녹번동","대조동","불광동","수색동","신사동","역촌동","응암동","증산동","진광동"];
+   var area23 = ["가회동","견지동","경운동","계동","공평동","관수동","관철동","관훈동","교남동","교북동","구기동","궁정동","권농동","낙원동","내수동","내자동","누상동","누하동","당주동","도렴동","돈의동","동숭동","명륜1가","명륜2가","명륜3가","명륜4가","묘동","무악동","봉익동","부암동","사간동","사직동","삼청동","서린동","세종로","소격동","송월동","송현동","수송동","숭인동","신교동","신문로1가","신문로2가","신영동","안국동","연건동","연지동","예지동","옥인동","와룡동","운니동","원남동","원서동","이화동","익선동","인사동","인의동","장사동","재동","종로1가","종로2가","종로3가","종로4가","종로5가","종로6가","중학동","창성동","창신동","청운동","청진동","체부동","충신동","통의동","통인동","팔판동","평동","평창동","필운동","행촌동","혜화동","홍지동","홍파동","화동","효자동","효제동","훈정동"];
+   var area24 = ["광희동1가","광희동2가","남대문로1가","남대문로2가","남대문로3가","남대문로4가","남대문로5가","남산동1가","남산동2가","남산동3가","남창동","남학동","다동","만리동1가","만리동2가","명동1가","명동2가","무교동","무학동","묵정동","방산동","봉래동1가","봉래동2가","북창동","산림동","삼각동","서소문동","소공동","수표동","수하동","순화동","신당동","쌍림동","예관동","예장동","오장동","을지로1가","을지로2가","을지로3가","을지로4가","을지로5가","을지로6가","을지로7가","의주로1가","의주로2가","인현동1가","인현동2가","입정동","장교동","장충동1가","장충동2가","저동1가","저동2가","정동","주교동","주자동","중림동","초동","충무로1가","충무로2가","충무로3가","충무로4가","충무로5가","충정로1가","태평로1가","태평로2가","팔동1가","팔동2가","팔동3가","황학동","회현동1가","회현동2가","회현동3가","흥인동"];
+   var area25 = ["망우동","면목동","묵동","상봉동","신내동","중화동"];
 
-    navigator.geolocation.getCurrentPosition(onGeoOk, onGeoError);
+ 
+
+ // 구/군 선택 박스 초기화
+
+ $("select[name^=sido]").each(function() {
+  $selsido = $(this);
+  $.each(eval(area0), function() {
+   $selsido.append("<option value='"+this+"'>"+this+"</option>");
+  });
+  $selsido.next().append("<option value=''>구/군 선택</option>");
+ });
+
+ 
+
+ // 구/군 선택시 동 설정
+
+ $("select[name^=sido]").change(function() {
+  var area = "area"+$("option",$(this)).index($("option:selected",$(this))); // 선택지역의 구군 Array
+  var $gugun = $(this).next(); // 선택영역 동 객체
+  $("option",$gugun).remove(); // 동 초기화
+
+  if(area == "area0")
+   $gugun.append("<option value=''>동 선택</option>");
+  else {
+   $.each(eval(area), function() {
+    $gugun.append("<option value='"+this+"'>"+this+"</option>");
+   });
+  }
+ });
+
+
+});
 </script>
-</body>
+</head>
+<body>
+<!-- 네비게이션바 -->
+{% include "navbar.html" %}
+<div class="container">
+	<fieldset>
+	<legend>
+		서울시 지역선택(군/구, 동)
+	</legend>
+		<div class = "col">
+			<select name="sido" id="sido"></select>
+			<select name="gugun" id="gugun"></select>
+		</div>
+	<legend>
+		기분
+	</legend>
+		<div>
+			<select name="feeling" id="feeling"></select>
+		</div>
+	<legend>
+		카페 주 먹거리
+	</legend>
+		<div>
+			<select name="food" id="food"></select>
+		</div>
+		<button onclick="location.href='/result'" type="button" id="btn_search" title="검색">검색</button>
+	</fieldset>
+</div>
 </html>
