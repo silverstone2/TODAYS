@@ -1,14 +1,22 @@
 from django.shortcuts import render
 from mainapp import functions as func  # 기능 함수들 모두 functions.py 로 분리
+import pandas as pd
 
 #  기본값: 서울
 nx_ny = {'x': "60", 'y': "127"}
 sel_lat_long = {'x': "60", 'y': "127"}
 current_location = {'dist1': "서울특별시", 'dist2': "중구"}
+selected_location = {'dist1': "서울특별시", 'dist2': "중구"}
 current_weather = {}
+# 온도 TMP 강수량 PCP 풍속 WSD 습도 REH 적설량 SNO 전운량1 - 10(범주)
+selected_weather = {}
 
 
 def main(request):
+    return render(request, 'main.html')
+
+
+def result(request):
     if request.method == 'POST':
         background = "/static/videos/rainy.mp4"
 
@@ -20,7 +28,6 @@ def main(request):
         current_location = func.coord_to_loc(lat, long)
 
         global nx_ny
-        print('lat, long of webbrowser:', lat, long)
         nx_ny = func.grid(lat, long)
 
         global current_weather
@@ -47,11 +54,7 @@ def main(request):
         context = {
             'background': background
         }
-        return render(request, 'main.html', context)
-
-
-def result(request):
-    return render(request, 'result.html')
+    return render(request, 'result.html', context)
 
 
 def checkin(request):

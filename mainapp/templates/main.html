@@ -99,6 +99,7 @@ $('document').ready(function() {
 			<select name="food" id="food"></select>
 		</div>
 		<button onclick="location.href='/result'" type="button" id="btn_search" title="검색">검색</button>
+        <input type="submit" id="submit" value="검색">
 	</fieldset>
 </div>
 <script>
@@ -108,6 +109,7 @@ $('document').ready(function() {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
         //console.log(`You live in ${latitude} and ${longitude}`);
+
         fetch(
             `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`,
         )

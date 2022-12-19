@@ -116,7 +116,6 @@ def dangi_api(v1, v2):
         # 풍속
         if item['category'] == 'WDS':
             weather_data['wsd'] = item['fcstValue']
-
         # 기상상태
         if item['category'] == 'PTY':
             weather_code = item['fcstValue']
@@ -137,28 +136,6 @@ def dangi_api(v1, v2):
     print(weather_data)
 
     return data
-
-    '''
-      평균기온(°C)TMP   일강수량(mm)PCP   평균 풍속(m/s)WSD   
-      평균 상대습도(%)REH   합계 일사량(MJ/m2)?   일 최심적설(cm)SNO   
-      평균 전운량(1/10)?
-    '''
-    '''
-    POP    강수확률    %    8
-    PTY    강수형태    코드값    4
-    PCP    1시간 강수량    범주 (1 mm)    8   o
-    REH    습도    %    8                   
-    SNO    1시간 신적설    범주(1 cm)    8   o
-    SKY    하늘상태    코드값    4
-    TMP    1시간 기온    ℃    10
-    TMN    일 최저기온    ℃    10
-    TMX    일 최고기온    ℃    10
-    UUU    풍속(동서성분)    m/s    12
-    VVV    풍속(남북성분)    m/s    12
-    WAV    파고    M    8
-    VEC    풍향    deg    10
-    WSD    풍속    m/s    10
-    '''
 
 
 def geocoder(string):
@@ -209,7 +186,6 @@ def coord_to_loc(lat, long):
     if response.status_code == 200:
         print(response.json())
         items = response.json().get('response').get('result')
-        result = {}
         result = {'dist1': items[0]['structure']['level1'],
                   'dist2': items[0]['structure']['level2']}
         print('----')
@@ -238,3 +214,19 @@ def coord_to_loc(lat, long):
 }]   
 '''
 
+'''
+POP    강수확률    %    8
+PTY    강수형태    코드값    4
+PCP    1시간 강수량    범주 (1 mm)    8   o
+REH    습도    %    8                   
+SNO    1시간 신적설    범주(1 cm)    8   o
+SKY    하늘상태    코드값    4
+TMP    1시간 기온    ℃    10
+TMN    일 최저기온    ℃    10
+TMX    일 최고기온    ℃    10
+UUU    풍속(동서성분)    m/s    12
+VVV    풍속(남북성분)    m/s    12
+WAV    파고    M    8
+VEC    풍향    deg    10
+WSD    풍속    m/s    10
+'''
