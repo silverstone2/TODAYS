@@ -76,7 +76,7 @@ $('document').ready(function() {
 </head>
 <body>
 <!-- 네비게이션바 -->
-{% include "mainapp/navbar.html" %}
+{% include "navbar.html" %}
 <div class="container">
 	<fieldset>
 	<legend>
@@ -98,7 +98,7 @@ $('document').ready(function() {
 		<div>
 			<select name="food" id="food"></select>
 		</div>
-		<button onclick="#" type="button" id="btn_search" title="검색">검색</button>
+		<button onclick="location.href='/result'" type="button" id="btn_search" title="검색">검색</button>
 	</fieldset>
 </div>
 </html>
