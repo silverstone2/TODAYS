@@ -5,22 +5,22 @@
 <title>Today's</title>
 <style>
 body { padding: 0px; margin: 0px; } /*웹페이지에 여백이 없게 만들기*/
-.jb-box { width: 100%; height: 100%; overflow: hidden;margin: 0px auto; position: relative; } /*동영상이 정해진 높이를 벗어나면 보이지 않도록 overflow 속성을 정하기*/
+.jb-box { width: 60%; height: 100%; overflow: hidden;margin: 0px auto; position: relative; } /*동영상이 정해진 높이를 벗어나면 보이지 않도록 overflow 속성을 정하기*/
 video { width: 100%; height: 100%; } /*좌우 꽉차게 하기*/
 .dv-text { position: absolute; top: 18%; width: 100%; } /*텍스트가 동영상 위로 올라가도록 하기*/
-.dv-text p { margin-top: -50px; text-align: center; font-size: 2vw; color: #ffffff; } /*텍스트 위치를 조정하고, 모양을 정하기*/
+.dv-text p { margin-top: -50px; text-align: center; font-size: 1vw; color: #ffffff; } /*텍스트 위치를 조정하고, 모양을 정하기*/
 
 .dv-text2 { position: absolute; top: 20%; width: 100%; }
-.dv-text2 p { margin-left: 1vw; text-align: left; font-size: 4vw; color: #ffffff; }
+.dv-text2 p { margin-left: 1vw; text-align: left; font-size: 2vw; color: #ffffff; }
 
 .dv-text3 { position: absolute; top: 20%; width: 100%; }
-.dv-text3 p { margin-right: 1vw; text-align: right; font-size: 2vw; color: #ffffff; }
+.dv-text3 p { margin-right: 1vw; text-align: right; font-size: 1vw; color: #ffffff; }
 
-.dv-text4 { position: absolute; top: 60%; width: 100%; }
-.dv-text4 p { margin-bottom: 1vw; text-align: center; font-size: 2vw; color: #ffffff; }
+.dv-text4 { position: absolute; top: 80%; width: 100%; }
+.dv-text4 p { margin-bottom: 1vw; text-align: center; font-size: 1vw; color: #ffffff; }
 .btn1 { border : none; background-color : rgba(0,0,0,0);}
 
-.cafe-text p { margin-top: 10vw; text-align: center; font-size: 2vw; color: #ffffff; }
+.cafe-text p { margin-top: 10vw; text-align: center; font-size: 1vw; color: #ffffff; }
 
 </style>
 <script>
@@ -32,12 +32,12 @@ const btn1 = () => {
 <!-- Bootstrap CSS -->
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
-<body style="background-color: black;">
+<body>
 <!-- 네비게이션바 -->
 {% include "navbar.html" %}
 <div class="jb-box">
 	<video muted autoplay loop>
-		<source src= {{ background }} type="video/mp4">
+		<source src="/static/videos/sunny.mp4" type="video/mp4">
 	</video>
 	<div class="dv-text">
 		<p>
@@ -52,7 +52,7 @@ const btn1 = () => {
 	<div class="dv-text2">
 		<p>
 			서울특별시 <br />
-			<span style="font-size: 8vw;">&nbsp;6°C</span>
+			<span style="font-size: 6vw;">6°C</span>
 		</p>
 	</div>
 	<div class="dv-text3">
@@ -87,34 +87,7 @@ const btn1 = () => {
    </div>
    <img src="/static/images/cafe.jpg" style="float: left; height: 100%; width: 60%; margin-top: -1vw;"/>
 </div>
-<div class="cafe-index2">
-   <div class="cafe-text" style= "float:left; width: 40%;">
-      <p>
-         <span style="font-size: 5vw;"><strong>모시깽이 카페</strong></span><br />
-         <br />
-         강원도 추천시 동내면 신촌리 107 <br />
-         영업중 - 오후 10:00 영업종료 <br />
-         033-263-0202 <br />
-         <a href="#">위치 확인하기</a>
-      </p>
-   </div>
-   <img src="/static/images/cafe2.jpg" style="float: left; height: 100%; width: 60%; margin-top: 1vw;"/>
-</div>
 
-
-<div class="cafe-index3">
-   <div class="cafe-text" style= "float:left; width: 40%;">
-      <p>
-         <span style="font-size: 5vw;"><strong>어쩌구 카페</strong></span><br />
-         <br />
-         강원도 추천시 동내면 신촌리 107 <br />
-         영업중 - 오후 10:00 영업종료 <br />
-         033-263-0202 <br />
-         <a href="#">위치 확인하기</a>
-      </p>
-   </div>
-   <img src="/static/images/cafe3.jpg" style="float: left; height: 100%; width: 60%; margin-top: 1vw;"/>
-</div>
 <!-- Bootstrap JS -->
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
 <script>
