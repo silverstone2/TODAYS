@@ -144,7 +144,7 @@ $('document').ready(function() {
 
 	</div>
 
-	<form action="" method="post">
+	<form action="result/" method="post">{% csrf_token %}
 	<fieldset class="form">
 		<legend>
 			서울시 지역선택(군/구, 동)
@@ -177,11 +177,11 @@ $('document').ready(function() {
 			</div>
 			<div class="wrap">
 				<button onclick="location.href='/result'" type="button" id="btn_search" class="btn_search" style="float: right;">추천받기</button>
+                <input type="submit" id="submit" value="버튼을 누르면 메인 페이지 이동.">
 			</div>
 	</fieldset>
 	</form>
-
-
 </div>
+
 </body>
 </html>

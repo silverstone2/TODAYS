@@ -4,6 +4,8 @@ import requests
 import math
 from datetime import date, datetime, timedelta
 import json
+with open('C:/TODAYS/mainapp/static/json/dong_coords.json', 'r') as f:
+    coords = json.load(f)
 
 
 def grid(v1, v2):
@@ -229,3 +231,14 @@ WAV    파고    M    8
 VEC    풍향    deg    10
 WSD    풍속    m/s    10
 '''
+
+
+# 금천구 시흥동 까지 체크함
+# https://address.dawul.co.kr/
+
+def location_to_coord(gu, dong):
+    for item in coords:
+        if item['gu'] == gu:
+            if item['dong'] == dong:
+                return item['lat'], item['lng']
+
