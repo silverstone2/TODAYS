@@ -40,6 +40,10 @@ INSTALLED_APPS = [
     "mainapp",
 ]
 
+TIME_ZONE = 'Asia/Seoul'
+
+USE_TZ = True
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",

@@ -1,6 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from mainapp import functions as func  # 기능 함수들 모두 functions.py 로 분리
-import pandas as pd
+# 로그인에 필요한 내장 함수 사용
+from django.contrib.auth.models import User
+from django.contrib import auth
 
 #  기본값: 서울
 nx_ny = {'x': "60", 'y': "127"}
@@ -57,16 +59,14 @@ def result(request):
     return render(request, 'result.html', context)
 
 
-def checkin(request):
-    context = {
-    }
-    return render(request, 'checkin.html', context)
-
-
 def login(request):
-    return render(request, 'users/login.html')
+    return render(request, 'users/loginform.html')
 
 
 def signup(request):
-    return render(request, 'users/signup.html');
+    return render(request, 'users/signup.html')
+
+
+def mypage(request):
+    return render(request, 'users/mypage.html')
 

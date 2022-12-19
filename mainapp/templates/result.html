@@ -21,20 +21,23 @@ video { width: 100%; height: 100%; } /*좌우 꽉차게 하기*/
 .btn1 { border : none; background-color : rgba(0,0,0,0);}
 
 .cafe-text p { margin-top: 10vw; text-align: center; font-size: 2vw; color: #ffffff; }
-
 </style>
+
 <script>
 const btn1 = () => {
    window.scrollTo({top:1000, behavior:'smooth'});
     }
 </script>
 </head>
+
 <!-- Bootstrap CSS -->
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+
 <body style="background-color: black;">
 <!-- 네비게이션바 -->
 {% include "navbar.html" %}
+
 <div class="jb-box">
 	<video muted autoplay loop>
 		<source src= {{ background }} type="video/mp4">
@@ -117,8 +120,10 @@ const btn1 = () => {
    </div>
    <img src="/static/images/cafe3.jpg" style="float: left; height: 100%; width: 60%; margin-top: 1vw;"/>
 </div>
+
 <!-- Bootstrap JS -->
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
 <script>
     console.log('현위치 위도, 경도 :', {{ latitude }},',', {{ longitude }})
     console.log('선택 위치 위도, 경도 :', {{ selected_latitude }},',', {{ selected_longitude }})
