@@ -1,12 +1,12 @@
 from urllib.request import Request, urlopen
 from urllib.parse import urlencode, quote_plus, unquote
 import urllib
-from django.shortcuts import render
 import googlemaps
 import requests
 import math
 import json  # json 파일 파싱하여 데이터 읽는 모듈
 from datetime import date, datetime, timedelta  # 현재 날짜 외의 날짜 구하기 위한 모듈
+from django.shortcuts import render
 
 #  기본값은 서울
 nx = "60"
@@ -30,21 +30,26 @@ def main(request):
             'latitude': nx,
             'longitude': ny,
         }
-        return render(request, 'mainapp/main.html', context)
+        return render(request, 'main.html', context)
     else:
         # 날씨 정보 차단시 default 값 출력.
         background = "/static/videos/rainy.mp4"
         context = {
             'background': background
         }
-        return render(request, 'mainapp/main.html', context)
+        return render(request, 'main.html', context)
 
 
 def checkin(request):
     context = {
     }
-    return render(request, 'mainapp/checkin.html', context)
+    return render(request, 'checkin.html', context)
 
+def login(request):
+    return render(request, 'users/login.html')
+
+def signup(request):
+    return render(request, 'users/signup.html');
 
 # 위도 경도 기상청 xy 좌표로 변환
 def grid(v1, v2):
