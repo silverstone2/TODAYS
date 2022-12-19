@@ -42,16 +42,14 @@ def main(request):
 def result(request):
     return render(request, 'result.html')
 
-def checkin(request):
-    context = {
-    }
-    return render(request, 'checkin.html', context)
-
 def login(request):
-    return render(request, 'users/login.html')
+    return render(request, 'users/loginform.html')
 
 def signup(request):
-    return render(request, 'users/signup.html');
+    return render(request, 'users/signup.html')
+
+def mypage(request):
+    return render(request, 'users/mypage.html')
 
 # 위도 경도 기상청 xy 좌표로 변환
 def grid(v1, v2):
