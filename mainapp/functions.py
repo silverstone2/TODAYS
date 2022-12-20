@@ -4,15 +4,12 @@ import requests
 import math
 from datetime import date, datetime, timedelta
 import json
-with open('C:/TODAYS/mainapp/static/json/dong_coords.json', 'r') as f:
-    coords = json.load(f)
 
 
-def grid(v1, v2):
+def grid(v1, v2):  # v1 = lat, v2 = ln
     print("nx, ny in grid func:", v1, v2)
     v1 = float(v1)
     v2 = float(v2)
-    #print('after float v1, v2:', float(v1), float(v2))
     RE = 6371.00877  # 지구 반경(km)
     GRID = 5.0  # 격자 간격(km)
     SLAT1 = 30.0  # 투영 위도1(degree)
@@ -50,10 +47,6 @@ def grid(v1, v2):
     theta *= sn
     rs['x'] = math.floor(ra * math.sin(theta) + XO + 0.5)
     rs['y'] = math.floor(ro - ra * math.cos(theta) + YO + 0.5)
-
-    string = "http://www.kma.go.kr/wid/queryDFS.jsp?gridx={0}&gridy={1}".format(
-        str(rs["x"]).split('.')[0], str(rs["y"]).split('.')[0])
-    #print('grid result : ', string)
     return rs
 
 
@@ -95,7 +88,6 @@ def dangi_api(v1, v2):
     else:  # 23시 11분~23시 59분
         base_date = today_date
         base_time = "2300"
-
     queryParams = '?' + urlencode({quote_plus('serviceKey'): serviceKeyDecoded, quote_plus('base_date'): base_date,
                                    quote_plus('base_time'): base_time, quote_plus('nx'): v1, quote_plus('ny'): v2,
                                    quote_plus('dataType'): 'json', quote_plus('numOfRows'): '60'})
@@ -134,8 +126,7 @@ def dangi_api(v1, v2):
             weather_data['state'] = weather_state
 
     data['weather'] = weather_data
-    print(weather_data)
-
+    #print(weather_data)
     return data
 
 
@@ -153,10 +144,8 @@ def geocoder(string):
     response = requests.get(api_url, params=params)
     result = {}
     if response.status_code == 200:
-        # print(response.json())
         items = response.json().get('response').get('result').get('point')
         result = {'x': items['y'], 'y': items['x']}  # api에서 x랑 y 좌표값이 다르게 되어있어서...일단 반대로 추출...
-    #print('x, y = ', result['x'], result['y'])
     return result
 
 
@@ -196,26 +185,6 @@ def coord_to_loc(lat, long):
         return result
 
 '''
-[{'zipcode': '04545', 
-'type': 'road', 
-'text': '서울특별시 중구 창경궁로 65-3 (주교동)', 
-'structure': {
-        'level0': '대한민국', 
-        'level1': '서울특별시', 
-        'level2': '중구', 
-        'level3': '주교동', 
-        'level4L': '창경궁로', 
-        'level4LC': '3005008', 
-        'level4A': '을지로동', 
-        'level4AC': 
-        '1114060500', 
-        'level5': '65-3', 
-        'detail': ''
-    }
-}]   
-'''
-
-'''
 POP    강수확률    %    8
 PTY    강수형태    코드값    4
 PCP    1시간 강수량    범주 (1 mm)    8   o
@@ -233,12 +202,36 @@ WSD    풍속    m/s    10
 '''
 
 
-# 금천구 시흥동 까지 체크함
-# https://address.dawul.co.kr/
-
 def location_to_coord(gu, dong):
-    for item in coords:
-        if item['gu'] == gu:
-            if item['dong'] == dong:
-                return item['lat'], item['lng']
+    a_json = open('C:/Users/acorn/PycharmProjects/TODAYS_20221219/mainapp/static/json/dong_coords.json', encoding='utf-8')
+    coords = json.load(a_json)
+    return_coord = {}
+    for i in coords:
+        if i["gu"] == gu and i["dong"] == dong:
+            return_coord = {'lat': i["lat"], 'long': i["lng"]}
+    return return_coord
 
+
+def background(hour, code):
+    print('background 안에서 code:', code)
+    if 7 < hour < 19:  # 주간
+        print('background 안에서 code:', code)
+        if code == '1' or '2' or '4':
+            back = "/static/videos/sunny.mp4"
+            return back
+        elif code == '3':
+            back = "/static/videos/snow.mp4"
+            return back
+        elif code == '0':
+            back = "/static/videos/sunny.mp4"
+            return back
+    elif hour <= 7 and hour >= 19:  # 야간
+        if code == '1' or '2' or '4':
+            back = "/static/videos/rainy-night.mp4"
+            return back
+        elif code == '3':
+            back = "/static/videos/snow-night.mp4"
+            return back
+        elif code == '0':
+            back = "/static/videos/sunny-night.mp4"
+            return back
