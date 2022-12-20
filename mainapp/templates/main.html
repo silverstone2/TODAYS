@@ -212,6 +212,12 @@ $(document).ready(function(){
 내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>
 내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>
 내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>
+    {% if request.user.is_authenticated %}
+    <p>User is logged in :)</p>
+    <p>Username -->  {{ request.user.username }}</p>
+    {% else %}
+    <p>User is not logged in :(</p>
+    {% endif %}
 </div>
 </body>
 </html>

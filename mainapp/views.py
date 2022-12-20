@@ -2,7 +2,11 @@ from django.shortcuts import render, redirect
 from mainapp import functions as func  # 기능 함수들 모두 functions.py 로 분리
 from datetime import date, datetime, timedelta
 
-# 로그인 구현 중
+# 로그인에 필요한 내장 함수 사용
+from django.contrib import auth
+from django.contrib.auth.hashers import make_password, check_password
+from mainapp.models import Members
+from datetime import datetime
 
 #  기본값: 서울
 hour = datetime.now().hour
@@ -72,4 +76,130 @@ def result(request):
             'background': background
         }
     return render(request, 'result.html', context)
+
+
+# 회원가입 페이지로 이동
+def signup(request):
+    return render(request, 'users/signup.html')
+
+
+# POST 방식으로 각 항목들을 받아서 Err가 없으면 데이터베이스에 값을 삽입하고 회원가입 완료
+def signupok(request):
+    if request.method == "POST":
+        name = request.POST.get('members_name')
+        id = request.POST.get('members_id')
+        pw1 = request.POST.get('members_pw1')
+        pw2 = request.POST.get('members_pw2')
+        email = request.POST.get('members_email')
+
+        err_data = {}
+        if not (id and name and pw1 and pw2):
+            err_data['error'] = "모든 값을 입력해야 합니다."
+        elif pw1 != pw2:
+            err_data['error'] = "비밀번호가 틀립니다."
+        else:
+            Members(
+                name=name,
+                id=id,
+                pw1=make_password(pw1),
+                pw2=make_password(pw2),
+                email=email
+            ).save()
+            return redirect('/')
+    return render(request, 'main.html')
+
+
+def login(request):
+    return render(request, 'users/loginform.html')
+
+
+def loginok(request):
+    lo_error = {}
+    if request.method == "POST":
+        login_id = request.POST.get('log_id')
+        login_pwd = request.POST.get('log_pw')
+
+        if not (login_id):
+            lo_error['err'] = "아이디와 비밀번호를 모두 입력해주세요"
+        if (login_id):
+            members_user = Members.objects.get(id=login_id)
+            # 비번이 일치
+            if check_password(login_pwd, members_user.pw1):
+                request.session['Members'] = members_user.id
+                return redirect('/')
+            # 비번이 불일치
+            else:
+                return render(request, 'pwderr.html')
+    return render(request, 'main.html')
+
+
+def logout(request):
+    request.session.flush()
+    return redirect('/')
+
+
+def mypage(request):
+    return render(request, 'users/mypage.html')
+
+
+
+# 회원가입 페이지로 이동
+def signup(request):
+    return render(request, 'users/signup.html')
+
+# POST 방식으로 각 항목들을 받아서 Err가 없으면 데이터베이스에 값을 삽입하고 회원가입 완료
+def signupok(request):
+    if request.method == "POST":
+        name = request.POST.get('members_name')
+        id = request.POST.get('members_id')
+        pw1 = request.POST.get('members_pw1')
+        pw2 = request.POST.get('members_pw2')
+        email = request.POST.get('members_email')
+        
+        err_data = {}
+        if not(id and name and pw1 and pw2):
+            err_data['error'] = "모든 값을 입력해야 합니다."
+        elif pw1 != pw2:
+            err_data['error'] = "비밀번호가 틀립니다."
+        else:
+            Members(
+                name=name,
+                id=id,
+                pw1=make_password(pw1),
+                pw2=make_password(pw2),
+                email=email
+                ).save()
+            return redirect('/')
+    return render(request, 'main.html')
+
+def login(request):
+    return render(request, 'users/loginform.html')
+
+def loginok(request):
+    lo_error = {}
+    if request.method == "POST":
+        login_id = request.POST.get('log_id')
+        login_pwd = request.POST.get('log_pw')
+        
+        if not(login_id):
+            lo_error['err']="아이디와 비밀번호를 모두 입력해주세요"
+        if(login_id):
+            members_user = Members.objects.get(id=login_id)
+            # 비번이 일치
+            if check_password(login_pwd, members_user.pw1):
+                request.session['Members'] = members_user.id
+                return redirect('/')
+            # 비번이 불일치
+            else:
+                return render(request, 'pwderr.html')
+    return render(request, 'main.html')
+
+def logout(request):
+    request.session.flush()
+    return redirect('/')
+
+def mypage(request):
+    return render(request, 'users/mypage.html')
+
+
 
