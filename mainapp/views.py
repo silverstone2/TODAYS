@@ -3,7 +3,7 @@ from mainapp import functions as func  # 기능 함수들 모두 functions.py �
 
 # 로그인에 필요한 내장 함수 사용
 from django.contrib import auth
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import make_password, check_password
 from mainapp.models import Members
 from datetime import datetime
 
@@ -79,13 +79,6 @@ def result(request):
         }
     return render(request, 'result.html', context)
 
-
-def login(request):
-    return render(request, 'users/loginform.html')
-
-def loginok(request):
-    return render(request, '/')
-
 # 회원가입 페이지로 이동
 def signup(request):
     return render(request, 'users/signup.html')
@@ -113,6 +106,28 @@ def signupok(request):
                 email=email
                 ).save()
             return redirect('/')
+    return render(request, 'main.html')
+
+def login(request):
+    return render(request, 'users/loginform.html')
+
+def loginok(request):
+    lo_error = {}
+    if request.method == "POST":
+        login_id = request.POST.get('log_id')
+        login_pwd = request.POST.get('log_pw')
+        
+        if not(login_id):
+            lo_error['err']="아이디와 비밀번호를 모두 입력해주세요"
+        if(login_id):
+            members_user = Members.objects.get(id=login_id)
+            # 비번이 일치
+            if check_password(login_pwd, members_user.pw1):
+                request.session['Members'] = members_user.id
+                return redirect('/')
+            # 비번이 불일치
+            else:
+                return render(request, 'pwderr.html')
     return render(request, 'main.html')
 
 def logout(request):

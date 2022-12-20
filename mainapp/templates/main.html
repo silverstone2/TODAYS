@@ -214,23 +214,5 @@ $(document).ready(function(){
 내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>
 내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>
 </div>
-<script>
-
-    const API_KEY = '391a7452f0305886198698bfedb179e0';
-    function onGeoOk(position) {
-    const latitude = position.coords.latitude;
-    const longitude = position.coords.longitude;
-        //console.log(`You live in ${latitude} and ${longitude}`);
-        fetch(
-            `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`,
-        )
-    }
-    function onGeoError() {
-        alert("Can't find you. No weather for you.");
-    }
-
-    navigator.geolocation.getCurrentPosition(onGeoOk, onGeoError);
-
-</script>
 </body>
 </html>

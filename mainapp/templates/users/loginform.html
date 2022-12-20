@@ -156,18 +156,18 @@ input {
 				<small>Let us create your account</small>
 			</h2>
 		</div>
-		<form class="card-form" method="post">
+		<form action="/users/loginok/" class="card-form" method="post">
 			{% csrf_token %}
 			<div class="input">
 				<input type="text" class="input-field"
-				name="username" id="username" placeholder="username">	
+				name=log_id id="log_id" placeholder="id">	
 			</div>
 			<div class="input">
 				<input type="password" class="input-field"
-				name="password" id="password" placeholder="password">
+				name="log_pw" id="log_pw" placeholder="password">
 			</div>
 			<div class="Sign Up">
-				<button class="action-button" type="button" onclick="#">
+				<button class="action-button" type="submit">
 				Get Started</button>
 			</div>
 			<br />
