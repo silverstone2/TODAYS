@@ -49,10 +49,7 @@ def result(request):
         sel_nx_ny = func.grid(sel_lat_long['lat'], sel_lat_long['long'])
         global selected_weather
         selected_weather = func.dangi_api(sel_nx_ny['x'], sel_nx_ny['y']).get('weather')
-
-        print(selected_weather['code'])
-        background = func.background(hour, selected_weather['code'])
-        print(background)
+        background = func.set_background(hour, selected_weather['code'])
         context = {
             'background': background,
             'latitude': nx_ny['x'],

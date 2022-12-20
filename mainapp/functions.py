@@ -103,12 +103,13 @@ def dangi_api(v1, v2):
         # 강수량(이거 범주로 나오네 시팔)
         if item['category'] == 'PCP':
             weather_data['pcp'] = item['fcstValue']
-        # 습도(상대습도)
-        if item['category'] == 'REH':
-            weather_data['reh'] = item['fcstValue']
         # 풍속
         if item['category'] == 'WDS':
             weather_data['wsd'] = item['fcstValue']
+        # 습도(상대습도)
+        if item['category'] == 'REH':
+            weather_data['reh'] = item['fcstValue']
+        # 적설량
         # 기상상태
         if item['category'] == 'PTY':
             weather_code = item['fcstValue']
@@ -178,9 +179,6 @@ def coord_to_loc(lat, long):
         items = response.json().get('response').get('result')
         result = {'dist1': items[0]['structure']['level1'],
                   'dist2': items[0]['structure']['level2']}
-        print('----')
-        print(items)  # list type
-        print(result)
 
         return result
 
@@ -203,7 +201,7 @@ WSD    풍속    m/s    10
 
 
 def location_to_coord(gu, dong):
-    a_json = open('C:/Users/acorn/PycharmProjects/TODAYS_20221219/mainapp/static/json/dong_coords.json', encoding='utf-8')
+    a_json = open('C:\TODAYS\mainapp\static\json\dong_coords.json', encoding='utf-8')
     coords = json.load(a_json)
     return_coord = {}
     for i in coords:
@@ -212,26 +210,27 @@ def location_to_coord(gu, dong):
     return return_coord
 
 
-def background(hour, code):
-    print('background 안에서 code:', code)
+def set_background(hour, code):
     if 7 < hour < 19:  # 주간
-        print('background 안에서 code:', code)
-        if code == '1' or '2' or '4':
-            back = "/static/videos/sunny.mp4"
-            return back
+        if code == '1':
+            back = "/static/videos/rainy.mp4"
+        elif code == '2':
+            back = "/static/videos/rainy.mp4"
         elif code == '3':
             back = "/static/videos/snow.mp4"
-            return back
-        elif code == '0':
+        elif code == '4':
+            back = "/static/videos/rainy.mp4"
+        else:
             back = "/static/videos/sunny.mp4"
-            return back
-    elif hour <= 7 and hour >= 19:  # 야간
-        if code == '1' or '2' or '4':
+    if hour >= 19 or hour <= 7:  # 야간
+        if code == '1':
             back = "/static/videos/rainy-night.mp4"
-            return back
+        elif code == '2':
+            back = "/static/videos/rainy-night.mp4"
         elif code == '3':
             back = "/static/videos/snow-night.mp4"
-            return back
-        elif code == '0':
+        elif code == '4':
+            back = "/static/videos/rainy-night.mp4"
+        else:
             back = "/static/videos/sunny-night.mp4"
-            return back
+    return back
