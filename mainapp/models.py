@@ -8,7 +8,6 @@ class Members(models.Model):
     pw2 = models.CharField(max_length=100, db_collation='utf8mb4_general_ci')
     email = models.CharField(max_length=50, db_collation='utf8mb3_general_ci')
     regdate = models.DateField()
-    regdate = models.DateField()
 
     class Meta:
         managed = False
