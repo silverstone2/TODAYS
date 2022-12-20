@@ -7,7 +7,6 @@ import json
 
 
 def grid(v1, v2):  # v1 = lat, v2 = ln
-    print("nx, ny in grid func:", v1, v2)
     v1 = float(v1)
     v2 = float(v2)
     RE = 6371.00877  # 지구 반경(km)
@@ -94,7 +93,6 @@ def dangi_api(v1, v2):
     res = requests.get(url + queryParams,  verify=False)
     items = res.json().get('response').get('body').get('items')
     weather_data = dict()
-    #df = pd.DataFrame(items)
     data = dict()
     for item in items['item']:
         # 기온
@@ -104,12 +102,17 @@ def dangi_api(v1, v2):
         if item['category'] == 'PCP':
             weather_data['pcp'] = item['fcstValue']
         # 풍속
-        if item['category'] == 'WDS':
+        if item['category'] == 'WSD':
             weather_data['wsd'] = item['fcstValue']
         # 습도(상대습도)
         if item['category'] == 'REH':
             weather_data['reh'] = item['fcstValue']
         # 적설량
+        if item['category'] == 'SNO':
+            weather_data['sno'] = item['fcstValue']
+        # 전운량
+        if item['category'] == 'SKY':
+            weather_data['sky'] = item['fcstValue']
         # 기상상태
         if item['category'] == 'PTY':
             weather_code = item['fcstValue']
@@ -127,7 +130,6 @@ def dangi_api(v1, v2):
             weather_data['state'] = weather_state
 
     data['weather'] = weather_data
-    #print(weather_data)
     return data
 
 
@@ -151,17 +153,12 @@ def geocoder(string):
 
 
 def coord_to_loc(lat, long):
-    print('\n coord_to_loc:', lat, long)
     long = float(long)
     lat = float(lat)
-    print('\n (float)coord_to_loc:', lat, long)
     long = round(long, 4)
     lat = round(lat, 4)
-    print('\n (round)coord_to_loc:', lat, long)
     long = str(long)
     lat = str(lat)
-    coord = str(long) + "," + str(lat)
-    print('\n coord:', coord)
     api_url = "http://api.vworld.kr/req/address?"
     params = {
         "service": "address",
@@ -172,14 +169,11 @@ def coord_to_loc(lat, long):
         "type": "road",
         "key": "DA702333-E74C-3FA1-BD96-B1D8F8512921"
     }
-    print('params:', params)
     response = requests.get(api_url, params=params)
     if response.status_code == 200:
-        print(response.json())
         items = response.json().get('response').get('result')
         result = {'dist1': items[0]['structure']['level1'],
                   'dist2': items[0]['structure']['level2']}
-
         return result
 
 '''

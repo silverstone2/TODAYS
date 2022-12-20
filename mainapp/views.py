@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from mainapp import functions as func  # 기능 함수들 모두 functions.py 로 분리
 from datetime import date, datetime, timedelta
-
 # 로그인에 필요한 내장 함수 사용
 from django.contrib import auth
 from django.contrib.auth.hashers import make_password, check_password
@@ -20,7 +19,6 @@ current_location = {'dist1': "서울특별시", 'dist2': "중구"}
 sel_lat_long = {'lat': "37.579871128849334", 'long': "126.98935225645432"}
 selected_weather = {}
 selected_location = {'dist1': "서울특별시", 'dist2': "중구"}
-# 온도 TMP / 강수량 PCP / 풍속 WSD / 습도 REH / 적설량 SNO / 전운량1 - 10(범주)
 
 
 def main(request):
@@ -33,7 +31,7 @@ def result(request):
         dong = request.POST.get('gugun')
         feeling = request.POST.get('feeling')
         food = request.POST.get('food')
-        print('잘 왓니?:', gu, dong, feeling, food)
+        print('responded value:', gu, dong, feeling, food)
 
         # 현 위치 기반
         global current_location
@@ -50,6 +48,7 @@ def result(request):
         global selected_weather
         selected_weather = func.dangi_api(sel_nx_ny['x'], sel_nx_ny['y']).get('weather')
         background = func.set_background(hour, selected_weather['code'])
+
         context = {
             'background': background,
             'latitude': nx_ny['x'],
@@ -59,11 +58,17 @@ def result(request):
             'current_location1': current_location['dist1'],
             'current_location2': current_location['dist2'],
 
-            'selected_tmp': selected_weather['tmp'],
-            'selected_latitude': sel_nx_ny['x'],
-            'selected_longitude': sel_nx_ny['y'],
             'gu': gu,
             'dong': dong,
+            'selected_tmp': selected_weather['tmp'],  # 온도 TMP
+            'selected_pcp': selected_weather['pcp'],  # 강수량 PCP
+            'selected_wsd': selected_weather['wsd'],  # 풍속 WSD
+            'selected_reh': selected_weather['reh'],  # 습도 REH
+            'selected_sno': selected_weather['sno'],  # 적설량 SNO
+            'selected_sky': selected_weather['sky'],  # 전운량 1, 2, 4(범주)
+            'selected_latitude': sel_nx_ny['x'],
+            'selected_longitude': sel_nx_ny['y'],
+
         }
         return render(request, 'result.html', context)
     else:
