@@ -4,7 +4,6 @@ from mainapp import functions as func  # 기능 함수들 모두 functions.py �
 # 로그인에 필요한 내장 함수 사용
 from django.contrib import auth
 from django.contrib.auth.hashers import make_password
-from sqlalchemy.sql.functions import user
 from mainapp.models import Members
 from datetime import datetime
 
@@ -122,9 +121,6 @@ def logout(request):
 
 def mypage(request):
     return render(request, 'users/mypage.html')
-
-def err(request):
-    return render(request, 'err.html')
 
 
 
