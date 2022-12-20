@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
 from mainapp import functions as func  # 기능 함수들 모두 functions.py 로 분리
 # 로그인에 필요한 내장 함수 사용
-from django.contrib.auth.models import User
 from django.contrib import auth
-from mainapp.models import Member
+from django.contrib.auth.hashers import make_password
+from sqlalchemy.sql.functions import user
+from mainapp.models import Members
 from datetime import datetime
-
 
 #  기본값: 서울
 nx_ny = {'x': "60", 'y': "127"}
@@ -55,76 +55,53 @@ def main(request):
         }
         return render(request, 'main.html', context)
 
-
 def result(request):
     return render(request, 'result.html')
 
 def login(request):
-    return render(request, 'users/loginform.html')
+    return render(request, 'users/login.html')
 
+def loginok(request):
+    return render(request, '/')
+
+# 회원가입 페이지로 이동
 def signup(request):
-    return render(request, 'users/signup.html', {})
+    return render(request, 'signup.html')
+
+# POST 방식으로 각 항목들을 받아서 Err가 없으면 데이터베이스에 값을 삽입하고 회원가입 완료
+def signupok(request):
+    if request.method == "POST":
+        name = request.POST.get('members_name')
+        id = request.POST.get('members_id')
+        pw1 = request.POST.get('members_pw1')
+        pw2 = request.POST.get('members_pw2')
+        email = request.POST.get('members_email')
+        
+        err_data = {}
+        if not(id and name and pw1 and pw2):
+            err_data['error'] = "모든 값을 입력해야 합니다."
+        elif pw1 != pw2:
+            err_data['error'] = "비밀번호가 틀립니다."
+        else:
+            Members(
+                name=name,
+                id=id,
+                pw1=make_password(pw1),
+                pw2=make_password(pw2),
+                email=email
+                ).save()
+            return redirect('/')
+    return render(request, 'main.html')
+
+def logout(request):
+    request.session.flush()
+    return redirect('/')
+
+def err(request):
+    return render(request, 'err.html')
 
 def mypage(request):
     return render(request, 'users/mypage.html')
 
-def member_insert(request):
-    context = {}
-    
-    memberid = request.POST.get('member_id')
-    memberpwd = request.POST.get('member_pwd')
-    membername = request.POST.get('member_name')
-    memberemail = request.POST.get('member_email')
-    
-    rs = Member.objects.create(member_id = memberid,
-                               member_pwd = memberpwd,
-                               member_name = membername,
-                               member_email = memberemail,
-                               usage_flag='1',
-                               register_date=datetime.now()
-                               )
-    
-    context['result_msg'] = '회원 가입하였습니다.'
-    
-    return redirect('/users/loginform')
-
-def member_login(request):
-    context = {}
-    
-    memberid = request.POST.get('member_id')
-    memberpwd = request.POST.get('member_pwd')
-
-    
-    rs = Member.objects.filter(member_id = memberid,
-                               member_pwd = memberpwd,)
-    
-    if 'member_no' in request.session:
-        context['flag'] = "1"
-        context['result_msg'] = 'Already logged in ...'
-    else:
-        rs = Member.objects.filter(member_id=memberid, member_pwd=memberpwd)
-        
-        if(len(rs)) == 0:
-            context['flag'] = "1"
-            context['result_msg'] = 'Log in error...'
-        else:
-            
-            rsMember = Member.objects.get(member_id=memberid, member_pwd = memberpwd)
-            memberno = rsMember.member_no
-            membername = rsMember.member_name
-            rsMember.access_latest = datetime.now()
-            rsMember.save()
-            
-            request.session['member_no'] = memberno
-            request.session['member_name'] = membername
-            
-            
-            context['flag'] = "0"
-            context['result_msg'] = 'Log in 되었습니다.'
-            
-            
-    
-    return redirect('/users/loginform')
-    
 
 

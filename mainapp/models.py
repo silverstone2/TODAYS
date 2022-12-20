@@ -1,21 +1,39 @@
 from django.db import models
 
 # Create your models here.
+class Members(models.Model):
+    name = models.CharField(max_length=50, db_collation='utf8mb4_general_ci')
+    id = models.CharField(primary_key=True, max_length=50, db_collation='utf8mb4_general_ci')
+    pw1 = models.CharField(max_length=100, db_collation='utf8mb4_general_ci')
+    pw2 = models.CharField(max_length=100, db_collation='utf8mb4_general_ci')
+    email = models.CharField(max_length=50, db_collation='utf8mb3_general_ci')
+    regdate = models.DateField()
+    regdate = models.DateField()
 
-class Member(models.Model):
-    member_no = models.AutoField(db_column='member_no' , primary_key=True)
-    member_id = models.CharField(db_column='member_id', max_length=20)
-    member_pwd = models.CharField(db_column='member_pwd', max_length=255)
-    member_name = models.CharField(db_column='member_name', max_length=50)
-    member_email = models.CharField(db_column='member_email', max_length=255)
-    usage_flag = models.CharField(db_column='usage_flag', max_length=10, default='1')
-    register_date = models.DateTimeField(db_column='register_date', )
-    access_latest = models.DateTimeField(db_column='access_latest', )
-    
     class Meta:
         managed = False
-        db_table = 'member'
+        db_table = 'members'
+
+
+class Notice(models.Model):
+    number = models.IntegerField(primary_key=True)
+    title = models.CharField(max_length=50)
+    writer = models.CharField(max_length=50)
+    regdate = models.DateField()
+    views = models.IntegerField()
+    content = models.TextField()
+
+    class Meta:
+        managed = False
+        db_table = 'notice'
         
-        def __str__(self):
-            return "이름 : " + self.member_id + ". 이메일 : " + self.member_email
-    
+class CafeList(models.Model):
+    cafename = models.CharField(max_length=50)
+    gu = models.CharField(primary_key=True, max_length=50)
+    dong = models.CharField(max_length=50)
+    review = models.CharField(max_length=50)
+    bookmark = models.CharField(max_length=50)
+
+    class Meta:
+        managed = False
+        db_table = 'cafe_list'
