@@ -4,9 +4,10 @@ from django.db import models
 class Members(models.Model):
     name = models.CharField(max_length=50, db_collation='utf8mb4_general_ci')
     id = models.CharField(primary_key=True, max_length=50, db_collation='utf8mb4_general_ci')
-    pw1 = models.CharField(max_length=50, db_collation='utf8mb4_general_ci')
-    pw2 = models.CharField(max_length=50, db_collation='utf8mb4_general_ci')
+    pw1 = models.CharField(max_length=100, db_collation='utf8mb4_general_ci')
+    pw2 = models.CharField(max_length=100, db_collation='utf8mb4_general_ci')
     email = models.CharField(max_length=50, db_collation='utf8mb3_general_ci')
+    regdate = models.DateField()
     regdate = models.DateField()
 
     class Meta:
@@ -25,3 +26,14 @@ class Notice(models.Model):
     class Meta:
         managed = False
         db_table = 'notice'
+        
+class CafeList(models.Model):
+    cafename = models.CharField(max_length=50)
+    gu = models.CharField(primary_key=True, max_length=50)
+    dong = models.CharField(max_length=50)
+    review = models.CharField(max_length=50)
+    bookmark = models.CharField(max_length=50)
+
+    class Meta:
+        managed = False
+        db_table = 'cafe_list'

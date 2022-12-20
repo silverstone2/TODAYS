@@ -5,6 +5,7 @@ from django.contrib import auth
 from django.contrib.auth.hashers import make_password
 from sqlalchemy.sql.functions import user
 from mainapp.models import Members
+from datetime import datetime
 
 #  기본값: 서울
 nx_ny = {'x': "60", 'y': "127"}
@@ -54,7 +55,6 @@ def main(request):
         }
         return render(request, 'main.html', context)
 
-
 def result(request):
     return render(request, 'result.html')
 
@@ -64,32 +64,34 @@ def login(request):
 def loginok(request):
     return render(request, '/')
 
-
+# 회원가입 페이지로 이동
 def signup(request):
-    return render(request, 'users/signup.html')
+    return render(request, 'signup.html')
 
+# POST 방식으로 각 항목들을 받아서 Err가 없으면 데이터베이스에 값을 삽입하고 회원가입 완료
 def signupok(request):
     if request.method == "POST":
-        name = request.POST.get('User_name')
-        id = request.POST.get('User_id')
-        pwd = request.POST.get('User_pwd')
-        pwdok = request.POST.get('User_pwdok')
-        email = request.POST.get('User_email')
+        name = request.POST.get('members_name')
+        id = request.POST.get('members_id')
+        pw1 = request.POST.get('members_pw1')
+        pw2 = request.POST.get('members_pw2')
+        email = request.POST.get('members_email')
         
         err_data = {}
-        if not(id and name and pwd and pwdok):
+        if not(id and name and pw1 and pw2):
             err_data['error'] = "모든 값을 입력해야 합니다."
-        elif pwd != pwdok:
+        elif pw1 != pw2:
             err_data['error'] = "비밀번호가 틀립니다."
         else:
             Members(
+                name=name,
                 id=id,
-                nickname=name,
-                pwd=make_password(pwd), # make_password() 암호화
+                pw1=make_password(pw1),
+                pw2=make_password(pw2),
                 email=email
                 ).save()
-            return redirect('/') 
-    return render(request, 'main.html', err_data) # render -> html화면을 띄어주기
+            return redirect('/')
+    return render(request, 'main.html')
 
 def logout(request):
     request.session.flush()
@@ -100,4 +102,6 @@ def err(request):
 
 def mypage(request):
     return render(request, 'users/mypage.html')
+
+
 

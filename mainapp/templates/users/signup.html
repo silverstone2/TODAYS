@@ -12,29 +12,29 @@
 {% include "navbar.html" %}
 <div>
     <div>
-      <form action = "" method="POST"> {% csrf_token %}
+      <form action = "/member_insert" method="POST"> {% csrf_token %}
         <fieldset>
           <legend>회원 가입 양식</legend>
           <table class ="table">
          	<tr>
               <td>이름 : </td>
-              <td><input type="text" name ="name" placeholder="이름을 입력하세요"></td>
+              <td><input type="text" name ="member_name" id="member_name" placeholder="이름을 입력하세요"></td>
             </tr>
             <tr>
               <td>아이디 : </td>
-              <td><input type ="text" name ="id" placeholder="아이디를 입력하세요"></td>
+              <td><input type ="text" name ="member_id" id ="member_id" placeholder="아이디를 입력하세요"></td>
             </tr>
             <tr>
               <td>비밀번호 : </td>
-              <td><input type="password" name ="pw1" placeholder="최소 8 자, 최소 하나의 문자, 하나의 숫자 및 하나의 특수 문자로 비밀번호를 입력하세요"></td>
+              <td><input type="password" name ="member_pwd" id="member_pwd" placeholder="최소 8 자, 최소 하나의 문자, 하나의 숫자 및 하나의 특수 문자로 비밀번호를 입력하세요"></td>
             </tr>
             <tr>
               <td>비밀번호 확인: </td>
-              <td><input type="password" name ="pw2" placeholder="비밀번호를 다시 한 번 입력하세요"></td>
+              <td><input type="password" name ="member_pwd2" id="member_pwd2" placeholder="비밀번호를 다시 한 번 입력하세요"></td>
             </tr>
             <tr>
               <td>이메일 : </td>
-              <td><input type="email" name ="email" placeholder="이메일 주소를 입력하세요"></td>
+              <td><input type="email" name ="member_email" id="member_email" placeholder="이메일 주소를 입력하세요"></td>
             </tr>
             <tr>
               <td>
