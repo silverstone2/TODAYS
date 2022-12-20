@@ -54,8 +54,19 @@ select {
 
 .index {
 	text-align: center;
-
 }
+
+
+
+.quickmenu {position:absolute;width:90px;top:50%;margin-top:-50px;right:0px;background:#fff;}
+.quickmenu ul {position:relative; float:left; width:100%;display:inline-block;*display:inline;border:1px solid #ddd;}
+.quickmenu ul li {float:left;width:100%;border-bottom:1px solid #ddd;text-align:center;display:inline-block;*display:inline;}
+.quickmenu ul li a {position:relative;float:left;width:100%;height:30px;line-height:30px;text-align:center;color:#999;font-size:9.5pt;}
+.quickmenu ul li a:hover {color:#000;}
+.quickmenu ul li:last-child {border-bottom:0;}
+
+.content {position:relative;min-height:1000px;}
+
 
 </style>
 <!-- Bootstrap CSS -->
@@ -95,10 +106,7 @@ $('document').ready(function() {
    var area24 = ["광희동1가","광희동2가","남대문로1가","남대문로2가","남대문로3가","남대문로4가","남대문로5가","남산동1가","남산동2가","남산동3가","남창동","남학동","다동","만리동1가","만리동2가","명동1가","명동2가","무교동","무학동","묵정동","방산동","봉래동1가","봉래동2가","북창동","산림동","삼각동","서소문동","소공동","수표동","수하동","순화동","신당동","쌍림동","예관동","예장동","오장동","을지로1가","을지로2가","을지로3가","을지로4가","을지로5가","을지로6가","을지로7가","의주로1가","의주로2가","인현동1가","인현동2가","입정동","장교동","장충동1가","장충동2가","저동1가","저동2가","정동","주교동","주자동","중림동","초동","충무로1가","충무로2가","충무로3가","충무로4가","충무로5가","충정로1가","태평로1가","태평로2가","팔동1가","팔동2가","팔동3가","황학동","회현동1가","회현동2가","회현동3가","흥인동"];
    var area25 = ["망우동","면목동","묵동","상봉동","신내동","중화동"];
 
-
-
  // 구/군 선택 박스 초기화
-
  $("select[name^=sido]").each(function() {
   $selsido = $(this);
   $.each(eval(area0), function() {
@@ -110,7 +118,6 @@ $('document').ready(function() {
 
 
  // 구/군 선택시 동 설정
-
  $("select[name^=sido]").change(function() {
   var area = "area"+$("option",$(this)).index($("option:selected",$(this))); // 선택지역의 구군 Array
   var $gugun = $(this).next(); // 선택영역 동 객체
@@ -127,6 +134,14 @@ $('document').ready(function() {
 
 
 });
+
+$(document).ready(function(){
+	  var currentPosition = parseInt($(".quickmenu").css("top"));
+	  $(window).scroll(function() {
+	    var position = $(window).scrollTop();
+	    $(".quickmenu").stop().animate({"top":position+currentPosition+"px"},1000);
+	  });
+	});
 </script>
 </head>
 <body>
@@ -182,6 +197,21 @@ $('document').ready(function() {
 	</fieldset>
 	</form>
 </div>
-
+<div class="quickmenu">
+  <ul>
+    <li><a href="users/mypage">MYPAGE</a></li>
+    <li><a href="#">즐겨찾기</a></li>
+  </ul>
+</div>
+<div class="content">
+내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>
+내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>
+내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>
+내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>
+내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>
+내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>
+내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>
+내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>
+</div>
 </body>
 </html>

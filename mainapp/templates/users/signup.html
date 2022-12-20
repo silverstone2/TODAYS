@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Sign UP</title>
+</head>
+
+<!-- Bootstrap CSS -->
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+
+<body>
+<!-- 네비게이션바 -->
+{% include "navbar.html" %}
+
+<div>
+    <div>
+      <form action="/users/signupok/" method="POST"> {% csrf_token %}
+        <fieldset>
+          <legend>회원 가입 양식</legend>
+          <table class ="table">
+         	<tr>
+              <td>이름 : </td>
+              <td><input type="text" name ="members_name" id="members_name" placehsolder="이름을 입력하세요"></td>
+            </tr>
+            <tr>
+              <td>아이디 : </td>
+              <td><input type ="text" name ="members_id" id ="members_id" placeholder="아이디를 입력하세요"></td>
+            </tr>
+            <tr>
+              <td>비밀번호 : </td>
+              <!-- 최소 8 자, 최소 하나의 문자, 하나의 숫자 및 하나의 특수 문자로  -->
+              <td><input type="password" name ="members_pw1" id="members_pw1" placeholder="비밀번호를 입력하세요"></td>
+            </tr>
+            <tr>
+              <td>비밀번호 확인: </td>
+              <td><input type="password" name ="members_pw2" id="members_pw2" placeholder="비밀번호를 다시 한번 입력하세요"></td>
+            </tr>
+            <tr>
+              <td>이메일 : </td>
+              <td><input type="email" name ="members_email" id="members_email" placeholder="이메일 주소를 입력하세요"></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>
+              	<button type = "submit">가입</button>
+              	<button type = "button" onclick="location.href='/'">홈으로</button>
+              </td>
+            </tr>
+          </table>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

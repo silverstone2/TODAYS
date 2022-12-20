@@ -11,24 +11,47 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name="User",
+            name="Members",
             fields=[
                 (
+                    "name",
+                    models.CharField(db_collation="utf8mb4_general_ci", max_length=50),
+                ),
+                (
                     "id",
-                    models.BigAutoField(
-                        auto_created=True,
+                    models.CharField(
+                        db_collation="utf8mb4_general_ci",
+                        max_length=50,
                         primary_key=True,
                         serialize=False,
-                        verbose_name="ID",
                     ),
                 ),
-                ("username", models.CharField(max_length=64, verbose_name="사용자명")),
-                ("password", models.CharField(max_length=64, verbose_name="비밀번호")),
                 (
-                    "registered_dttm",
-                    models.DateTimeField(auto_now_add=True, verbose_name="등록시간"),
+                    "pw1",
+                    models.CharField(db_collation="utf8mb4_general_ci", max_length=50),
                 ),
+                (
+                    "pw2",
+                    models.CharField(db_collation="utf8mb4_general_ci", max_length=50),
+                ),
+                (
+                    "email",
+                    models.CharField(db_collation="utf8mb3_general_ci", max_length=50),
+                ),
+                ("regdate", models.DateField()),
             ],
-            options={"db_table": "test_user",},
+            options={"db_table": "members", "managed": False,},
+        ),
+        migrations.CreateModel(
+            name="Notice",
+            fields=[
+                ("number", models.IntegerField(primary_key=True, serialize=False)),
+                ("title", models.CharField(max_length=50)),
+                ("writer", models.CharField(max_length=50)),
+                ("regdate", models.DateField()),
+                ("views", models.IntegerField()),
+                ("content", models.TextField()),
+            ],
+            options={"db_table": "notice", "managed": False,},
         ),
     ]
