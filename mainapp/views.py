@@ -89,16 +89,21 @@ def login(request):
         login_pwd = request.POST.get('lo_pwd')
         
         if not(login_id):
-            lo_error['err'] = "아이디와 비밀번호 모두 입력하세요"
+            #lo_error['err'] = "아이디와 비밀번호 모두 입력하세요"
+            return render(request, 'users/loginform.html')
+    
         if(login_id):
             members = Members.objects.get(id=login_id)
         
         if check_password(login_pwd, members.pw1):
             request.session['Members'] = members.id
-            
+
             return redirect('/')
         else:
             return render(request, 'users/loginform.html')
+    
+    else:
+        return render(request, 'users/loginform.html')
     
     return render(request, 'users/loginform.html')
     

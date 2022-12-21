@@ -37,3 +37,15 @@ class CafeList(models.Model):
     class Meta:
         managed = False
         db_table = 'cafe_list'
+        
+
+class Mylike(models.Model):
+    user_id = models.CharField(max_length=50)
+    cafename = models.CharField(max_length=50)
+    addr = models.CharField(max_length=50)
+    category = models.CharField(max_length=50)
+    review = models.CharField(max_length=250)
+
+    class Meta:
+        managed = False
+        db_table = 'mylike'

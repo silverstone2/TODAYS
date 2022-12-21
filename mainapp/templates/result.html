@@ -88,11 +88,26 @@ const btn1 = () => {
    <img src="/static/images/cafe.jpg" style="float: center; height: 100%; width: 60%; margin-top: vw;"/>
 </div>
 
-<div>
-<p>만약 여기 추천 카페 5개 정보 뜬다면</p>
-<p>카페 구, 동</p>
-</div>
-
+<p>여기 추천카페 5개가 뜬다면</p>
+<form action="">
+	<div>
+		<div>카페1</div>
+		<div>강남구 역삼동</div>
+		<div>디저트 카페</div>
+		<div>좋아요!</div>
+		<input type="checkbox" /> 이거 즐겨찾기
+	</div>
+	<br />
+	<div>
+		<div>카페2</div>
+		<div>강남구 대치동</div>
+		<div>빵 카페</div>
+		<div>나빠요!</div>
+		<input type="checkbox" /> 이거 즐겨찾기
+	</div>
+	
+	<button type="submit">즐겨찾기 저장</button>
+</form>
 
 <!-- Bootstrap JS -->
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
