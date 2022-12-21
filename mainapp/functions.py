@@ -54,7 +54,6 @@ def dangi_api(v1, v2):
     service_key = "1HyN5CpAcCICizuwcx%2FW0DBWu3icqrH%2BUNPl3PiC9HxqEyn7764WVIf9sLA4ei%2FGNKHVCHbSxi%2B63Py7VqwnMg%3D%3D"
     serviceKeyDecoded = unquote(service_key, 'UTF-8')
     url = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst"
-    # url = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst"
     now = datetime.now()
     print("지금은", now.year, "년", now.month, "월", now.day, "일", now.hour, "시", now.minute, "분", now.second, "초입니다.")
     today = datetime.today()  # 현재 지역 날짜 반환
