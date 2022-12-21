@@ -47,7 +47,7 @@ select {
 
 .btn_search:hover {
   background-color: #C0DFFA;
-  box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 15px 20px rgba();
   color: #fff;
   transform: translateY(-7px);
 }
@@ -115,7 +115,7 @@ $('document').ready(function() {
   $selsido.next().append("<option value=''>구/군 선택</option>");
  });
 
-
+ 
 
  // 구/군 선택시 동 설정
  $("select[name^=sido]").change(function() {
@@ -138,7 +138,7 @@ $('document').ready(function() {
 $(document).ready(function(){
 	  var currentPosition = parseInt($(".quickmenu").css("top"));
 	  $(window).scroll(function() {
-	    var position = $(window).scrollTop();
+	    var position = $(window).scrollTop(); 
 	    $(".quickmenu").stop().animate({"top":position+currentPosition+"px"},1000);
 	  });
 	});
@@ -155,11 +155,11 @@ $(document).ready(function(){
 		<h2>기분에 따라 카페를 추천받고싶을땐?</h2>
 		<br />
 		<p>이 웹페이지는 흔한 카페찾기로부터 시작되었습니다.</p>
-		<p>설명 어쩌구저쩌구설명 어쩌구저쩌구설명 어쩌구저쩌구</p>
+		<p>만들게 된 계기 등등 설명</p>
 
 	</div>
 
-	<form action="result/" method="post">{% csrf_token %}
+	<form action="" method="post">
 	<fieldset class="form">
 		<legend>
 			서울시 지역선택(군/구, 동)
@@ -204,6 +204,9 @@ $(document).ready(function(){
   </ul>
 </div>
 <div class="content">
+{{ members.id }}
+
+
 내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>
 내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>
 내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>

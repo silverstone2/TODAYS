@@ -14,26 +14,43 @@
     <!-- 상단 네비바 메뉴 -->
     <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
       <ul class="navbar-nav">
+      {% if 'Members' in request.session %}
       	<li class="nav-item">
-          <a class="nav-link" href="users/mypage">MY PAGE</a>
+          <a class="nav-link" href="/users/mypage">MY PAGE</a>
         </li>
+      {% else %}
+      	<li class="nav-item">
+          <a class="nav-link" href="/users/loginform">MY PAGE</a>
+        </li>
+      {% endif %}
+      
+      {% if 'Members' in request.session %}
         <li class="nav-item">
-          <a class="nav-link" href="#">MY LIKE</a>
-        </li>       
+          <a class="nav-link" href="/users/mylike">MY LIKE</a>
+        </li>
+      {% else %}  
+        <li class="nav-item">
+          <a class="nav-link" href="/users/loginform">MY LIKE</a>
+        </li>
+      {% endif %}     
       </ul>
 
       <!-- 회원관리 관련 탭(드롭다운) -->
       <ul class="navbar-nav">
+      {% if not 'Members' in request.session %}
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="main" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             LOGIN
           </a>
           <ul class="dropdown-menu dropdown-menu-dark">
             <li><a class="dropdown-item" href="/users/loginform">LOGIN</a></li>
-            <li><a class="dropdown-item" href="/">LOGOUT</a></li>
             <li><a class="dropdown-item" href="/users/signup">SIGNUP</a></li>
           </ul>
         </li>
+        {% else %}
+        <li><a href="/users/logout">LOGOUT</a></li>
+        {% endif %}
+        
       </ul>
     </div>
   </div>
