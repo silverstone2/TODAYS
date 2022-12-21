@@ -90,7 +90,6 @@ def bookmark(request):
     return render(request, 'bookmark.html', context)
 
 
-
 def login(request):
     lo_err = {}
 
@@ -98,15 +97,18 @@ def login(request):
         login_id = request.POST.get('lo_id')
         login_pwd = request.POST.get('lo_pwd')
 
-        if not(login_id):
-            #lo_error['err'] = "아이디와 비밀번호 모두 입력하세요"
+        if not (login_id):
+            # lo_error['err'] = "아이디와 비밀번호 모두 입력하세요"
             return render(request, 'users/loginform.html')
 
-        if(login_id):
+        if (login_id):
             members = Members.objects.get(id=login_id)
 
         if check_password(login_pwd, members.pw1):
             request.session['Members'] = members.id
+            request.session['Members1'] = members.name
+            request.session['Members2'] = members.email
+            request.session['Members3'] = str(members.regdate)
 
             return redirect('/')
         else:
@@ -159,13 +161,13 @@ def logout(request):
 
 
 def mypage(request):
-
-    # if request.method == "POST":
-    #    login_id = request.POST.get('lo_id')
-    #
-    # members = Members.objects.get(id=login_id)
-    # request.session['Members'] = members.id
-    return render(request, 'users/mypage.html')
+    context = {}
+    context['m_id'] = request.session.get('Members', '')
+    context['m_name'] = request.session.get('Members1', '')
+    context['m_email'] = request.session.get('Members2' , '')
+    context['m_regdate'] = request.session.get('Members3' , '')
+    print(context['m_email'])
+    print(context['m_regdate'])
 
 
 def mylike(request):
