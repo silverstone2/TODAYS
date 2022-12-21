@@ -54,6 +54,7 @@ def dangi_api(v1, v2):
     service_key = "1HyN5CpAcCICizuwcx%2FW0DBWu3icqrH%2BUNPl3PiC9HxqEyn7764WVIf9sLA4ei%2FGNKHVCHbSxi%2B63Py7VqwnMg%3D%3D"
     serviceKeyDecoded = unquote(service_key, 'UTF-8')
     url = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst"
+    # url = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst"
     now = datetime.now()
     print("지금은", now.year, "년", now.month, "월", now.day, "일", now.hour, "시", now.minute, "분", now.second, "초입니다.")
     today = datetime.today()  # 현재 지역 날짜 반환
@@ -98,18 +99,24 @@ def dangi_api(v1, v2):
         # 기온
         if item['category'] == 'TMP':
             weather_data['tmp'] = item['fcstValue']
-        # 강수량(이거 범주로 나오네 시팔)
+        # 강수량
         if item['category'] == 'PCP':
-            weather_data['pcp'] = item['fcstValue']
+            if item['fcstValue'] == "강수없음":
+                weather_data['pcp'] = '0'
+            else:
+                weather_data['pcp'] = item['fcstValue']
         # 풍속
         if item['category'] == 'WSD':
             weather_data['wsd'] = item['fcstValue']
         # 습도(상대습도)
         if item['category'] == 'REH':
             weather_data['reh'] = item['fcstValue']
-        # 적설량
+        # 1시간 신적설
         if item['category'] == 'SNO':
-            weather_data['sno'] = item['fcstValue']
+            if item['fcstValue'] == "적설없음":
+                weather_data['sno'] = '0'
+            else:
+                weather_data['sno'] = item['fcstValue']
         # 전운량
         if item['category'] == 'SKY':
             weather_data['sky'] = item['fcstValue']
@@ -130,6 +137,7 @@ def dangi_api(v1, v2):
             weather_data['state'] = weather_state
 
     data['weather'] = weather_data
+    print(weather_data)
     return data
 
 
@@ -176,26 +184,9 @@ def coord_to_loc(lat, long):
                   'dist2': items[0]['structure']['level2']}
         return result
 
-'''
-POP    강수확률    %    8
-PTY    강수형태    코드값    4
-PCP    1시간 강수량    범주 (1 mm)    8   o
-REH    습도    %    8                   
-SNO    1시간 신적설    범주(1 cm)    8   o
-SKY    하늘상태    코드값    4
-TMP    1시간 기온    ℃    10
-TMN    일 최저기온    ℃    10
-TMX    일 최고기온    ℃    10
-UUU    풍속(동서성분)    m/s    12
-VVV    풍속(남북성분)    m/s    12
-WAV    파고    M    8
-VEC    풍향    deg    10
-WSD    풍속    m/s    10
-'''
-
 
 def location_to_coord(gu, dong):
-    a_json = open('C:\TODAYS\mainapp\static\json\dong_coords.json', encoding='utf-8')
+    a_json = open('mainapp/static/json/dong_coords.json', encoding='utf-8')
     coords = json.load(a_json)
     return_coord = {}
     for i in coords:
@@ -209,7 +200,7 @@ def set_background(hour, code):
         if code == '1':
             back = "/static/videos/rainy.mp4"
         elif code == '2':
-            back = "/static/videos/rainy.mp4"
+            back = "/static/videos/snow.mp4"
         elif code == '3':
             back = "/static/videos/snow.mp4"
         elif code == '4':
@@ -220,7 +211,7 @@ def set_background(hour, code):
         if code == '1':
             back = "/static/videos/rainy-night.mp4"
         elif code == '2':
-            back = "/static/videos/rainy-night.mp4"
+            back = "/static/videos/snow-night.mp4"
         elif code == '3':
             back = "/static/videos/snow-night.mp4"
         elif code == '4':

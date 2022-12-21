@@ -34,12 +34,12 @@ def result(request):
         print('responded value:', gu, dong, feeling, food)
 
         # 현 위치 기반
-        global current_location
-        current_location = func.coord_to_loc(lat, long)
-        global nx_ny
-        nx_ny = func.grid(lat, long)
-        global current_weather
-        current_weather = func.dangi_api(nx_ny['x'], nx_ny['y']).get('weather')
+        # global current_location
+        # current_location = func.coord_to_loc(lat, long)
+        # global nx_ny
+        # nx_ny = func.grid(lat, long)
+        # global current_weather
+        # current_weather = func.dangi_api(nx_ny['x'], nx_ny['y']).get('weather')
 
         # 선택된 날짜 기반
         global sel_lat_long
@@ -54,9 +54,9 @@ def result(request):
             'latitude': nx_ny['x'],
             'longitude': nx_ny['y'],
 
-            'current_tmp': current_weather['tmp'],
-            'current_location1': current_location['dist1'],
-            'current_location2': current_location['dist2'],
+            # 'current_tmp': current_weather['tmp'],
+            # 'current_location1': current_location['dist1'],
+            # 'current_location2': current_location['dist2'],
 
             'gu': gu,
             'dong': dong,
@@ -64,7 +64,7 @@ def result(request):
             'selected_pcp': selected_weather['pcp'],  # 강수량 PCP
             'selected_wsd': selected_weather['wsd'],  # 풍속 WSD
             'selected_reh': selected_weather['reh'],  # 습도 REH
-            'selected_sno': selected_weather['sno'],  # 적설량 SNO
+            'selected_sno': selected_weather['sno'],  # 1시간 신적설 SNO
             'selected_sky': selected_weather['sky'],  # 전운량 1, 2, 4(범주)
             'selected_latitude': sel_nx_ny['x'],
             'selected_longitude': sel_nx_ny['y'],
