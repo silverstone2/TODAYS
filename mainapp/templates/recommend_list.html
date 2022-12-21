@@ -1,0 +1,42 @@
+<div>
+    <form action="/bookmark/" onsubmit="return Checkform()" name=recommendedCafe" id="recommendedCafe" method="POST">{% csrf_token %}
+        <label for="list1">
+            <h1>추천 카페 리스트1</h1>
+            <input type="checkbox" value="1" id="cafe1" name="cafe[]">
+        </label>
+        <label for="list2">
+            <h1>추천 카페 리스트2</h1>
+            <input type="checkbox" value="2" id="cafe2" name="cafe[]">
+        </label>
+        <label for="list3">
+            <h1>추천 카페 리스트3</h1>
+            <input type="checkbox" value="3" id="cafe3" name="cafe[]">
+        </label>
+        <label for="list4">
+            <h1>추천 카페 리스트4</h1>
+            <input type="checkbox" value="4" id="cafe4" name="cafe[]">
+        </label>
+        <label for="list5">
+            <h1>추천 카페 리스트5</h1>
+            <input type="checkbox" value="5" id="cafe5" name="cafe[]">
+        </label>
+        <button id="checkboxChk()">제출</button>
+    </form>
+
+    <script src="https://code.jquery.com/jquery-latest.min.js" type="application/javascript"></script>
+    <script type="text/javascript">
+      // 1. 해당 name과 동일한 모든 체크박스 루프 > 체크된 체크박스만 해당 value 값 콘솔
+      $("input[name='cafe[]']").each(function(){
+        if( $(this).is(":checked") == true ){
+          let tmpVal = $(this).val();
+          console.log(tmpVal);
+        }
+      });
+
+      // 2. 해당 name과 동일한 체크박스 중 선택한 것들만 루프 > 해당 value 값 콘솔
+      $("input[name='cafe[]']:checked").each(function() {
+        let tmpVal = $(this).val();
+        console.log(tmpVal);
+      });
+    </script>
+</div>

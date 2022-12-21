@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from mainapp import functions as func  # 기능 함수들 모두 functions.py 로 분리
+from mainapp import bookmark as bkmk # 북마크 기능 함수 boomark.py 로 분리
 from datetime import date, datetime, timedelta
 # 로그인에 필요한 내장 함수 사용
 from django.contrib import auth
@@ -80,6 +81,16 @@ def result(request):
     return render(request, 'result.html', context)
 
 
+def bookmark(request):
+    data = request.POST.getlist('cafe[]')
+    print(data)
+    context = {
+        bookmark: data
+    }
+    return render(request, 'bookmark.html', context)
+
+
+
 def login(request):
     lo_err = {}
 
@@ -107,13 +118,14 @@ def login(request):
     return render(request, 'users/loginform.html')
 
 
-
 def loginform(request):
     return render(request, 'users/loginform.html')
+
 
 # 회원가입 페이지로 이동
 def signup(request):
     return render(request, 'users/signup.html')
+
 
 # POST 방식으로 각 항목들을 받아서 Err가 없으면 데이터베이스에 값을 삽입하고 회원가입 완료
 def signupok(request):
@@ -140,9 +152,11 @@ def signupok(request):
             return redirect('/')
     return render(request, 'main.html')
 
+
 def logout(request):
     request.session.flush()
     return redirect('/')
+
 
 def mypage(request):
 
@@ -153,11 +167,10 @@ def mypage(request):
     # request.session['Members'] = members.id
     return render(request, 'users/mypage.html')
 
+
 def mylike(request):
-
-
-
     return render(request, 'users/mylike.html')
+
 
 def err(request):
     return render(request, 'err.html')

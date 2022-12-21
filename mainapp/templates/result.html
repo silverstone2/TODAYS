@@ -37,7 +37,6 @@ const btn1 = () => {
 <body style="background-color: black;">
 <!-- 네비게이션바 -->
 {% include "navbar.html" %}
-
 <div class="jb-box">
 	<video muted autoplay loop>
 		<source src= {{ background }} type="video/mp4">
@@ -77,6 +76,9 @@ const btn1 = () => {
 		</p>
 	</div>
 </div>
+
+{{% include "recommend_list.html" %}
+
 <div class="cafe-index1">
    <div class="cafe-text" style= "float:left; width: 40%;">
       <p>
