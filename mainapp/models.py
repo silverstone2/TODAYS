@@ -7,7 +7,7 @@ class Members(models.Model):
     pw1 = models.CharField(max_length=100, db_collation='utf8mb4_general_ci')
     pw2 = models.CharField(max_length=100, db_collation='utf8mb4_general_ci')
     email = models.CharField(max_length=50, db_collation='utf8mb3_general_ci')
-    regdate = models.DateTimeField(db_column='regdate', auto_now_add=True)
+    regdate = models.DateField(db_column='regdate', auto_now_add=True)
     #regdate = models.DateField()
 
     class Meta:
