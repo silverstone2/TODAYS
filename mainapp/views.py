@@ -3,7 +3,7 @@ from mainapp import functions as func  # 기능 함수들 모두 functions.py �
 
 # 로그인에 필요한 내장 함수 사용
 from django.contrib import auth
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import make_password , check_password
 from sqlalchemy.sql.functions import user
 from mainapp.models import Members
 from datetime import datetime
@@ -82,10 +82,30 @@ def result(request):
 
 
 def login(request):
+    lo_err = {}
+    
+    if request.method == "POST":
+        login_id = request.POST.get('lo_id')
+        login_pwd = request.POST.get('lo_pwd')
+        
+        if not(login_id):
+            lo_error['err'] = "아이디와 비밀번호 모두 입력하세요"
+        if(login_id):
+            members = Members.objects.get(id=login_id)
+        
+        if check_password(login_pwd, members.pw1):
+            request.session['Members'] = members.id
+            
+            return redirect('/')
+        else:
+            return render(request, 'users/loginform.html')
+    
     return render(request, 'users/loginform.html')
+    
+    
 
-def loginok(request):
-    return render(request, '/')
+def loginform(request):
+    return render(request, 'users/loginform.html')
 
 # 회원가입 페이지로 이동
 def signup(request):
@@ -121,7 +141,19 @@ def logout(request):
     return redirect('/')
 
 def mypage(request):
+    
+    # if request.method == "POST":
+    #    login_id = request.POST.get('lo_id')
+    #
+    # members = Members.objects.get(id=login_id)
+    # request.session['Members'] = members.id
     return render(request, 'users/mypage.html')
+
+def mylike(request):
+    
+    
+    
+    return render(request, 'users/mylike.html')
 
 def err(request):
     return render(request, 'err.html')
