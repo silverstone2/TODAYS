@@ -17,7 +17,7 @@
                 <h2> 사진 </h2>
                 <h2> 이름 </h2>
                 <h2> 주소 </h2>
-            <input type="checkbox" value="2" id="cafe2" name="checkbox2">
+            <input type="checkbox" onClick="testfunction(this)" value="{{ dong }}" id="cafe2" name="checkbox2">
         </label>
         </div>
         <div class="swiper-slide">
@@ -26,7 +26,7 @@
                 <h2> 사진 </h2>
                 <h2> 이름 </h2>
                 <h2> 주소 </h2>
-                <input type="checkbox" value="3" id="cafe3" name="ccheckbox3">
+                <input type="checkbox" onClick="testfunction(this)" value="{{ dong }}" id="cafe3" name="checkbox3">
             </label>
         </div>
         <div class="swiper-slide">
@@ -35,7 +35,7 @@
                 <h2> 사진 </h2>
                 <h2> 이름 </h2>
                 <h2> 주소 </h2>
-                <input type="checkbox" value="4" id="cafe4" name="checkbox4">
+                <input type="checkbox" onClick="testfunction(this)" value="{{ dong }}" id="cafe4" name="checkbox4">
             </label>
         </div>
         <div class="swiper-slide">
@@ -44,7 +44,7 @@
                 <h2> 사진 </h2>
                 <h2> 이름 </h2>
                 <h2> 주소 </h2>
-                <input type="checkbox" value="5" id="cafe5" name="checkbox5">
+                <input type="checkbox" onClick="testfunction(this)" value="{{ dong }}" id="cafe5" name="checkbox5">
             </label>
         </div>
       </div>
@@ -53,13 +53,13 @@
       <div class="swiper-pagination"></div>
     </div>
 </div>
-<form action="/bookmark/" onsubmit="return Checkform()" name=recommendedCafe" id="recommendedCafe" method="POST">{% csrf_token %}
-    <input type="text" id="cafevalue1" name="cafevalue1" value="">
-    <input type="hidden" id="cafevalue2" name="cafevalue2" value="">
-    <input type="hidden" id="cafevalue3" name="cafevalue3" value="">
-    <input type="hidden" id="cafevalue4" name="cafevalue4" value="">
-    <input type="hidden" id="cafevalue5" name="cafevalue5" value="">
-    <input type="hidden" id="cafevalueTotal" name="cafevalueTotal" value="0">
+<form action="/bookmark/" onsubmit="return checkForm()" name=recommendedCafe" id="recommendedCafe" method="POST">{% csrf_token %}
+    <input type="text" id="cafe1value" name="cafe1value" value="">
+    <input type="text" id="cafe2value" name="cafe2value" value="">
+    <input type="text" id="cafe3value" name="cafe3value" value="">
+    <input type="text" id="cafe4value" name="cafe4value" value="">
+    <input type="text" id="cafe5value" name="cafe5value" value="">
+    <input type="text" id="cafeCnt" name="cafeCnt" value="0">
     <input type="submit" id="submit" value="북마크 추가">
 </form>
 
@@ -143,13 +143,26 @@ $("document").ready(function () {
 });
 </script>
 <script>
-    function checkbox() {
-    }
+    let sum = 0;
     function testfunction(box){
         if(box.checked) { // 체크가 되면 checked==true라는 값을 전달받는다.
-            document.getElementById("cafevalue1").value=document.getElementById("cafe1").value;
-        } else {
-            document.getElementById("cafevalue1").value="";
+            objectValue = box.id + "value";
+            document.getElementById(objectValue).value=document.getElementById(box.id).value;
+            sum++;
+            document.getElementById("cafeCnt").value=parseInt(sum);
+        } else if(!box.checked) {
+            sum--;
+            objectValue = box.id + "value";
+            document.getElementById(objectValue).value="";
+            document.getElementById("cafeCnt").value=parseInt(sum);
         }
+    }
+
+    function checkForm(){
+        if (sum == 0) {
+            alert("하나 이상 체크하세요");
+            return false;
+        } else return true;
+
     }
 </script>
