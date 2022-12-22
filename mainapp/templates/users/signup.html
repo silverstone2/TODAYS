@@ -150,36 +150,32 @@ background-attachment: fixed; /* 스크롤바 움직일때 이미지가 따라�
 				Sign in to Web
 			</h2>
 		</div>
-		<form class="card-form" method="post">
+		<form class="card-form" action="/users/signupok/" method="POST">
 			{% csrf_token %}
 				
 			<div class="input">	
 				<input type="text" class="input-field"
-				name="name" id="name" placeholder="name">	
+				name="members_name" id="members_name" placeholder="name">	
 			</div>
 			<div class="input">
 				<input type="text" class="input-field"
-				name="username" id="username" placeholder="username">	
+				name="members_id" id="members_id" placeholder="id">	
 			</div>
 			<div class="input">
 				<input type="password" class="input-field"
-				name="password" id="password1" placeholder="최소 8자리, 알파벳과 숫자,특수문자를 조합하세요.">
+				name="members_pw1" id="members_pw1" placeholder="최소 8자리, 알파벳과 숫자,특수문자를 조합하세요.">
 			</div>
 			<div class="input">
 				<input type="password" class="input-field"
-				name="password" id="password2" placeholder="비밀번호를 다시 한 번 입력하세요.">
+				name="members_pw2" id="members_pw2" placeholder="비밀번호를 다시 한 번 입력하세요.">
 			</div>
 			<div class="input">
-				<input type="text" class="input-field"
-				name="email" id="email" placeholder="e-mail">	
-			</div>
-			<div class="input">
-				<input type="text" class="input-field"
-				name="email" id="email" placeholder="-빼고 숫자만 입력">	
+				<input type="email" class="input-field"
+				name="members_email" id="members_email" placeholder="e-mail">	
 			</div>
 			<br />
 			<div class="Create Account">
-				<button class="action-button" type="button" onclick="#">
+				<button class="action-button" type="submit">
 				Create Account</button>
 			</div>
 			<br />
