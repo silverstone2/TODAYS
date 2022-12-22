@@ -1,27 +1,28 @@
 from django.shortcuts import render, redirect
 from mainapp import functions as func  # 기능 함수들 모두 functions.py 로 분리
-
+from mainapp import bookmark as bkmk # 북마크 기능 함수 boomark.py 로 분리
+from datetime import date, datetime, timedelta
 # 로그인에 필요한 내장 함수 사용
 from django.contrib import auth
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-
+from sqlalchemy.sql.functions import user
 from mainapp.models import Members
 from datetime import datetime
 
 #  기본값: 서울
-lat = "37.579871128849334"
-long = "126.98935225645432"
+hour = datetime.now().hour
+lat = "37.579871128849334"  # 위도
+long = "126.98935225645432"  # 경도
 
 nx_ny = {'x': "60", 'y': "127"}
 current_weather = {}
 current_location = {'dist1': "서울특별시", 'dist2': "중구"}
 
-sel_lat_long = {'x': "60", 'y': "127"}
+sel_lat_long = {'lat': "37.579871128849334", 'long': "126.98935225645432"}
 selected_weather = {}
 selected_location = {'dist1': "서울특별시", 'dist2': "중구"}
-# 온도 TMP / 강수량 PCP / 풍속 WSD / 습도 REH / 적설량 SNO / 전운량1 - 10(범주)
 
 
 def main(request):
@@ -29,58 +30,108 @@ def main(request):
 
 def result(request):
     if request.method == 'POST':
-        background = "/static/videos/rainy.mp4"
         gu = request.POST.get('sido')
         dong = request.POST.get('gugun')
-        feeling = request.POST.get('feeling')
+        mood = request.POST.get('mood')
         food = request.POST.get('food')
-
-        # 임시
-        gu = "종로구"
-        dong = "청운효자동"
-        feeling = "슬픔"
-        food = "빵"
-        print('넘어온 값 확인 :', gu, dong, feeling, food)
+        print('responded value:', gu, dong, mood, food)
 
         # 현 위치 기반
-        global current_location
-        current_location = func.coord_to_loc(lat, long)
-        global nx_ny
-        nx_ny = func.grid(lat, long)
-        global current_weather
-        current_weather = func.dangi_api(nx_ny['x'], nx_ny['y']).get('weather')
-        
+        # global current_location
+        # current_location = func.coord_to_loc(lat, long)
+        # global nx_ny
+        # nx_ny = func.grid(lat, long)
+        # global current_weather
+        # current_weather = func.dangi_api(nx_ny['x'], nx_ny['y']).get('weather')
+
         # 선택된 날짜 기반
         global sel_lat_long
         sel_lat_long = func.location_to_coord(gu, dong)
-        print('함수 잘 먹나?:', sel_lat_long)
-        sel_nx_ny = func.grid(sel_lat_long['x'], sel_lat_long['y'])
+        sel_nx_ny = func.grid(sel_lat_long['lat'], sel_lat_long['long'])
         global selected_weather
         selected_weather = func.dangi_api(sel_nx_ny['x'], sel_nx_ny['y']).get('weather')
+        background = func.set_background(hour, selected_weather['code'])
 
         context = {
             'background': background,
             'latitude': nx_ny['x'],
             'longitude': nx_ny['y'],
 
-            'current_tmp': current_weather['tmp'],
-            'current_location1': current_location['dist1'],
-            'current_location2': current_location['dist2'],
+            # 'current_tmp': current_weather['tmp'],
+            # 'current_location1': current_location['dist1'],
+            # 'current_location2': current_location['dist2'],
 
-            'selected_tmp': selected_weather['tmp'],
-            'selected_latitude': sel_nx_ny['x'],
-            'selected_longitude': sel_nx_ny['y'],
             'gu': gu,
             'dong': dong,
+            'selected_tmp': selected_weather['tmp'],  # 온도 TMP
+            'selected_pcp': selected_weather['pcp'],  # 강수량 PCP
+            'selected_wsd': selected_weather['wsd'],  # 풍속 WSD
+            'selected_reh': selected_weather['reh'],  # 습도 REH
+            'selected_sno': selected_weather['sno'],  # 1시간 신적설 SNO
+            'selected_sky': selected_weather['sky'],  # 전운량 1, 2, 4(범주)
+            'selected_latitude': sel_nx_ny['x'],
+            'selected_longitude': sel_nx_ny['y'],
+
         }
         return render(request, 'result.html', context)
     else:
-        # 날씨 정보 차단시 default값 출력
-        background = "/static/videos/rainy.mp4"
+        # 날씨 정보 차단시 default 값 출력.
+        background = ""
         context = {
             'background': background
         }
     return render(request, 'result.html', context)
+
+
+def bookmark(request):
+    data = request.POST.getlist("cafevalue1")
+
+    total = len(data)
+    context = {
+        'data': data,
+    }
+    return render(request, 'bookmark.html', context)
+
+
+def recommend(request):
+    context = {
+        'lat': lat
+    }
+    return render(request, 'recommend_list.html', context)
+
+def login(request):
+    lo_err = {}
+
+    if request.method == "POST":
+        login_id = request.POST.get('lo_id')
+        login_pwd = request.POST.get('lo_pwd')
+
+        if not (login_id):
+            # lo_error['err'] = "아이디와 비밀번호 모두 입력하세요"
+            return render(request, 'users/loginform.html')
+
+        if (login_id):
+            members = Members.objects.get(id=login_id)
+
+        if check_password(login_pwd, members.pw1):
+            request.session['Members'] = members.id
+            request.session['Members1'] = members.name
+            request.session['Members2'] = members.email
+            request.session['Members3'] = str(members.regdate)
+
+            return redirect('/')
+        else:
+            return render(request, 'users/loginform.html')
+
+    else:
+        return render(request, 'users/loginform.html')
+
+    return render(request, 'users/loginform.html')
+
+
+def loginform(request):
+    return render(request, 'users/loginform.html')
+
 
 # 회원가입 페이지로 이동
 def signup(request):
@@ -112,33 +163,24 @@ def signupok(request):
             return redirect('/')
     return render(request, 'main.html')
 
-def login(request):
-    return render(request, 'users/loginform.html')
-
-def loginok(request):
-    lo_error = {}
-    if request.method == "POST":
-        login_id = request.POST.get('log_id')
-        login_pwd = request.POST.get('log_pw')
-        
-        if not(login_id):
-            lo_error['err']="아이디와 비밀번호를 모두 입력해주세요"
-        if(login_id):
-            members_user = Members.objects.get(id=login_id)
-            # 비번이 일치
-            if check_password(login_pwd, members_user.pw1):
-                request.session['Members'] = members_user.id
-                return redirect('/')
-            # 비번이 불일치
-            else:
-                return render(request, 'pwderr.html')
-    return render(request, 'main.html')
 
 def logout(request):
     request.session.flush()
     return redirect('/')
 
+
 def mypage(request):
-    return render(request, 'users/mypage.html')
+    context = {}
+    context['m_id'] = request.session.get('Members', '')
+    context['m_name'] = request.session.get('Members1', '')
+    context['m_email'] = request.session.get('Members2' , '')
+    context['m_regdate'] = request.session.get('Members3' , '')
+    print(context['m_email'])
+    print(context['m_regdate'])
+
+
+def mylike(request):
+    return render(request, 'users/mylike.html')
+
 
 
