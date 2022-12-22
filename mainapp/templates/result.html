@@ -228,7 +228,6 @@ $("document").ready(function () {
       <div class="swiper-button-prev"></div>
       <div class="swiper-pagination"></div>
 </div>
-
 <!-- checkbox value 저장 폼. 추후에 inputType hidden 으로 변경해야 함 -->
 <form action="/bookmark/" onsubmit="return checkForm()" name=recommendedCafe" id="recommendedCafe" method="POST">{% csrf_token %}
     {% for i in loop %} <!-- 장고 템플릿 언어로 for 문 생성 -->
