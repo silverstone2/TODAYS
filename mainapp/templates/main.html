@@ -150,10 +150,10 @@ $('document').ready(function() {
    <form action="result/" method="post">{% csrf_token %}
    <fieldset class="form">
       <legend>
-         서울시 지역선택(군/구, 동)
+         서울시 지역선택(구, 동)
       </legend>
-         <div class = "selectBox">
-            <select name="sido" id="sido"></select>
+         <div class = "selectBox" id="locationSelect">
+            <select name="sido" id="sido" onclick="selectLoc()"></select>
             <select name="gugun" id="gugun"></select>
          </div>
       <legend>
@@ -182,11 +182,15 @@ $('document').ready(function() {
             </select>
          </div>
          <div class="wrap">
-                <button type="submit" id="submit" class="btn_search">추천 받기</button>
+                <button type="submit" id="location_submit" class="btn_search" onclick="selectCheck()">추천 받기</button>
          </div>
    </fieldset>
    </form>
 </div>
+
+<script>
+
+</script>
 
 </body>
 </html>
