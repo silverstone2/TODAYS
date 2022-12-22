@@ -92,7 +92,6 @@ def dangi_api(v1, v2):
                                    quote_plus('numOfRows'): '12'})
     res = requests.get(url + query_params,  verify=False)
     items = res.json().get('response').get('body').get('items')
-    print('json: ', items)
     weather_data = dict()
     data = dict()
     for item in items['item']:
