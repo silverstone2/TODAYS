@@ -1,5 +1,4 @@
 <!-- 네비게이션바 -->
-
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-black">
   <div class="container-fluid">
   	<!-- Today's 홈페이지 글씨 -->
@@ -10,9 +9,7 @@
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    
-    <!-- 상단 네비바 메뉴 -->
-    <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
+    <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent" style="padding-right:4.5vw;">
       <ul class="navbar-nav">
       {% if 'Members' in request.session %}
       	<li class="nav-item">
@@ -23,18 +20,18 @@
           <a class="nav-link" href="/users/loginform">MY PAGE</a>
         </li>
       {% endif %}
-      
+
       {% if 'Members' in request.session %}
         <li class="nav-item">
           <a class="nav-link" href="/users/mylike">MY LIKE</a>
         </li>
-      {% else %}  
+      {% else %}
         <li class="nav-item">
           <a class="nav-link" href="/users/loginform">MY LIKE</a>
         </li>
-      {% endif %}     
+      {% endif %}
       </ul>
-      
+
       <!-- 회원관리 관련 탭(드롭다운) -->
       <ul class="navbar-nav">
       {% if not 'Members' in request.session %}
@@ -50,7 +47,7 @@
         {% else %}
         <li><a href="/users/logout">LOGOUT</a></li>
         {% endif %}
-        
+
       </ul>
     </div>
   </div>

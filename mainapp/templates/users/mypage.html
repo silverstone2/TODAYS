@@ -1,20 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>My Page</title>
+<title>Today's</title>
 </head>
+<!-- 파비콘 추가 -->
+<link rel="icon" href="/static/images/icon/pavicon.png">
 
-<!-- Bootstrap CSS -->
+<!-- Bootstrap CSS JS -->
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+
 <body>
 <!-- 네비게이션바 -->
 {% include "navbar.html" %}
 
 <br />
 <table width="300" border="1" cellpadding="2" cellspacing="0">
-<tbody>  
+<tbody>
 <tr>
     <td>사용자ID : {{ m_id }} </td>
 </tr>

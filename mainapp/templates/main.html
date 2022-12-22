@@ -56,8 +56,19 @@ select {
 }
 
 .index {
-   text-align: center;
+	text-align: center;
+	background-color:white;
+	border-radius:15px;
+	padding:10px;
+}
 
+.fixed{
+width: 100%; height: 100%;
+background-image: url(/static/images/bg.jpg);
+background-repeat: no-repeat; /* 배경이미지X */
+background-size: cover; /* 요소를 비율에 맞게 커버 */
+background-position: center; /* 이미지를 요소의 정가운데로 처리 */
+background-attachment: fixed; /* 스크롤바 움직일때 이미지가 따라다님 */
 }
 
 </style>
@@ -132,13 +143,14 @@ $('document').ready(function() {
 });
 </script>
 </head>
-<body>
+<body class= "fixed">
 <!-- 네비게이션바 -->
 {% include "navbar.html" %}
 <div id="contentArea" class="container" style= "width: 60%; height: 100%;">
    <div id = "banner" class="container">
       <img src="/static/images/banner.png" style= "width: 100%; height: 100%; overflow: hidden;"/>
    </div>
+   <br />
    <div class="index">
       <h2>분위기에 따라 카페를 추천받고싶을땐?</h2>
       <br />
@@ -152,8 +164,8 @@ $('document').ready(function() {
       <legend>
          서울시 지역선택(구, 동)
       </legend>
-         <div class = "selectBox" id="locationSelect">
-            <select name="sido" id="sido" onclick="selectLoc()"></select>
+         <div class = "selectBox">
+            <select name="sido" id="sido"></select>
             <select name="gugun" id="gugun"></select>
          </div>
       <legend>
@@ -182,15 +194,10 @@ $('document').ready(function() {
             </select>
          </div>
          <div class="wrap">
-                <button type="submit" id="location_submit" class="btn_search" onclick="selectCheck()">추천 받기</button>
+                <button type="submit" id="submit" class="btn_search">추천 받기</button>
          </div>
    </fieldset>
    </form>
 </div>
-
-<script>
-
-</script>
-
 </body>
 </html>
