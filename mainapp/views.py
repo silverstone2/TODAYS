@@ -83,9 +83,18 @@ def result(request):
 
 def bookmark(request):
     cafe_cnt = request.POST.getlist("cafeCnt")
-
+    cafe1value = request.POST.getlist("cafe1value")
+    cafe2value = request.POST.getlist("cafe2value")
+    cafe3value = request.POST.getlist("cafe3value")
+    cafe4value = request.POST.getlist("cafe4value")
+    cafe5value = request.POST.getlist("cafe5value")
     context = {
         'cafe_cnt': cafe_cnt,
+        'cafe1value': cafe1value,
+        'cafe2value': cafe2value,
+        'cafe3value': cafe3value,
+        'cafe4value': cafe4value,
+        'cafe5value': cafe5value,
     }
     return render(request, 'bookmark.html', context)
 
@@ -173,6 +182,8 @@ def logout(request):
 
 
 def mypage(request):
+    if 'Members' not in request.session:
+        return render(request, 'users/loginform.html')
     context = {}
     context['m_id'] = request.session.get('Members', '')
     context['m_name'] = request.session.get('Members1', '')
@@ -184,6 +195,8 @@ def mypage(request):
     return render(request, 'users/mypage.html' , context)
 
 def mylike(request):
+    if 'Members' not in request.session:
+        return render(request, 'users/loginform.html')
     return render(request, 'users/mylike.html')
 
 def err(request):
