@@ -10,6 +10,7 @@ class Members(models.Model):
     regdate = models.DateField(db_column='regdate', auto_now_add=True)
     #regdate = models.DateField()
 
+
     class Meta:
         managed = False
         db_table = 'members'

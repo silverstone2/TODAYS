@@ -17,3 +17,4 @@ urlpatterns = [
     path('users/inserterr/', views.inserterr),
     path('users/idterr/', views.iderr),
 ]
+
