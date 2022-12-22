@@ -15,7 +15,8 @@
 
 <div>
     <div>
-      <form action="/users/signupok/" method="POST"> {% csrf_token %}
+      <form action="/users/signupok/" method="POST">
+      {% csrf_token %}
         <fieldset>
           <legend>회원 가입 양식</legend>
           <table class ="table">

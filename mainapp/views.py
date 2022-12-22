@@ -4,6 +4,9 @@ from mainapp import functions as func  # 기능 함수들 모두 functions.py �
 # 로그인에 필요한 내장 함수 사용
 from django.contrib import auth
 from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.decorators import login_required
+
 from mainapp.models import Members
 from datetime import datetime
 
@@ -83,6 +86,7 @@ def result(request):
 def signup(request):
     return render(request, 'users/signup.html')
 
+
 # POST 방식으로 각 항목들을 받아서 Err가 없으면 데이터베이스에 값을 삽입하고 회원가입 완료
 def signupok(request):
     if request.method == "POST":
@@ -91,7 +95,7 @@ def signupok(request):
         pw1 = request.POST.get('members_pw1')
         pw2 = request.POST.get('members_pw2')
         email = request.POST.get('members_email')
-        
+
         err_data = {}
         if not(id and name and pw1 and pw2):
             err_data['error'] = "모든 값을 입력해야 합니다."
@@ -136,6 +140,5 @@ def logout(request):
 
 def mypage(request):
     return render(request, 'users/mypage.html')
-
 
 
