@@ -3,8 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <title>Today's</title>
+</head>
+<!-- 파비콘 추가 -->
+<link rel="icon" href="/static/images/icon/pavicon.png">
+
+<!-- jQurey -->
+<script src="https://code.jquery.com/jquery-latest.min.js" type="application/javascript"></script>
+
+<!-- Bootstrap CSS -->
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+
+<!-- Link Swiper's CSS -->
+<link rel="stylesheet" type="text/css"
+      href="{% static 'css/swiper.min.css' %}"
+/>
+<link rel="stylesheet" type="text/css"
+      href="{% static 'css/swiper-bundle.css' %}"
+/>
+
 <style>
-body { padding: 0px; margin: 0px; } /*웹페이지에 여백이 없게 만들기*/
+
+
 .jb-box { width: 60%; height: 100%; overflow: hidden;margin: 0px auto; position: relative; } /*동영상이 정해진 높이를 벗어나면 보이지 않도록 overflow 속성을 정하기*/
 video { width: 100%; height: 100%; } /*좌우 꽉차게 하기*/
 .dv-text { position: absolute; top: 18%; width: 100%; } /*텍스트가 동영상 위로 올라가도록 하기*/
@@ -22,37 +42,169 @@ video { width: 100%; height: 100%; } /*좌우 꽉차게 하기*/
 
 .cafe-text p { margin-top: 10vw; text-align: center; font-size: 1vw; color: #ffffff; }
 
+
+
+.slide-container{
+  max-width: 1120px;
+  width: 100%;
+  padding: 40px 0;
+}
+.slide-content{
+  margin: 0 40px;
+  overflow: hidden;
+  border-radius: 25px;
+}
+.card{
+  border-radius: 25px;
+  background-color: #FFF;
+}
+.image-content,
+.card-content{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 14px;
+}
+.image-content{
+  position: relative;
+  row-gap: 5px;
+  padding: 25px 0;
+}
+.overlay{
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #4070F4;
+  border-radius: 25px 25px 0 25px;
+}
+.overlay::before,
+.overlay::after{
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: -40px;
+  height: 40px;
+  width: 40px;
+  background-color: #4070F4;
+}
+.overlay::after{
+  border-radius: 0 25px 0 0;
+  background-color: #FFF;
+}
+.card-image{
+  position: relative;
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  background: #FFF;
+  padding: 3px;
+}
+.card-image .card-img{
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid #4070F4;
+}
+.name{
+  font-size: 18px;
+  font-weight: 500;
+  color: #333;
+}
+.description{
+  font-size: 14px;
+  color: #707070;
+  text-align: center;
+}
+.button{
+  border: none;
+  font-size: 16px;
+  color: #FFF;
+  padding: 8px 16px;
+  background-color: #4070F4;
+  border-radius: 6px;
+  margin: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.button:hover{
+  background: #265DF2;
+}
+
+.swiper {
+	width: 100%;
+    height: 100%;
+}
+
+.swiper-slide {
+	text-align: center;
+	font-size: 18px;
+	background: #fff;
+
+
+.swiper-navBtn{
+  color: #6E93f7;
+  transition: color 0.3s ease;
+}
+.swiper-navBtn:hover{
+  color: #4070F4;
+}
+.swiper-navBtn::before,
+.swiper-navBtn::after{
+  font-size: 35px;
+}
+.swiper-button-next{
+  right: 0;
+}
+.swiper-button-prev{
+  left: 0;
+}
+.swiper-pagination-bullet{
+  background-color: #6E93f7;
+  opacity: 1;
+}
+.swiper-pagination-bullet-active{
+  background-color: #4070F4;
+}
+
+@media screen and (max-width: 768px) {
+  .slide-content{
+    margin: 0 10px;
+  }
+  .swiper-navBtn{
+    display: none;
+  }
+}
+
+
+
+
 </style>
-<script>
-const btn1 = () => {
-   window.scrollTo({top:1000, behavior:'smooth'});
-    }
-</script>
-</head>
-<!-- Bootstrap CSS -->
-{% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+
+
 <body>
 <!-- 네비게이션바 -->
 {% include "navbar.html" %}
 <div class="jb-box">
 	<video muted autoplay loop>
-		<source src="/static/videos/sunny.mp4" type="video/mp4">
+		<source src= {{ background }} type="video/mp4">
 	</video>
 	<div class="dv-text">
 		<p>
-			하루 내내 우천 예정입니다.</br>
-			최고 10°C 최저 -3°C</br>
-			풍속은 최대 4m/s 입니다.</br>
-			미세먼지 농도는 맑습니다.<br>
-            위도 : {{ latitude }} </br>
-            경도 : {{ longitude }}
+			현재 {{ dong }}의 날씨 정보입니다.</br>
+			풍속은 {{ selected_wsd }}m/s 입니다.</br>
+            <!--
+            위도 경도는 콘솔창에 표시.
+            -->
 		</p>
 	</div>
 	<div class="dv-text2">
 		<p>
-			서울특별시 <br />
-			<span style="font-size: 6vw;">6°C</span>
+            {{ gu }} <br />
+            {{ dong }} <br />
+			<span style="font-size: 6vw;">{{ selected_tmp }}°C</span>
 		</p>
 	</div>
 	<div class="dv-text3">
@@ -74,25 +226,17 @@ const btn1 = () => {
 		</p>
 	</div>
 </div>
-<div class="cafe-index1">
-   <div class="cafe-text" style= "float:left; width: 40%;">
-      <p>
-         <span style="font-size: 5vw;"><strong>카페 드 220V볼트 춘천</strong></span><br />
-         <br />
-         강원도 추천시 동내면 신촌리 107 <br />
-         영업중 - 오후 10:00 영업종료 <br />
-         033-263-0202 <br />
-         <a href="#">위치 확인하기</a>
-      </p>
-   </div>
-   <img src="/static/images/cafe.jpg" style="float: center; height: 100%; width: 60%; margin-top: vw;"/>
-</div>
 
-<!-- Bootstrap JS -->
-<script src="{% static 'js/bootstrap.min.js' %}"></script>
+{% include "recommend_list.html" %}
+
+
+
 <script>
     console.log('현위치 위도, 경도 :', {{ latitude }},',', {{ longitude }})
     console.log('선택 위치 위도, 경도 :', {{ selected_latitude }},',', {{ selected_longitude }})
 </script>
 </body>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<!-- Swiper JS -->
+<script src="{% static 'js/swiper-bundle.min.js' %}"></script>
 </html>

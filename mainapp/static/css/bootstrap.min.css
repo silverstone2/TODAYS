@@ -8,3 +8,7 @@
 nav {
     position: fixed;
 }
+
+.nav li ul {
+width: 1px; /* 드롭다운 메뉴의 폭 */
+}

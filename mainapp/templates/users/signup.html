@@ -2,55 +2,198 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Sign UP</title>
-</head>
+<title>SignUp</title>
+<!-- 파비콘 추가 -->
+<link rel="icon" href="/static/images/icon/pavicon.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
 
+*, *:after, *:before {
+	box-sizing: border-box;
+}
+
+body {
+	font-family: "DM Sans", sans-serif;
+	line-height: 1.5;
+	background-color: #f1f3fb;
+}
+
+img {
+	max-width: 100%;
+	display: block;
+}
+
+.card {
+	margin: 2rem auto;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	max-width: 425px;
+	background-color: #FFF;
+	border-radius: 10px;
+	box-shadow: 0 10px 20px 0 rgba(#999, .25);
+	padding: .75rem;
+}
+
+.card-image {
+	border-radius: 8px;
+	overflow: hidden;
+	padding-bottom: 35%;
+	background-repeat: no-repeat;
+	background-size: 150%;
+	background-position: 0 5%;
+	position: relative;
+}
+
+.card-heading {
+	position: absolute;
+	left: 10%;
+	top: 15%;
+	right: 10%;
+	font-size: 2.75rem;
+	font-weight: 700;
+	color: black;
+	line-height: 1.222;
+}
+
+.card-form {
+	padding: 2rem 1rem 0;
+}
+
+.input {
+	display: flex;
+	flex-direction: column-reverse;
+	position: relative;
+	padding-top: 1.5rem;
+	&+.input {
+		margin-top: 1.5rem;
+	}
+}
+
+.input-label {
+	color: #8597a3;
+	position: absolute;
+	top: 1.5rem;
+	transition: .25s ease;
+}
+
+.input-field {
+	border: 0;
+	z-index: 1;
+	background-color: transparent;
+	border-bottom: 2px solid #eee; 
+	font: inherit;
+	font-size: 1.125rem;
+	padding: .25rem 0;
+	&:focus, &:valid {
+		outline: 0;
+		border-bottom-color: #6658d3;
+		&+.input-label {
+			color: #6658d3;
+			transform: translateY(-1.5rem);
+		}
+	}
+}
+
+.action {
+	margin-top: 2rem;
+}
+
+.action-button {
+	font: inherit;
+	font-size: 1.25rem;
+	padding: 1em;
+	width: 100%;
+	font-weight: 500;
+	background-color: #6658d3;
+	border-radius: 6px;
+	color: #FFF;
+	border: 0;
+	&:focus {
+		outline: 0;
+	}
+}
+
+.card-info {
+	padding: 1rem 1rem;
+	text-align: center;
+	font-size: .875rem;
+	color: #8597a3;
+	a {
+		display: block;
+		color: #6658d3;
+		text-decoration: none;
+	}
+}
+
+.fixed01{
+width: 100%; height: 100%;
+                
+background-image: url(/static/images/bg.jpg);
+background-repeat: no-repeat; /* 배경이미지X */
+background-size: cover; /* 요소를 비율에 맞게 커버 */
+background-position: center; /* 이미지를 요소의 정가운데로 처리 */
+background-attachment: fixed; /* 스크롤바 움직일때 이미지가 따라다님 */
+           }
+
+</style>
 <!-- Bootstrap CSS -->
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
-
-<body>
+<body class="fixed01">
 <!-- 네비게이션바 -->
 {% include "navbar.html" %}
+<div class="container">	
+	<div class="card">
+	<div class="card-image">	
+			<h2 class="card-heading" style="text-align: center;">
+				Sign in to Web
+			</h2>
+		</div>
+		<form class="card-form" method="post">
+			{% csrf_token %}
+				
+			<div class="input">	
+				<input type="text" class="input-field"
+				name="name" id="name" placeholder="name">	
+			</div>
+			<div class="input">
+				<input type="text" class="input-field"
+				name="username" id="username" placeholder="username">	
+			</div>
+			<div class="input">
+				<input type="password" class="input-field"
+				name="password" id="password1" placeholder="최소 8자리, 알파벳과 숫자,특수문자를 조합하세요.">
+			</div>
+			<div class="input">
+				<input type="password" class="input-field"
+				name="password" id="password2" placeholder="비밀번호를 다시 한 번 입력하세요.">
+			</div>
+			<div class="input">
+				<input type="text" class="input-field"
+				name="email" id="email" placeholder="e-mail">	
+			</div>
+			<div class="input">
+				<input type="text" class="input-field"
+				name="email" id="email" placeholder="-빼고 숫자만 입력">	
+			</div>
 
-<div>
-    <div>
-      <form action="/users/signupok/" method="POST"> {% csrf_token %}
-        <fieldset>
-          <legend>회원 가입 양식</legend>
-          <table class ="table">
-         	<tr>
-              <td>이름 : </td>
-              <td><input type="text" name ="members_name" id="members_name" placehsolder="이름을 입력하세요"></td>
-            </tr>
-            <tr>
-              <td>아이디 : </td>
-              <td><input type ="text" name ="members_id" id ="members_id" placeholder="아이디를 입력하세요"></td>
-            </tr>
-            <tr>
-              <td>비밀번호 : </td>
-              <!-- 최소 8 자, 최소 하나의 문자, 하나의 숫자 및 하나의 특수 문자로  -->
-              <td><input type="password" name ="members_pw1" id="members_pw1" placeholder="비밀번호를 입력하세요"></td>
-            </tr>
-            <tr>
-              <td>비밀번호 확인: </td>
-              <td><input type="password" name ="members_pw2" id="members_pw2" placeholder="비밀번호를 다시 한번 입력하세요"></td>
-            </tr>
-            <tr>
-              <td>이메일 : </td>
-              <td><input type="email" name ="members_email" id="members_email" placeholder="이메일 주소를 입력하세요"></td>
-            </tr>
-            <tr>
-              <td></td>
-              <td>
-              	<button type = "submit">가입</button>
-              	<button type = "button" onclick="location.href='/'">홈으로</button>
-              </td>
-            </tr>
-          </table>
-        </fieldset>
-      </form>
-    </div>
-  </div>
+			<br />
+				
+			<div class="Create Account">
+				<button class="action-button" type="button" onclick="#">
+				Create Account</button>
+			</div>
+			<br />
+			<div class="Home">
+				<button class="action-button" type="button" onclick="location.href='/'">
+				Home</button>
+			</div>
+		</form>
+
+	</div>
+</div>
 </body>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+
 </html>
