@@ -106,20 +106,15 @@ def login(request):
 
         if not (login_id):
             # lo_error['err'] = "아이디와 비밀번호 모두 입력하세요"
-            return render(request, 'users/loginform.html')
+            return render(request, 'users/inserterr.html')
 
         if (login_id):
             try:
                 members = Members.objects.get(id=login_id)
             except Exception as e:
                 print(e)
-                return render(request, 'users/loginform.html')
-        print(login_id ,type(login_id))
-        print(members.id, type(members.id))  
+                return render(request, 'users/iderr.html')
 
-        
-        print(login_id ,type(login_id))
-        print(members.id, type(members.id))  
         
         if check_password(login_pwd, members.pw1):
             request.session['Members'] = members.id
@@ -129,7 +124,7 @@ def login(request):
             
             return redirect('/')
         else:
-            return render(request, 'users/loginform.html')
+            return render(request, 'users/pwderr.html')
         
 
     return render(request, 'users/loginform.html')
@@ -189,6 +184,15 @@ def mypage(request):
 def mylike(request):
     return render(request, 'users/mylike.html')
 
+def err(request):
+    return render(request, 'err.html')
 
+def pwderr(request):
+    return render(request, 'users/pwderr.html')
 
+def inserterr(request):
+    return render(request, 'users/inserterr.html')
+
+def iderr(request):
+    return render(request, 'users/iderr.html')
 
