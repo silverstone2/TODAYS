@@ -15,5 +15,8 @@ urlpatterns = [
     path('users/mypage/', views.mypage, name="mypage"),
     path('users/mylike/', views.mylike, name="mylike"),
     path('users/logout/', views.logout, name="logout"),
+    path('users/pwderr/', views.pwderr),
+    path('users/inserterr/', views.inserterr),
+    path('users/idterr/', views.iderr),
 ]
 
