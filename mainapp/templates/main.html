@@ -3,12 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <title>Today's</title>
+<!-- 파비콘 추가 -->
+<link rel="icon" href="/static/images/icon/pavicon.png">
 <style>
 .form {
-	border-radius:20px;
-	background-color: #F5F5F5;
-	padding:1vw;
-	box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.5);
+   border-radius:20px;
+   background-color: #F5F5F5;
+   padding:1vw;
+   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.5);
+   margin:1vw;
 }
 select {
      width:300px;
@@ -53,20 +56,9 @@ select {
 }
 
 .index {
-	text-align: center;
+   text-align: center;
+
 }
-
-
-
-.quickmenu {position:absolute;width:90px;top:50%;margin-top:-50px;right:0px;background:#fff;}
-.quickmenu ul {position:relative; float:left; width:100%;display:inline-block;*display:inline;border:1px solid #ddd;}
-.quickmenu ul li {float:left;width:100%;border-bottom:1px solid #ddd;text-align:center;display:inline-block;*display:inline;}
-.quickmenu ul li a {position:relative;float:left;width:100%;height:30px;line-height:30px;text-align:center;color:#999;font-size:9.5pt;}
-.quickmenu ul li a:hover {color:#000;}
-.quickmenu ul li:last-child {border-bottom:0;}
-
-.content {position:relative;min-height:1000px;}
-
 
 </style>
 <!-- Bootstrap CSS -->
@@ -80,33 +72,36 @@ select {
 <script type="text/javascript">
 $('document').ready(function() {
  var area0 = ["구/군 선택","강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구","동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"];
-   var area1 = ["개포동","논현동","대치동","도곡동","삼성동","세곡동","수서동","신사동","압구정동","역삼동","율현동","일원동","자곡동","청담동"];
-   var area2 = ["강일동","고덕동","길동","둔춘동","명일동","상일동","성내동","암사동","천호동"];
-   var area3 = ["미아동","번동","수유동","우이동"];
-   var area4 = ["가양동","개화동","공항동","과해동","내발산동","등촌동","마곡동","방화동","염창동","오곡동","오쇠동","외발산동","화곡동"];
-   var area5 = ["남현동","봉천동","신림동"];
-   var area6 = ["광장동","구의동","군자동","능동","자양동","중곡동","화양동"];
-   var area7 = ["가리봉동","개봉동","고척동","구로동","궁동","신도림동","오류동","온수동","천왕동","항동"];
-   var area8 = ["가산동","독산동","시흥동"];
-   var area9 = ["공릉동","상계동","월계동","중계동","하계동"];
-   var area10 = ["도봉동","방학동","쌍문동","창동"];
-   var area11 = ["답십리동","신설동","용두동","이문동","장안동","전농동","제기동","청량리동","회기동","휘경동"];
-   var area12 = ["노량진동","대방동","동작동","본동","사당동","상도1동","상도동","신대방동","흑석동"];
-   var area13 = ["공덕동","구수동","노고산동","당인동","대흥동","도화동","동교동","마포동","망원동","상수동","상암동","서교동","성산동","신공덕동","신수동","신정동","아현동","연남동","염리동","용강동","중동","창전동","토정동","하중동","합정동","현석동"];
-   var area14 = ["남가좌동","냉천동","대신동","대현동","미근동","봉원동","북가좌동","북아현동","신촌동","연희동","영천동","옥천동","창천동","천연동","충정로2가","충정로3가","합동","현저동","홍은동","홍제동"];
-   var area15 = ["내곡동","반포동","방배동","서초동","신원동","양재동","염곡동","우면동","원지동","잠원동"];
-   var area16 = ["금호동1가","금호동2가","금호동3가","금호동4가","도선동","마장동","사근동","상왕십리동","성수동1가","성수동2가","송정동","옥수동","용답동","응봉동","하왕십리동","행당동","홍익동"];
-   var area17 = ["길음동","돈암동","동선동1가","동선동2가","동선동3가","동선동4가","동소문동1가","동소문동2가","동소문동3가","동소문동4가","동소문동5가","동소문동6가","동소문동7가","보문동1가","보문동2가","보문동3가","보문동4가","보문동5가","보문동6가","보문동7가","삼성동1가","삼성동1가","삼성동2가","삼성동3가","삼성동4가","삼성동5가","상월곡동","석관동","성북동","성북동1가","안암동1가","안암동2가","안암동3가","안암동4가","안암동5가","장위동","정릉동","종암동","하월곡동"];
-   var area18 = ["가락동","거여동","마천동","문정동","방이동","삼전동","석촌동","송파동","신천동","오금동","잠실동","장지동","풍납동"];
-   var area19 = ["목동","신월동","신정동"];
-   var area20 = ["당산동","당산동1가","당산동2가","당산동3가","당산동4가","당산동5가","당산동6가","대림동","도림동","문래동1가","문래동2가","문래동3가","문래동4가","문래동5가","문래동6가","신길동","양평동","양평동1가","양평동2가","양평동3가","양평동4가","양평동5가","양평동6가","양화동","여의도동","영등포동","영등포동1가","영등포동2가","영등포동3가","영등포동4가","영등포동5가","영등포동6가","영등포동7가","영등포동8가"];
-   var area21 = ["갈월동","남영동","도원동","동빙고동","동자동","문배동","보광동","산천동","서계동","서빙고동","신계동","신창동","용문동","용산동1가","용산동2가","용산동3가","용산동4가","용산동5가","용산동6가","원효로1가","원효로2가","원효로3가","원효로4가","이촌동","이태원동","주성동","청암동","청파동1가","청파동2가","청파동3가","한강로1가","한강로2가","한강로3가","한남동","효창동","후암동"];
-   var area22 = ["갈현동","구산동","녹번동","대조동","불광동","수색동","신사동","역촌동","응암동","증산동","진광동"];
-   var area23 = ["가회동","견지동","경운동","계동","공평동","관수동","관철동","관훈동","교남동","교북동","구기동","궁정동","권농동","낙원동","내수동","내자동","누상동","누하동","당주동","도렴동","돈의동","동숭동","명륜1가","명륜2가","명륜3가","명륜4가","묘동","무악동","봉익동","부암동","사간동","사직동","삼청동","서린동","세종로","소격동","송월동","송현동","수송동","숭인동","신교동","신문로1가","신문로2가","신영동","안국동","연건동","연지동","예지동","옥인동","와룡동","운니동","원남동","원서동","이화동","익선동","인사동","인의동","장사동","재동","종로1가","종로2가","종로3가","종로4가","종로5가","종로6가","중학동","창성동","창신동","청운동","청진동","체부동","충신동","통의동","통인동","팔판동","평동","평창동","필운동","행촌동","혜화동","홍지동","홍파동","화동","효자동","효제동","훈정동"];
-   var area24 = ["광희동1가","광희동2가","남대문로1가","남대문로2가","남대문로3가","남대문로4가","남대문로5가","남산동1가","남산동2가","남산동3가","남창동","남학동","다동","만리동1가","만리동2가","명동1가","명동2가","무교동","무학동","묵정동","방산동","봉래동1가","봉래동2가","북창동","산림동","삼각동","서소문동","소공동","수표동","수하동","순화동","신당동","쌍림동","예관동","예장동","오장동","을지로1가","을지로2가","을지로3가","을지로4가","을지로5가","을지로6가","을지로7가","의주로1가","의주로2가","인현동1가","인현동2가","입정동","장교동","장충동1가","장충동2가","저동1가","저동2가","정동","주교동","주자동","중림동","초동","충무로1가","충무로2가","충무로3가","충무로4가","충무로5가","충정로1가","태평로1가","태평로2가","팔동1가","팔동2가","팔동3가","황학동","회현동1가","회현동2가","회현동3가","흥인동"];
-   var area25 = ["망우동","면목동","묵동","상봉동","신내동","중화동"];
+   var area1 = ['개포동', '논현동', '대치동', '도곡동', '삼성동', '세곡동', '수서동','신사동','압구정동', '역삼동', '일원동','청담동'];
+   var area2 = ['강일동', '고덕동', '길동', '둔촌동', '명일동', '상일동', '성내동', '암사동', '천호동'];
+   var area3 = ['미아동', '번동', '삼각산동', '삼양동', '송중동', '송천동', '수유동', '우이동', '인수동'];
+   var area4 = ['가양동', '공항동', '등촌동', '발산동', '방화동', '우장산동', '화곡동','염창동'];
+   var area5 = ['낙성대동', '난곡동', '난향동', '남현동', '대학동', '미성동', '보라매동', '삼성동', '서림동', '서원동', '성현동', '신림동', '신사동', '신원동', '인헌동', '조원동', '중앙동', '청룡동', '청림동', '행운동','은천동'];
+   var area6 = ['광장동', '구의동', '군자동', '능동', '자양동', '화양동','중곡동'];
+   var area7 = ['가리봉동', '개봉동', '고척동', '구로동', '수궁동', '오류동', '항동','신도림동'];
+   var area8 = ['가산동', '독산동', '시흥동'];
+   var area9 = ['공릉동', '상계동', '중계동', '하계동','월계동'];
+   var area10 = ['도봉동', '방학동', '창동','쌍문동'];
+   var area11 = ['기동', '답십리동', '이문동', '장안동', '전농동', '청량리동', '회기동', '휘경동','용신동'];
+   var area12 = ['대방동', '사당동', '상도동', '신대방동', '흑석동','노량진동'];
+   var area13 = ['공덕동', '대흥동', '도화동', '망원동', '상암동', '서강동', '서교동', '성산동', '신수동', '연남동', '염리동', '용강동', '합정동','아현동'];
+   var area14 = ['남가좌동', '북가좌동', '북아현동', '신촌동', '연희동', '천연동', '홍동', '홍은동','충현동'];
+   var area15 = ['내곡동', '반포동', '방배동', '양재동', '잠원동','서초동'];
+   var area16 = ['금호동', '마장동', '사근동', '성수동', '송정동', '옥수동', '왕십리도선동', '용답동', '응봉동', '행당동','왕십리동'];
+   var area17 = ['길음동', '돈암동', '동선동', '보문동', '삼선동', '석관동', '안암동', '월곡동', '장위동', '정릉동', '종암동','성북동'];
+   var area18 = ['가락동', '거여동', '마천동', '문정동', '방이동', '삼전동', '석촌동', '송파동', '오금동', '오륜동', '위례동', '잠실동', '장지동','풍납동'];
+   var area19 = ['목동', '신월동', '신정동'];
+   var area20 = ['당산동', '대림동', '도림동', '문래동', '신길동', '양평동', '여의동','영등포동'];
+   var area21 = ['남영동', '보광동', '서빙고동', '용문동', '용산동', '원효로동', '이촌동', '이태원동', '청파동', '한강로동', '한남동', '효창동','후암동'];
+   var area22 = ['갈현동', '구산동', '대조동', '불광동', '수색동', '신사동', '역촌동', '응암동', '증산동', '진관동','녹번동'];
+   var area23 = ['가회동', '교남동', '무악동', '부암동', '사직동', '삼청동', '숭인동', '이화동', '종로동', '창신동', '평창동', '혜화동','청운효자동'];
+   var area24 = ['광희동', '다산동', '동화동', '명동', '신당동', '약수동', '을지로동', '장충동', '중림동', '청구동', '필동', '황학동', '회현동','소공동'];
+   var area25 = ['망우동', '묵동', '상봉동', '신내동', '중화동','면목동'];
+
+
 
  // 구/군 선택 박스 초기화
+
  $("select[name^=sido]").each(function() {
   $selsido = $(this);
   $.each(eval(area0), function() {
@@ -115,9 +110,10 @@ $('document').ready(function() {
   $selsido.next().append("<option value=''>구/군 선택</option>");
  });
 
- 
+
 
  // 구/군 선택시 동 설정
+
  $("select[name^=sido]").change(function() {
   var area = "area"+$("option",$(this)).index($("option:selected",$(this))); // 선택지역의 구군 Array
   var $gugun = $(this).next(); // 선택영역 동 객체
@@ -134,106 +130,63 @@ $('document').ready(function() {
 
 
 });
-
-$(document).ready(function(){
-	  var currentPosition = parseInt($(".quickmenu").css("top"));
-	  $(window).scroll(function() {
-	    var position = $(window).scrollTop(); 
-	    $(".quickmenu").stop().animate({"top":position+currentPosition+"px"},1000);
-	  });
-	});
 </script>
 </head>
 <body>
 <!-- 네비게이션바 -->
 {% include "navbar.html" %}
 <div id="contentArea" class="container" style= "width: 60%; height: 100%;">
-	<div id = "banner" class="container">
-		<img src="/static/images/banner.png" style= "width: 100%; height: 100%; overflow: hidden;"/>
-	</div>
-	<div class="index">
-		<h2>기분에 따라 카페를 추천받고싶을땐?</h2>
-		<br />
-		<p>이 웹페이지는 흔한 카페찾기로부터 시작되었습니다.</p>
-		<p>만들게 된 계기 등등 설명</p>
+   <div id = "banner" class="container">
+      <img src="/static/images/banner.png" style= "width: 100%; height: 100%; overflow: hidden;"/>
+   </div>
+   <div class="index">
+      <h2>분위기에 따라 카페를 추천받고싶을땐?</h2>
+      <br />
+      <p>이 웹페이지는 흔한 카페찾기로부터 시작되었습니다.</p>
+      <p>설명 어쩌구저쩌구설명 어쩌구저쩌구설명 어쩌구저쩌구</p>
 
-	</div>
+   </div>
 
-	<form action="result/" id="searchForm" method="post">{% csrf_token %}
-	<fieldset class="form">
-		<legend>
-			서울시 지역선택(군/구, 동)
-		</legend>
-			<div class = "selectBox">
-				<select name="sido" id="sido"></select>
-				<select name="gugun" id="gugun"></select>
-			</div>
-		<legend>
-			기분
-		</legend>
-			<div class = "selectBox">
-				<select name="feeling" id="feeling">
-					<option selected>기쁨</option>
-					<option>슬픔</option>
-					<option>화남</option>
-					<option>즐거움</option>
-				</select>
-			</div>
-		<legend>
-			카페 주 먹거리
-		</legend>
-			<div class = "selectBox">
-				<select name="food" id="food">
-					<option selected>빵</option>
-					<option>커피</option>
-					<option>디저트</option>
-					<option>음료수</option>
-				</select>
-			</div>
-			<div class="wrap">
-{#				<button id="btn_search" class="btn_search" style="float: right;">추천받기</button>#}
-                <button type="submit" id="submit">버튼을 누르면 메인 페이지 이동.</button>
-			</div>
-	</fieldset>
-	</form>
+   <form action="result/" method="post">{% csrf_token %}
+   <fieldset class="form">
+      <legend>
+         서울시 지역선택(군/구, 동)
+      </legend>
+         <div class = "selectBox">
+            <select name="sido" id="sido"></select>
+            <select name="gugun" id="gugun"></select>
+         </div>
+      <legend>
+         분위기
+      </legend>
+         <div class = "selectBox">
+            <select name="mood" id="modd">
+               <option selected>부드러운 분위기</option>
+               <option>탁트인 분위기</option>
+               <option>조용한 분위기</option>
+               <option>적당한 분위기</option>
+               <option>깔끔한 분위기</option>
+               <option>친절한 분위기</option>
+               <option>예쁜 분위기</option>
+            </select>
+         </div>
+      <legend>
+         카페 종류
+      </legend>
+         <div class = "selectBox">
+            <select name="food" id="food">
+               <option selected>빵</option>
+               <option>커피</option>
+               <option>디저트</option>
+               <option>음료수</option>
+            </select>
+         </div>
+         <div class="wrap">
+                <button type="submit" id="submit" class="btn_search">추천 받기</button>
+         </div>
+   </fieldset>
+   </form>
 </div>
-<div class="quickmenu">
-  <ul>
-    <li><a href="users/mypage">MYPAGE</a></li>
-    <li><a href="#">즐겨찾기</a></li>
-  </ul>
-</div>
-<div class="content">
-{{ members.id }}
-
-
-내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>
-내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>
-내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>
-내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>
-내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>
-내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>
-내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>
-내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>내용<br>
-    {% if request.user.is_authenticated %}
-    <p>User is logged in :)</p>
-    <p>Username -->  {{ request.user.username }}</p>
-    {% else %}
-    <p>User is not logged in :(</p>
-    {% endif %}
-</div>
-
-<script>
-    let sf = documnet.getElementById("submit");
-    sf.addEventListender("submit", function(e){
-        let msgEle = document.getElementById("msg2");
-        if(msgEle.value.length == 0){ // 미입력 시
-            alert('지역을 선택하세요!');
-            e.preventDefault();
-        }
-    })
-</script>
-
 
 </body>
 </html>

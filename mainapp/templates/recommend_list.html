@@ -1,28 +1,153 @@
 <div>
-    <form action="/bookmark/" onsubmit="return Checkform()" name=recommendedCafe" id="recommendedCafe" method="POST">{% csrf_token %}
-        <label for="list1">
-            <h1>추천 카페 리스트1</h1>
-            <h2>{{ selected_ }}</h2>
-            <input type="checkbox" value="1" id="cafe1" name="cafe[]">
-        </label>
+<div class="swiper mySwiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+            <label for="list1">
+                <h1>추천 카페 리스트1</h1>
+                <h2> 사진 </h2>
+                <h2> 이름 </h2>
+                <h2> {{ gu }} </h2>
+                <!-- value에 카페 이름 부여해서 넘기기 -->
+                <input type="checkbox" onClick="testfunction(this)" value="{{ dong }}" id="cafe1" name="checkbox1">
+            </label>
+        </div>
+        <div class="swiper-slide">
         <label for="list2">
             <h1>추천 카페 리스트2</h1>
-            <input type="checkbox" value="2" id="cafe2" name="cafe[]">
+                <h2> 사진 </h2>
+                <h2> 이름 </h2>
+                <h2> 주소 </h2>
+            <input type="checkbox" value="2" id="cafe2" name="checkbox2">
         </label>
-        <label for="list3">
-            <h1>추천 카페 리스트3</h1>
-            <input type="checkbox" value="3" id="cafe3" name="cafe[]">
-        </label>
-        <label for="list4">
-            <h1>추천 카페 리스트4</h1>
-            <input type="checkbox" value="4" id="cafe4" name="cafe[]">
-        </label>
-        <label for="list5">
-            <h1>추천 카페 리스트5</h1>
-            <input type="checkbox" value="5" id="cafe5" name="cafe[]">
-        </label>
-        <button id="checkboxChk()">제출</button>
-    </form>
-
-
+        </div>
+        <div class="swiper-slide">
+            <label for="list3">
+                <h1>추천 카페 리스트3</h1>
+                <h2> 사진 </h2>
+                <h2> 이름 </h2>
+                <h2> 주소 </h2>
+                <input type="checkbox" value="3" id="cafe3" name="ccheckbox3">
+            </label>
+        </div>
+        <div class="swiper-slide">
+            <label for="list4">
+                <h1>추천 카페 리스트4</h1>
+                <h2> 사진 </h2>
+                <h2> 이름 </h2>
+                <h2> 주소 </h2>
+                <input type="checkbox" value="4" id="cafe4" name="checkbox4">
+            </label>
+        </div>
+        <div class="swiper-slide">
+            <label for="list5">
+                <h1>추천 카페 리스트5</h1>
+                <h2> 사진 </h2>
+                <h2> 이름 </h2>
+                <h2> 주소 </h2>
+                <input type="checkbox" value="5" id="cafe5" name="checkbox5">
+            </label>
+        </div>
+      </div>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-pagination"></div>
+    </div>
 </div>
+<form action="/bookmark/" onsubmit="return Checkform()" name=recommendedCafe" id="recommendedCafe" method="POST">{% csrf_token %}
+    <input type="text" id="cafevalue1" name="cafevalue1" value="">
+    <input type="hidden" id="cafevalue2" name="cafevalue2" value="default_latitude">
+    <input type="hidden" id="cafevalue3" name="cafevalue3" value="default_latitude">
+    <input type="hidden" id="cafevalue4" name="cafevalue4" value="default_longitude">
+    <input type="hidden" id="cafevalue5" name="cafevalue5" value="default_latitude">
+    <input type="submit" id="submit" value="북마크 추가">
+</form>
+
+<script>
+const btn1 = () => {
+   window.scrollTo({top:1000, behavior:'smooth'});
+    }
+
+$("document").ready(function () {
+    // 문서의 dom이 준비되면
+    // .mySwiper 클래스를 swiper 슬라이더로 만듦
+    // 이후에 swiper변수에 할당했기 때문에 스크립트로 제어할 수도 있음.
+    var swiper = new Swiper(".mySwiper", {
+        slidesPerView: 'auto',
+        spaceBetween: 80,
+        loop: true,
+
+        // pagination 기본은 bullet
+        pagination: {
+            el: ".swiper-pagination"
+        },
+
+        // 좌우 화살표 navigation element 지정
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev"
+        },
+        // 반응형
+        breakpoints: {
+            // 600px 이하가 되면 슬라이드 간 간격을 0으로
+            600: {
+                spaceBetween: 0
+            },
+        },
+
+        on: {
+            init: function() {
+                $('.swiper-slide').addClass('changed');
+
+                // fraction에 현재 인덱스와 전체 인덱스 표시
+                // this.loopedSlides는 loop, slidesPerView: 'auto'일 때 제대로 동작
+                $('.custom-fraction .current').text(this.realIndex + 1);
+                $('.custom-fraction .all').text(this.loopedSlides);
+                // console.log(this);
+                // console.log(this.loopedSlides)
+            },
+
+            slideChangeTransitionStart: function() {
+                // 기본적으로 제공하는 swiper-slide-active 클래스를 이용해
+                // css transition 애니메이션 작성 가능하다.
+                // 다만 루프 모드일 때에는 루프 픽스를 하며 slide를 바꿔치기를 하는데,
+                // 이 때 플리커링이 발생할 수 있다.
+                // css transition을 서로 다르게 설정한 changed, changing 클래스를 이용
+                $('.swiper-slide').addClass('changing');
+                $('.swiper-slide').removeClass('changed');
+
+                // 페이지 넘어갈 때마다 fraction 현재 인덱스 변경
+                $('.custom-fraction .current').text(this.realIndex + 1);
+            },
+
+            slideChangeTransitionEnd: function() {
+                // changing : transition O
+                // changed : transition X
+                $('.swiper-slide').removeClass('changing');
+                $('.swiper-slide').addClass('changed');
+            }
+        },
+    });
+
+    // 슬라이더 할당한 swiper로 슬라이더 제어
+    $(".auto-start").on("click", function() {
+        // 기본 설정으로 autoplay 시작
+        console.log("autoplay start");
+        swiper.autoplay.start();
+    });
+
+    $(".auto-stop").on("click", function() {
+        console.log("autoplay stop");
+        swiper.autoplay.stop();
+    });
+});
+</script>
+<script>
+    function checkbox(){
+
+    function testfunction(box){
+        if(box.checked) // 체크가 되면 checked==true라는 값을 전달받는다.
+            document.getElementById("startLon").value = startPos.coords.longitude;
+        else
+            sum -= parseInt(box.value);
+    }
+</script>

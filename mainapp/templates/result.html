@@ -3,38 +3,188 @@
 <head>
 <meta charset="UTF-8">
 <title>Today's</title>
-<style>
-body { padding: 0px; margin: 0px; } /*웹페이지에 여백이 없게 만들기*/
-.jb-box { width: 100%; height: 100%; overflow: hidden;margin: 0px auto; position: relative; } /*동영상이 정해진 높이를 벗어나면 보이지 않도록 overflow 속성을 정하기*/
-video { width: 100%; height: 100%; } /*좌우 꽉차게 하기*/
-.dv-text { position: absolute; top: 18%; width: 100%; } /*텍스트가 동영상 위로 올라가도록 하기*/
-.dv-text p { margin-top: -50px; text-align: center; font-size: 2vw; color: #ffffff; } /*텍스트 위치를 조정하고, 모양을 정하기*/
-
-.dv-text2 { position: absolute; top: 20%; width: 100%; }
-.dv-text2 p { margin-left: 1vw; text-align: left; font-size: 4vw; color: #ffffff; }
-
-.dv-text3 { position: absolute; top: 20%; width: 100%; }
-.dv-text3 p { margin-right: 1vw; text-align: right; font-size: 2vw; color: #ffffff; }
-
-.dv-text4 { position: absolute; top: 60%; width: 100%; }
-.dv-text4 p { margin-bottom: 1vw; text-align: center; font-size: 2vw; color: #ffffff; }
-.btn1 { border : none; background-color : rgba(0,0,0,0);}
-
-.cafe-text p { margin-top: 10vw; text-align: center; font-size: 2vw; color: #ffffff; }
-</style>
-
-<script>
-const btn1 = () => {
-   window.scrollTo({top:1000, behavior:'smooth'});
-    }
-</script>
 </head>
+<!-- 파비콘 추가 -->
+<link rel="icon" href="/static/images/icon/pavicon.png">
+
+<!-- jQurey -->
+<script src="https://code.jquery.com/jquery-latest.min.js" type="application/javascript"></script>
 
 <!-- Bootstrap CSS -->
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
 
-<body style="background-color: black;">
+<!-- Link Swiper's CSS -->
+<link rel="stylesheet" type="text/css"
+      href="{% static 'css/swiper.min.css' %}"
+/>
+<link rel="stylesheet" type="text/css"
+      href="{% static 'css/swiper-bundle.css' %}"
+/>
+
+<style>
+
+
+.jb-box { width: 60%; height: 100%; overflow: hidden;margin: 0px auto; position: relative; } /*동영상이 정해진 높이를 벗어나면 보이지 않도록 overflow 속성을 정하기*/
+video { width: 100%; height: 100%; } /*좌우 꽉차게 하기*/
+.dv-text { position: absolute; top: 18%; width: 100%; } /*텍스트가 동영상 위로 올라가도록 하기*/
+.dv-text p { margin-top: -50px; text-align: center; font-size: 1vw; color: #ffffff; } /*텍스트 위치를 조정하고, 모양을 정하기*/
+
+.dv-text2 { position: absolute; top: 20%; width: 100%; }
+.dv-text2 p { margin-left: 1vw; text-align: left; font-size: 2vw; color: #ffffff; }
+
+.dv-text3 { position: absolute; top: 20%; width: 100%; }
+.dv-text3 p { margin-right: 1vw; text-align: right; font-size: 1vw; color: #ffffff; }
+
+.dv-text4 { position: absolute; top: 80%; width: 100%; }
+.dv-text4 p { margin-bottom: 1vw; text-align: center; font-size: 1vw; color: #ffffff; }
+.btn1 { border : none; background-color : rgba(0,0,0,0);}
+
+.cafe-text p { margin-top: 10vw; text-align: center; font-size: 1vw; color: #ffffff; }
+
+
+
+.slide-container{
+  max-width: 1120px;
+  width: 100%;
+  padding: 40px 0;
+}
+.slide-content{
+  margin: 0 40px;
+  overflow: hidden;
+  border-radius: 25px;
+}
+.card{
+  border-radius: 25px;
+  background-color: #FFF;
+}
+.image-content,
+.card-content{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 14px;
+}
+.image-content{
+  position: relative;
+  row-gap: 5px;
+  padding: 25px 0;
+}
+.overlay{
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #4070F4;
+  border-radius: 25px 25px 0 25px;
+}
+.overlay::before,
+.overlay::after{
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: -40px;
+  height: 40px;
+  width: 40px;
+  background-color: #4070F4;
+}
+.overlay::after{
+  border-radius: 0 25px 0 0;
+  background-color: #FFF;
+}
+.card-image{
+  position: relative;
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  background: #FFF;
+  padding: 3px;
+}
+.card-image .card-img{
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid #4070F4;
+}
+.name{
+  font-size: 18px;
+  font-weight: 500;
+  color: #333;
+}
+.description{
+  font-size: 14px;
+  color: #707070;
+  text-align: center;
+}
+.button{
+  border: none;
+  font-size: 16px;
+  color: #FFF;
+  padding: 8px 16px;
+  background-color: #4070F4;
+  border-radius: 6px;
+  margin: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.button:hover{
+  background: #265DF2;
+}
+
+.swiper {
+	width: 100%;
+    height: 100%;
+}
+
+.swiper-slide {
+	text-align: center;
+	font-size: 18px;
+	background: #fff;
+
+
+.swiper-navBtn{
+  color: #6E93f7;
+  transition: color 0.3s ease;
+}
+.swiper-navBtn:hover{
+  color: #4070F4;
+}
+.swiper-navBtn::before,
+.swiper-navBtn::after{
+  font-size: 35px;
+}
+.swiper-button-next{
+  right: 0;
+}
+.swiper-button-prev{
+  left: 0;
+}
+.swiper-pagination-bullet{
+  background-color: #6E93f7;
+  opacity: 1;
+}
+.swiper-pagination-bullet-active{
+  background-color: #4070F4;
+}
+
+@media screen and (max-width: 768px) {
+  .slide-content{
+    margin: 0 10px;
+  }
+  .swiper-navBtn{
+    display: none;
+  }
+}
+
+
+
+
+</style>
+
+
+<body>
 <!-- 네비게이션바 -->
 {% include "navbar.html" %}
 <div class="jb-box">
@@ -54,7 +204,7 @@ const btn1 = () => {
 		<p>
             {{ gu }} <br />
             {{ dong }} <br />
-			<span style="font-size: 8vw;">&nbsp;{{ selected_tmp }}°C</span>
+			<span style="font-size: 6vw;">{{ selected_tmp }}°C</span>
 		</p>
 	</div>
 	<div class="dv-text3">
@@ -77,77 +227,16 @@ const btn1 = () => {
 	</div>
 </div>
 
-{{% include "recommend_list.html" %}
-
-<div class="cafe-index1">
-   <div class="cafe-text" style= "float:left; width: 40%;">
-      <p>
-         <span style="font-size: 5vw;"><strong>카페 드 220V볼트 춘천</strong></span><br />
-         <br />
-         강원도 추천시 동내면 신촌리 107 <br />
-         영업중 - 오후 10:00 영업종료 <br />
-         033-263-0202 <br />
-         <a href="#">위치 확인하기</a>
-      </p>
-   </div>
-   <img src="/static/images/cafe.jpg" style="float: left; height: 100%; width: 60%; margin-top: -1vw;"/>
-</div>
-<div class="cafe-index2">
-   <div class="cafe-text" style= "float:left; width: 40%;">
-      <p>
-         <span style="font-size: 5vw;"><strong>모시깽이 카페</strong></span><br />
-         <br />
-         강원도 추천시 동내면 신촌리 107 <br />
-         영업중 - 오후 10:00 영업종료 <br />
-         033-263-0202 <br />
-         <a href="#">위치 확인하기</a>
-      </p>
-   </div>
-   <img src="/static/images/cafe2.jpg" style="float: left; height: 100%; width: 60%; margin-top: 1vw;"/>
-</div>
+{% include "recommend_list.html" %}
 
 
-<div class="cafe-index3">
-   <div class="cafe-text" style= "float:left; width: 40%;">
-      <p>
-         <span style="font-size: 5vw;"><strong>어쩌구 카페</strong></span><br />
-         <br />
-         강원도 추천시 동내면 신촌리 107 <br />
-         영업중 - 오후 10:00 영업종료 <br />
-         033-263-0202 <br />
-         <a href="#">위치 확인하기</a>
-      </p>
-   </div>
-   <img src="/static/images/cafe3.jpg" style="float: left; height: 100%; width: 60%; margin-top: 1vw;"/>
-</div>
-
-<p>여기 추천카페 5개가 뜬다면</p>
-<form action="">
-	<div>
-		<div>카페1</div>
-		<div>강남구 역삼동</div>
-		<div>디저트 카페</div>
-		<div>좋아요!</div>
-		<input type="checkbox" /> 이거 즐겨찾기
-	</div>
-	<br />
-	<div>
-		<div>카페2</div>
-		<div>강남구 대치동</div>
-		<div>빵 카페</div>
-		<div>나빠요!</div>
-		<input type="checkbox" /> 이거 즐겨찾기
-	</div>
-	
-	<button type="submit">즐겨찾기 저장</button>
-</form>
-
-<!-- Bootstrap JS -->
-<script src="{% static 'js/bootstrap.min.js' %}"></script>
 
 <script>
     console.log('현위치 위도, 경도 :', {{ latitude }},',', {{ longitude }})
     console.log('선택 위치 위도, 경도 :', {{ selected_latitude }},',', {{ selected_longitude }})
 </script>
 </body>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<!-- Swiper JS -->
+<script src="{% static 'js/swiper-bundle.min.js' %}"></script>
 </html>

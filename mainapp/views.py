@@ -30,9 +30,9 @@ def result(request):
     if request.method == 'POST':
         gu = request.POST.get('sido')
         dong = request.POST.get('gugun')
-        feeling = request.POST.get('feeling')
+        mood = request.POST.get('mood')
         food = request.POST.get('food')
-        print('responded value:', gu, dong, feeling, food)
+        print('responded value:', gu, dong, mood, food)
 
         # 현 위치 기반
         # global current_location
