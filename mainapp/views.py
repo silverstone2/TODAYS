@@ -109,20 +109,28 @@ def login(request):
             return render(request, 'users/loginform.html')
 
         if (login_id):
-            members = Members.objects.get(id=login_id)
+            try:
+                members = Members.objects.get(id=login_id)
+            except Exception as e:
+                print(e)
+                return render(request, 'users/loginform.html')
+        print(login_id ,type(login_id))
+        print(members.id, type(members.id))  
 
+        
+        print(login_id ,type(login_id))
+        print(members.id, type(members.id))  
+        
         if check_password(login_pwd, members.pw1):
             request.session['Members'] = members.id
             request.session['Members1'] = members.name
             request.session['Members2'] = members.email
             request.session['Members3'] = str(members.regdate)
-
+            
             return redirect('/')
         else:
             return render(request, 'users/loginform.html')
-
-    else:
-        return render(request, 'users/loginform.html')
+        
 
     return render(request, 'users/loginform.html')
 
@@ -175,7 +183,8 @@ def mypage(request):
     context['m_regdate'] = request.session.get('Members3' , '')
     print(context['m_email'])
     print(context['m_regdate'])
-
+    
+    return render(request, 'users/mypage.html' , context)
 
 def mylike(request):
     return render(request, 'users/mylike.html')

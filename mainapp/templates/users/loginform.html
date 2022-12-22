@@ -159,19 +159,19 @@ background-attachment: fixed; /* 스크롤바 움직일때 이미지가 따라�
 				<small>Let us create your account</small>
 			</h2>
 		</div>
-		<form class="card-form" method="post">
+		<form class="card-form" action="/users/login/" method="post">
 			{% csrf_token %}
 			<div class="input">
 				<input type="text" class="input-field"
-				name="username" id="username" placeholder="username">	
+				name="lo_id" id="lo_id" placeholder="username">	
 			</div>
 			<div class="input">
 				<input type="password" class="input-field"
-				name="password" id="password" placeholder="password">
+				name="lo_pwd" id="lo_pwd" placeholder="password">
 			</div>
 			<br />
 			<div class="Sign Up">
-				<button class="action-button" type="button" onclick="#">
+				<button class="action-button" type="submit" >
 				Get Started</button>
 			</div>
 			<br />
