@@ -186,8 +186,13 @@ def coord_to_loc(lat, long):  # 해당 함수 안 씀
 
 
 def location_to_coord(gu, dong):
-    a_json = open('mainapp/static/json/dong_coords.json', encoding='utf-8')
-    coords = json.load(a_json)
+    # 깃허브 경로
+    url = "https://raw.githubusercontent.com/Sayh0/WebpageUpload/main/dong_coords.json"
+    coords = requests.get(url).json()
+    # 물리파일 경로
+    #a_json = open('mainapp/static/json/dong_coords.json', encoding='utf-8')
+    #coords = json.load(a_json)
+
     return_coord = {}
     for i in coords:
         if i["gu"] == gu and i["dong"] == dong:
