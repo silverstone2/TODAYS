@@ -83,12 +83,22 @@ def result(request):
 
 def bookmark(request):
     data = request.POST.getlist('cafe[]')
-    print(data)
+    data1 = data[0]
+    data2 = data[1]
+    total = len(data)
     context = {
-        bookmark: data
+        'data1': data1,
+        'data1': data2,
+        'total': total
     }
     return render(request, 'bookmark.html', context)
 
+
+def recommend(request):
+    context = {
+        'lat': lat
+    }
+    return render(request, 'recommend_list.html', context)
 
 def login(request):
     lo_err = {}

@@ -19,9 +19,9 @@ def grid(v1, v2):  # v1 = lat, v2 = ln
     YO = 136  # 기1준점 Y좌표(GRID)
 
     DEGRAD = math.pi / 180.0
-    RADDEG = 180.0 / math.pi
+    #  RADDEG = 180.0 / math.pi
 
-    re = RE / GRID;
+    re = RE / GRID
     slat1 = SLAT1 * DEGRAD
     slat2 = SLAT2 * DEGRAD
     olon = OLON * DEGRAD
@@ -32,10 +32,9 @@ def grid(v1, v2):  # v1 = lat, v2 = ln
     sf = math.tan(math.pi * 0.25 + slat1 * 0.5)
     sf = math.pow(sf, sn) * math.cos(slat1) / sn
     ro = math.tan(math.pi * 0.25 + olat * 0.5)
-    ro = re * sf / math.pow(ro, sn);
-    rs = {};
-
-    ra = math.tan(math.pi * 0.25 + (v1) * DEGRAD * 0.5)
+    ro = re * sf / math.pow(ro, sn)
+    rs = {}
+    ra = math.tan(math.pi * 0.25 + v1 * DEGRAD * 0.5)
     ra = re * sf / math.pow(ra, sn)
 
     theta = v2 * DEGRAD - olon
@@ -52,7 +51,7 @@ def grid(v1, v2):  # v1 = lat, v2 = ln
 def dangi_api(v1, v2):
     # gmaps = googlemaps.Client(key="AIzaSyBTmrYMwJez4u2jczuI3Fhpj1SLrMxRDnU")
     service_key = "1HyN5CpAcCICizuwcx%2FW0DBWu3icqrH%2BUNPl3PiC9HxqEyn7764WVIf9sLA4ei%2FGNKHVCHbSxi%2B63Py7VqwnMg%3D%3D"
-    serviceKeyDecoded = unquote(service_key, 'UTF-8')
+    service_key_decoded = unquote(service_key, 'UTF-8')
     url = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst"
     now = datetime.now()
     print("지금은", now.year, "년", now.month, "월", now.day, "일", now.hour, "시", now.minute, "분", now.second, "초입니다.")
@@ -87,10 +86,11 @@ def dangi_api(v1, v2):
     else:  # 23시 11분~23시 59분
         base_date = today_date
         base_time = "2300"
-    queryParams = '?' + urlencode({quote_plus('serviceKey'): serviceKeyDecoded, quote_plus('base_date'): base_date,
+    query_params = '?' + urlencode({quote_plus('serviceKey'): service_key_decoded, quote_plus('base_date'): base_date,
                                    quote_plus('base_time'): base_time, quote_plus('nx'): v1, quote_plus('ny'): v2,
-                                   quote_plus('dataType'): 'json', quote_plus('numOfRows'): '60'})
-    res = requests.get(url + queryParams,  verify=False)
+                                   quote_plus('dataType'): 'json', quote_plus('pageNo'): '1',
+                                   quote_plus('numOfRows'): '12'})
+    res = requests.get(url + query_params,  verify=False)
     items = res.json().get('response').get('body').get('items')
     print('json: ', items)
     weather_data = dict()
@@ -132,9 +132,9 @@ def dangi_api(v1, v2):
             elif weather_code == '4':
                 weather_state = '소나기'
             else:
-                weather_state = '없음'
+                weather_state = '눈비없음'
             weather_data['code'] = weather_code
-            weather_data['state'] = weather_state
+            weather_data['weather_state'] = weather_state
 
     data['weather'] = weather_data
     print(weather_data)
@@ -156,23 +156,24 @@ def geocoder(string):
     result = {}
     if response.status_code == 200:
         items = response.json().get('response').get('result').get('point')
-        result = {'x': items['y'], 'y': items['x']}  # api에서 x랑 y 좌표값이 다르게 되어있어서...일단 반대로 추출...
+        result = {'x': items['y'], 'y': items['x']}
     return result
 
 
-def coord_to_loc(lat, long):
+def coord_to_loc(lat, long):  # 해당 함수 안 씀
     long = float(long)
     lat = float(lat)
     long = round(long, 4)
     lat = round(lat, 4)
     long = str(long)
     lat = str(lat)
+    point = long+","+lat
     api_url = "http://api.vworld.kr/req/address?"
     params = {
         "service": "address",
         "request": "getaddress",
         "crs": "epsg:4326",
-        "point": "126.9977,37.5682",
+        "point": point,
         "format": "json",
         "type": "road",
         "key": "DA702333-E74C-3FA1-BD96-B1D8F8512921"
@@ -196,6 +197,7 @@ def location_to_coord(gu, dong):
 
 
 def set_background(hour, code):
+    back = ""
     if 7 < hour < 19:  # 주간
         if code == '1':
             back = "/static/videos/rainy.mp4"
