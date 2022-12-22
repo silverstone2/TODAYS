@@ -156,13 +156,8 @@ $("document").ready(function () {
         swiper.autoplay.stop();
     });
 });
-
-
-
 </script>
 
-
-<body>
 <body class="fixed">
 <!-- 네비게이션바 -->
 {% include "navbar.html" %}
@@ -209,207 +204,64 @@ $("document").ready(function () {
 <div class="swiper mySwiper">
 	<div class="swiper-wrapper">
 
+    {% for i in loop %} <!-- 장고 템플릿 언어로 for 문 생성 --> <!-- views.py의 55 라인 참고 -->
       	<div class="swiper-slide">
 			<div class="image-content">
 				<span class="overlay"></span>
-
 				<div class="card-image">
 					<img src="/static/images/cafe.jpg" alt="" class="card-img">
 				</div>
      	 	</div>
-
 			<div class="card-content">
-     	 		<h2 class="name">무슨 카페</h2>
-      			<p class="description">강남구 테헤란로</p>
-
+     	 		<h2 class="name">{{ i.name }}</h2>
+      			<p class="description">{{ i.addr }}</p>
+                {% if 'Members' in request.session %}
+                <input type="checkbox" onClick="testfunction(this)" value="{{i.name }}" id="cafe{{ i.num }}" name="checkbox{{ i.num }}">
+                {% endif %}
 				<button class="button">View More</button>
      		 </div>
       	</div>
+    {% endfor %}
 
-      	<div class="swiper-slide">
-			<div class="image-content">
-				<span class="overlay"></span>
-
-				<div class="card-image">
-					<img src="/static/images/cafe3.jpg" alt="" class="card-img">
-				</div>
-     	 	</div>
-
-			<div class="card-content">
-     	 		<h2 class="name">무슨 카페</h2>
-      			<p class="description">강남구 테헤란로</p>
-
-				<button class="button">View More</button>
-     		 </div>
-      	</div>
-      	<div class="swiper-slide">
-			<div class="image-content">
-				<span class="overlay"></span>
-
-				<div class="card-image">
-					<img src="/static/images/cafe2.jpg" alt="" class="card-img">
-				</div>
-     	 	</div>
-
-			<div class="card-content">
-     	 		<h2 class="name">무슨 카페</h2>
-      			<p class="description">강남구 테헤란로</p>
-
-				<button class="button">View More</button>
-     		 </div>
-      	</div>
-
-
-      	<div class="swiper-slide">
-			<div class="image-content">
-				<span class="overlay"></span>
-
-				<div class="card-image">
-					<img src="/static/images/cafe.jpg" alt="" class="card-img">
-				</div>
-     	 	</div>
-
-			<div class="card-content">
-     	 		<h2 class="name">무슨 카페</h2>
-      			<p class="description">강남구 테헤란로</p>
-
-				<button class="button">View More</button>
-     		 </div>
-      	</div>
-
-      	<div class="swiper-slide">
-			<div class="image-content">
-				<span class="overlay"></span>
-
-				<div class="card-image">
-					<img src="/static/images/cafe.jpg" alt="" class="card-img">
-				</div>
-     	 	</div>
-
-			<div class="card-content">
-     	 		<h2 class="name">무슨 카페</h2>
-      			<p class="description">강남구 테헤란로</p>
-
-				<button class="button">View More</button>
-     		 </div>
-      	</div>
-
-      	<div class="swiper-slide">
-			<div class="image-content">
-				<span class="overlay"></span>
-
-				<div class="card-image">
-					<img src="/static/images/cafe.jpg" alt="" class="card-img">
-				</div>
-     	 	</div>
-
-			<div class="card-content">
-     	 		<h2 class="name">무슨 카페</h2>
-      			<p class="description">강남구 테헤란로</p>
-
-				<button class="button">View More</button>
-     		 </div>
-      	</div>
-
-      	<div class="swiper-slide">
-			<div class="image-content">
-				<span class="overlay"></span>
-
-				<div class="card-image">
-					<img src="/static/images/cafe.jpg" alt="" class="card-img">
-				</div>
-     	 	</div>
-
-			<div class="card-content">
-     	 		<h2 class="name">무슨 카페</h2>
-      			<p class="description">강남구 테헤란로</p>
-
-				<button class="button">View More</button>
-     		 </div>
-      	</div>
-      </div>
+    </div>
       <div class="swiper-button-next"></div>
       <div class="swiper-button-prev"></div>
       <div class="swiper-pagination"></div>
-    </div>
-<!--원래 체크박스-->
-<div>
-<div class="swiper mySwiper">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide">
-            <label for="list1">
-                <h1>추천 카페 리스트1</h1>
-                <h2> 사진 </h2>
-                <h2> 이름 </h2>
-                <h2> {{ gu }} </h2>
-                <!-- value에 카페 이름 부여해서 넘기기 -->
-                {% if 'Members' in request.session %}
-                <input type="checkbox" onClick="testfunction(this)" value="{{ dong }}" id="cafe1" name="checkbox1">
-                {% endif %}
-            </label>
-        </div>
-        <div class="swiper-slide">
-        <label for="list2">
-            <h1>추천 카페 리스트2</h1>
-            <h2> 사진 </h2>
-            <h2> 이름 </h2>
-            <h2> 주소 </h2>
-            {% if 'Members' in request.session %}
-            <input type="checkbox" onClick="testfunction(this)" value="{{ dong }}" id="cafe2" name="checkbox2">
-            {% endif %}
-        </label>
-        </div>
-        <div class="swiper-slide">
-            <label for="list3">
-                <h1>추천 카페 리스트3</h1>
-                <h2> 사진 </h2>
-                <h2> 이름 </h2>
-                <h2> 주소 </h2>
-                {% if 'Members' in request.session %}
-                <input type="checkbox" onClick="testfunction(this)" value="{{ dong }}" id="cafe3" name="checkbox3">
-                {% endif %}
-            </label>
-        </div>
-        <div class="swiper-slide">
-            <label for="list4">
-                <h1>추천 카페 리스트4</h1>
-                <h2> 사진 </h2>
-                <h2> 이름 </h2>
-                <h2> 주소 </h2>
-                {% if 'Members' in request.session %}
-                <input type="checkbox" onClick="testfunction(this)" value="{{ dong }}" id="cafe4" name="checkbox4">
-                {% endif %}
-            </label>
-        </div>
-        <div class="swiper-slide">
-            <label for="list5">
-                <h1>추천 카페 리스트5</h1>
-                <h2> 사진 </h2>
-                <h2> 이름 </h2>
-                <h2> 주소 </h2>
-                {% if 'Members' in request.session %}
-                <input type="checkbox" onClick="testfunction(this)" value="{{ dong }}" id="cafe5" name="checkbox5">
-                {% endif %}
-            </label>
-        </div>
-      </div>
-      <div class="swiper-button-next"></div>
-      <div class="swiper-button-prev"></div>
-      <div class="swiper-pagination"></div>
-    </div>
 </div>
-<!-- 추후에 inputType hidden 으로 변경해야 함 -->
+
+<!-- checkbox value 저장 폼. 추후에 inputType hidden 으로 변경해야 함 -->
 <form action="/bookmark/" onsubmit="return checkForm()" name=recommendedCafe" id="recommendedCafe" method="POST">{% csrf_token %}
-    <input type="text" id="cafe1value" name="cafe1value" value="">
-    <input type="text" id="cafe2value" name="cafe2value" value="">
-    <input type="text" id="cafe3value" name="cafe3value" value="">
-    <input type="text" id="cafe4value" name="cafe4value" value="">
-    <input type="text" id="cafe5value" name="cafe5value" value="">
+    {% for i in loop %} <!-- 장고 템플릿 언어로 for 문 생성 -->
+    <input type="text" id="cafe{{ i.num }}value" name="cafe{{ i.num }}value" value="">
+    {% endfor %}
     <input type="text" id="cafeCnt" name="cafeCnt" value="0">
     {% if 'Members' in request.session %}
     <input type="submit" id="submit" value="북마크 추가">
     {% endif %}
 </form>
+
+<script>
+    let sum = 0;
+    function testfunction(box){
+        if(box.checked) { // 체크가 되면 checked==true라는 값을 전달받는다.
+            objectValue = box.id + "value";
+            document.getElementById(objectValue).value=document.getElementById(box.id).value;
+            sum++;
+            document.getElementById("cafeCnt").value=parseInt(sum);
+        } else if(!box.checked) {
+            sum--;
+            objectValue = box.id + "value";
+            document.getElementById(objectValue).value="";
+            document.getElementById("cafeCnt").value=parseInt(sum);
+        }
+    }
+    function checkForm(){
+        if (sum == 0) {
+            alert("하나 이상 체크하세요");
+            return false;
+        } else return true;
+    }
+</script> <!-- 체크박스 제어 함수 -->
 
 <script>
 const btn1 = () => {
@@ -490,31 +342,6 @@ $("document").ready(function () {
     });
 });
 </script>
-<script>
-    let sum = 0;
-    function testfunction(box){
-        if(box.checked) { // 체크가 되면 checked==true라는 값을 전달받는다.
-            objectValue = box.id + "value";
-            document.getElementById(objectValue).value=document.getElementById(box.id).value;
-            sum++;
-            document.getElementById("cafeCnt").value=parseInt(sum);
-        } else if(!box.checked) {
-            sum--;
-            objectValue = box.id + "value";
-            document.getElementById(objectValue).value="";
-            document.getElementById("cafeCnt").value=parseInt(sum);
-        }
-    }
-
-    function checkForm(){
-        if (sum == 0) {
-            alert("하나 이상 체크하세요");
-            return false;
-        } else return true;
-
-    }
-</script>
-
 
 <script>
 var swiper = new Swiper(".mySwiper", {
@@ -534,5 +361,6 @@ var swiper = new Swiper(".mySwiper", {
 });
 
 </script>
+
 </body>
 </html>

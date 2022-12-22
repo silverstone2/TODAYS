@@ -52,7 +52,14 @@ def result(request):
             global selected_weather
             selected_weather = func.dangi_api(sel_nx_ny['x'], sel_nx_ny['y']).get('weather')
             background = func.set_background(hour, selected_weather['code'])
-
+            # 임시 loop dictionary
+            loop = [{'num': 1, 'name': '카페1', 'addr': '주소1'},
+                    {'num': 2, 'name': '카페2', 'addr': '주소2'},
+                    {'num': 3, 'name': '카페3', 'addr': '주소3'},
+                    {'num': 4, 'name': '카페4', 'addr': '주소4'},
+                    {'num': 5, 'name': '카페5', 'addr': '주소5'},
+                    {'num': 6, 'name': '카페6', 'addr': '주소6'}]
+            print(loop)
             context = {
                 'background': background,
                 'latitude': nx_ny['x'],
@@ -72,6 +79,8 @@ def result(request):
                 'selected_sky': selected_weather['sky'],  # 전운량 1, 2, 4(범주)
                 'selected_latitude': sel_nx_ny['x'],
                 'selected_longitude': sel_nx_ny['y'],
+
+                'loop': loop
 
             }
             return render(request, 'result.html', context)
