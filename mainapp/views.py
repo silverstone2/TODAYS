@@ -82,14 +82,11 @@ def result(request):
 
 
 def bookmark(request):
-    data = request.POST.getlist('cafe[]')
-    data1 = data[0]
-    data2 = data[1]
+    data = request.POST.getlist("cafevalue1")
+
     total = len(data)
     context = {
-        'data1': data1,
-        'data1': data2,
-        'total': total
+        'data': data,
     }
     return render(request, 'bookmark.html', context)
 

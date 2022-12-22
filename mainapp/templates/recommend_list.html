@@ -55,10 +55,11 @@
 </div>
 <form action="/bookmark/" onsubmit="return Checkform()" name=recommendedCafe" id="recommendedCafe" method="POST">{% csrf_token %}
     <input type="text" id="cafevalue1" name="cafevalue1" value="">
-    <input type="hidden" id="cafevalue2" name="cafevalue2" value="default_latitude">
-    <input type="hidden" id="cafevalue3" name="cafevalue3" value="default_latitude">
-    <input type="hidden" id="cafevalue4" name="cafevalue4" value="default_longitude">
-    <input type="hidden" id="cafevalue5" name="cafevalue5" value="default_latitude">
+    <input type="hidden" id="cafevalue2" name="cafevalue2" value="">
+    <input type="hidden" id="cafevalue3" name="cafevalue3" value="">
+    <input type="hidden" id="cafevalue4" name="cafevalue4" value="">
+    <input type="hidden" id="cafevalue5" name="cafevalue5" value="">
+    <input type="hidden" id="cafevalueTotal" name="cafevalueTotal" value="0">
     <input type="submit" id="submit" value="북마크 추가">
 </form>
 
@@ -142,12 +143,13 @@ $("document").ready(function () {
 });
 </script>
 <script>
-    function checkbox(){
-
+    function checkbox() {
+    }
     function testfunction(box){
-        if(box.checked) // 체크가 되면 checked==true라는 값을 전달받는다.
-            document.getElementById("startLon").value = startPos.coords.longitude;
-        else
-            sum -= parseInt(box.value);
+        if(box.checked) { // 체크가 되면 checked==true라는 값을 전달받는다.
+            document.getElementById("cafevalue1").value=document.getElementById("cafe1").value;
+        } else {
+            document.getElementById("cafevalue1").value="";
+        }
     }
 </script>
