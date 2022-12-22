@@ -10,17 +10,18 @@
 <!-- jQurey -->
 <script src="https://code.jquery.com/jquery-latest.min.js" type="application/javascript"></script>
 
-<!-- Bootstrap CSS -->
+<!-- Bootstrap CSS JS -->
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
 
-<!-- Link Swiper's CSS -->
-<link rel="stylesheet" type="text/css"
-      href="{% static 'css/swiper.min.css' %}"
-/>
-<link rel="stylesheet" type="text/css"
-      href="{% static 'css/swiper-bundle.css' %}"
-/>
+<!-- Link Swiper's CSS JS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
+<script src="{% static 'js/swiper-bundle.min.js' %}"></script>
+
+<!-- CARD CSS -->
+<link rel="stylesheet" type="text/css" href="{% static 'css/card.css' %}">
+
 
 <style>
 
@@ -44,97 +45,9 @@ video { width: 100%; height: 100%; } /*좌우 꽉차게 하기*/
 
 
 
-.slide-container{
-  max-width: 1120px;
-  width: 100%;
-  padding: 40px 0;
-}
-.slide-content{
-  margin: 0 40px;
-  overflow: hidden;
-  border-radius: 25px;
-}
-.card{
-  border-radius: 25px;
-  background-color: #FFF;
-}
-.image-content,
-.card-content{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 10px 14px;
-}
-.image-content{
-  position: relative;
-  row-gap: 5px;
-  padding: 25px 0;
-}
-.overlay{
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  background-color: #4070F4;
-  border-radius: 25px 25px 0 25px;
-}
-.overlay::before,
-.overlay::after{
-  content: '';
-  position: absolute;
-  right: 0;
-  bottom: -40px;
-  height: 40px;
-  width: 40px;
-  background-color: #4070F4;
-}
-.overlay::after{
-  border-radius: 0 25px 0 0;
-  background-color: #FFF;
-}
-.card-image{
-  position: relative;
-  height: 150px;
-  width: 150px;
-  border-radius: 50%;
-  background: #FFF;
-  padding: 3px;
-}
-.card-image .card-img{
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 4px solid #4070F4;
-}
-.name{
-  font-size: 18px;
-  font-weight: 500;
-  color: #333;
-}
-.description{
-  font-size: 14px;
-  color: #707070;
-  text-align: center;
-}
-.button{
-  border: none;
-  font-size: 16px;
-  color: #FFF;
-  padding: 8px 16px;
-  background-color: #4070F4;
-  border-radius: 6px;
-  margin: 14px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-.button:hover{
-  background: #265DF2;
-}
 
 .swiper {
-	width: 100%;
+	width: 60%;
     height: 100%;
 }
 
@@ -142,24 +55,13 @@ video { width: 100%; height: 100%; } /*좌우 꽉차게 하기*/
 	text-align: center;
 	font-size: 18px;
 	background: #fff;
-
-
-.swiper-navBtn{
-  color: #6E93f7;
-  transition: color 0.3s ease;
-}
-.swiper-navBtn:hover{
-  color: #4070F4;
-}
-.swiper-navBtn::before,
-.swiper-navBtn::after{
-  font-size: 35px;
 }
 .swiper-button-next{
-  right: 0;
+	padding: 10px;
+	right: 0;
 }
 .swiper-button-prev{
-  left: 0;
+	left: 0;
 }
 .swiper-pagination-bullet{
   background-color: #6E93f7;
@@ -178,95 +80,20 @@ video { width: 100%; height: 100%; } /*좌우 꽉차게 하기*/
   }
 }
 
-
+.fixed{
+width: 100%; height: 100%;           
+background-image: url(/static/images/bg.jpg);
+background-repeat: no-repeat; /* 배경이미지X */
+background-size: cover; /* 요소를 비율에 맞게 커버 */
+background-position: center; /* 이미지를 요소의 정가운데로 처리 */
+background-attachment: fixed; /* 스크롤바 움직일때 이미지가 따라다님 */
+}
 
 
 </style>
-<script>
-
-const btn1 = () => {
-   window.scrollTo({top:1000, behavior:'smooth'});
-    }
-
-$("document").ready(function () {
-    // 문서의 dom이 준비되면
-    // .mySwiper 클래스를 swiper 슬라이더로 만듦
-    // 이후에 swiper변수에 할당했기 때문에 스크립트로 제어할 수도 있음.
-    var swiper = new Swiper(".mySwiper", {
-        slidesPerView: 'auto',
-        spaceBetween: 80,
-        loop: true,
-
-        // pagination 기본은 bullet
-        pagination: {
-            el: ".swiper-pagination"
-        },
-
-        // 좌우 화살표 navigation element 지정
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev"
-        },
-        // 반응형
-        breakpoints: {
-            // 600px 이하가 되면 슬라이드 간 간격을 0으로
-            600: {
-                spaceBetween: 0
-            },
-        },
-
-        on: {
-            init: function() {
-                $('.swiper-slide').addClass('changed');
-
-                // fraction에 현재 인덱스와 전체 인덱스 표시
-                // this.loopedSlides는 loop, slidesPerView: 'auto'일 때 제대로 동작
-                $('.custom-fraction .current').text(this.realIndex + 1);
-                $('.custom-fraction .all').text(this.loopedSlides);
-                // console.log(this);
-                // console.log(this.loopedSlides)
-            },
-
-            slideChangeTransitionStart: function() {
-                // 기본적으로 제공하는 swiper-slide-active 클래스를 이용해
-                // css transition 애니메이션 작성 가능하다.
-                // 다만 루프 모드일 때에는 루프 픽스를 하며 slide를 바꿔치기를 하는데,
-                // 이 때 플리커링이 발생할 수 있다.
-                // css transition을 서로 다르게 설정한 changed, changing 클래스를 이용
-                $('.swiper-slide').addClass('changing');
-                $('.swiper-slide').removeClass('changed');
-
-                // 페이지 넘어갈 때마다 fraction 현재 인덱스 변경
-                $('.custom-fraction .current').text(this.realIndex + 1);
-            },
-
-            slideChangeTransitionEnd: function() {
-                // changing : transition O
-                // changed : transition X
-                $('.swiper-slide').removeClass('changing');
-                $('.swiper-slide').addClass('changed');
-            }
-        },
-    });
-
-    // 슬라이더 할당한 swiper로 슬라이더 제어
-    $(".auto-start").on("click", function() {
-        // 기본 설정으로 autoplay 시작
-        console.log("autoplay start");
-        swiper.autoplay.start();
-    });
-
-    $(".auto-stop").on("click", function() {
-        console.log("autoplay stop");
-        swiper.autoplay.stop();
-    });
-});
 
 
-
-</script>
-
-<body>
+<body class="fixed">
 <!-- 네비게이션바 -->
 {% include "navbar.html" %}
 <div class="jb-box">
@@ -304,35 +131,138 @@ $("document").ready(function () {
 	<div class="dv-text4">
 		<p>
 			오늘의 추천 카페 보기<br />
-			<button id="btn1" onclick="btn1()">▼</button>
+			▼
 		</p>
 	</div>
 </div>
 
 <div class="swiper mySwiper">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide">Slide 1</div>
-        <div class="swiper-slide">Slide 2</div>
-        <div class="swiper-slide">Slide 3</div>
-        <div class="swiper-slide">Slide 4</div>
-        <div class="swiper-slide">Slide 5</div>
-        <div class="swiper-slide">Slide 6</div>
-        <div class="swiper-slide">Slide 7</div>
-        <div class="swiper-slide">Slide 8</div>
-        <div class="swiper-slide">Slide 9</div>
+	<div class="swiper-wrapper">
+      
+      	<div class="swiper-slide">
+			<div class="image-content">
+				<span class="overlay"></span>
+
+				<div class="card-image">
+					<img src="/static/images/cafe.jpg" alt="" class="card-img">
+				</div>
+     	 	</div>
+
+			<div class="card-content">
+     	 		<h2 class="name">무슨 카페</h2>
+      			<p class="description">강남구 테헤란로</p>
+				
+				<button class="button">View More</button>
+     		 </div>    	
+      	</div>
+
+      	<div class="swiper-slide">
+			<div class="image-content">
+				<span class="overlay"></span>
+
+				<div class="card-image">
+					<img src="/static/images/cafe3.jpg" alt="" class="card-img">
+				</div>
+     	 	</div>
+
+			<div class="card-content">
+     	 		<h2 class="name">무슨 카페</h2>
+      			<p class="description">강남구 테헤란로</p>
+
+				<button class="button">View More</button>
+     		 </div>    	
+      	</div>
+      	<div class="swiper-slide">
+			<div class="image-content">
+				<span class="overlay"></span>
+
+				<div class="card-image">
+					<img src="/static/images/cafe2.jpg" alt="" class="card-img">
+				</div>
+     	 	</div>
+
+			<div class="card-content">
+     	 		<h2 class="name">무슨 카페</h2>
+      			<p class="description">강남구 테헤란로</p>
+
+				<button class="button">View More</button>
+     		 </div>    	
+      	</div>
+
+      	
+      	<div class="swiper-slide">
+			<div class="image-content">
+				<span class="overlay"></span>
+
+				<div class="card-image">
+					<img src="/static/images/cafe.jpg" alt="" class="card-img">
+				</div>
+     	 	</div>
+
+			<div class="card-content">
+     	 		<h2 class="name">무슨 카페</h2>
+      			<p class="description">강남구 테헤란로</p>
+
+				<button class="button">View More</button>
+     		 </div>    	
+      	</div>
+      	
+      	<div class="swiper-slide">
+			<div class="image-content">
+				<span class="overlay"></span>
+
+				<div class="card-image">
+					<img src="/static/images/cafe.jpg" alt="" class="card-img">
+				</div>
+     	 	</div>
+
+			<div class="card-content">
+     	 		<h2 class="name">무슨 카페</h2>
+      			<p class="description">강남구 테헤란로</p>
+
+				<button class="button">View More</button>
+     		 </div>    	
+      	</div>
+      	
+      	<div class="swiper-slide">
+			<div class="image-content">
+				<span class="overlay"></span>
+
+				<div class="card-image">
+					<img src="/static/images/cafe.jpg" alt="" class="card-img">
+				</div>
+     	 	</div>
+
+			<div class="card-content">
+     	 		<h2 class="name">무슨 카페</h2>
+      			<p class="description">강남구 테헤란로</p>
+
+				<button class="button">View More</button>
+     		 </div>    	
+      	</div>
+      	
+      	<div class="swiper-slide">
+			<div class="image-content">
+				<span class="overlay"></span>
+
+				<div class="card-image">
+					<img src="/static/images/cafe.jpg" alt="" class="card-img">
+				</div>
+     	 	</div>
+
+			<div class="card-content">
+     	 		<h2 class="name">무슨 카페</h2>
+      			<p class="description">강남구 테헤란로</p>
+
+				<button class="button">View More</button>
+     		 </div>    	
+      	</div>     
       </div>
       <div class="swiper-button-next"></div>
       <div class="swiper-button-prev"></div>
       <div class="swiper-pagination"></div>
     </div>
-
-
-
-
-
-
-
-
+<br />
 
 
 
@@ -342,8 +272,24 @@ $("document").ready(function () {
     console.log('현위치 위도, 경도 :', {{ latitude }},',', {{ longitude }})
     console.log('선택 위치 위도, 경도 :', {{ selected_latitude }},',', {{ selected_longitude }})
 </script>
+
+<script>
+var swiper = new Swiper(".mySwiper", {
+  slidesPerView: 3,
+  spaceBetween: 30,
+  slidesPerGroup: 3,
+  loop: true,
+  loopFillGroupWithBlank: true,
+  pagination: {
+    el: ".swiper-pagination",
+    clickable: true,
+  },
+  navigation: {
+    nextEl: ".swiper-button-next",
+    prevEl: ".swiper-button-prev",
+  },
+});
+
+</script>    
 </body>
-<script src="{% static 'js/bootstrap.min.js' %}"></script>
-<!-- Swiper JS -->
-<script src="{% static 'js/swiper-bundle.min.js' %}"></script>
 </html>
