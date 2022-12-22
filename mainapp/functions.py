@@ -1,17 +1,14 @@
 from urllib.parse import urlencode, quote_plus, unquote
-import googlemaps
+
 import requests
 import math
 from datetime import date, datetime, timedelta
 import json
-import pandas as pd
 
 
-def grid(v1, v2):
-    print("nx, ny in grid func:", v1, v2)
+def grid(v1, v2):  # v1 = lat, v2 = ln
     v1 = float(v1)
     v2 = float(v2)
-    #print('after float v1, v2:', float(v1), float(v2))
     RE = 6371.00877  # 지구 반경(km)
     GRID = 5.0  # 격자 간격(km)
     SLAT1 = 30.0  # 투영 위도1(degree)
@@ -22,9 +19,9 @@ def grid(v1, v2):
     YO = 136  # 기1준점 Y좌표(GRID)
 
     DEGRAD = math.pi / 180.0
-    RADDEG = 180.0 / math.pi
+    #  RADDEG = 180.0 / math.pi
 
-    re = RE / GRID;
+    re = RE / GRID
     slat1 = SLAT1 * DEGRAD
     slat2 = SLAT2 * DEGRAD
     olon = OLON * DEGRAD
@@ -35,10 +32,9 @@ def grid(v1, v2):
     sf = math.tan(math.pi * 0.25 + slat1 * 0.5)
     sf = math.pow(sf, sn) * math.cos(slat1) / sn
     ro = math.tan(math.pi * 0.25 + olat * 0.5)
-    ro = re * sf / math.pow(ro, sn);
-    rs = {};
-
-    ra = math.tan(math.pi * 0.25 + (v1) * DEGRAD * 0.5)
+    ro = re * sf / math.pow(ro, sn)
+    rs = {}
+    ra = math.tan(math.pi * 0.25 + v1 * DEGRAD * 0.5)
     ra = re * sf / math.pow(ra, sn)
 
     theta = v2 * DEGRAD - olon
@@ -49,17 +45,13 @@ def grid(v1, v2):
     theta *= sn
     rs['x'] = math.floor(ra * math.sin(theta) + XO + 0.5)
     rs['y'] = math.floor(ro - ra * math.cos(theta) + YO + 0.5)
-
-    string = "http://www.kma.go.kr/wid/queryDFS.jsp?gridx={0}&gridy={1}".format(
-        str(rs["x"]).split('.')[0], str(rs["y"]).split('.')[0])
-    #print('grid result : ', string)
     return rs
 
 
 def dangi_api(v1, v2):
-    gmaps = googlemaps.Client(key="AIzaSyBTmrYMwJez4u2jczuI3Fhpj1SLrMxRDnU")
+    # gmaps = googlemaps.Client(key="AIzaSyBTmrYMwJez4u2jczuI3Fhpj1SLrMxRDnU")
     service_key = "1HyN5CpAcCICizuwcx%2FW0DBWu3icqrH%2BUNPl3PiC9HxqEyn7764WVIf9sLA4ei%2FGNKHVCHbSxi%2B63Py7VqwnMg%3D%3D"
-    serviceKeyDecoded = unquote(service_key, 'UTF-8')
+    service_key_decoded = unquote(service_key, 'UTF-8')
     url = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst"
     now = datetime.now()
     print("지금은", now.year, "년", now.month, "월", now.day, "일", now.hour, "시", now.minute, "분", now.second, "초입니다.")
@@ -94,29 +86,39 @@ def dangi_api(v1, v2):
     else:  # 23시 11분~23시 59분
         base_date = today_date
         base_time = "2300"
-
-    queryParams = '?' + urlencode({quote_plus('serviceKey'): serviceKeyDecoded, quote_plus('base_date'): base_date,
+    query_params = '?' + urlencode({quote_plus('serviceKey'): service_key_decoded, quote_plus('base_date'): base_date,
                                    quote_plus('base_time'): base_time, quote_plus('nx'): v1, quote_plus('ny'): v2,
-                                   quote_plus('dataType'): 'json', quote_plus('numOfRows'): '60'})
-    res = requests.get(url + queryParams,  verify=False)
+                                   quote_plus('dataType'): 'json', quote_plus('pageNo'): '1',
+                                   quote_plus('numOfRows'): '12'})
+    res = requests.get(url + query_params,  verify=False)
     items = res.json().get('response').get('body').get('items')
     weather_data = dict()
-    #df = pd.DataFrame(items)
     data = dict()
     for item in items['item']:
         # 기온
         if item['category'] == 'TMP':
             weather_data['tmp'] = item['fcstValue']
-        # 강수량(이거 범주로 나오네 시팔)
+        # 강수량
         if item['category'] == 'PCP':
-            weather_data['pcp'] = item['fcstValue']
+            if item['fcstValue'] == "강수없음":
+                weather_data['pcp'] = '0'
+            else:
+                weather_data['pcp'] = item['fcstValue']
+        # 풍속
+        if item['category'] == 'WSD':
+            weather_data['wsd'] = item['fcstValue']
         # 습도(상대습도)
         if item['category'] == 'REH':
             weather_data['reh'] = item['fcstValue']
-        # 풍속
-        if item['category'] == 'WDS':
-            weather_data['wsd'] = item['fcstValue']
-
+        # 1시간 신적설
+        if item['category'] == 'SNO':
+            if item['fcstValue'] == "적설없음":
+                weather_data['sno'] = '0'
+            else:
+                weather_data['sno'] = item['fcstValue']
+        # 전운량
+        if item['category'] == 'SKY':
+            weather_data['sky'] = item['fcstValue']
         # 기상상태
         if item['category'] == 'PTY':
             weather_code = item['fcstValue']
@@ -129,36 +131,13 @@ def dangi_api(v1, v2):
             elif weather_code == '4':
                 weather_state = '소나기'
             else:
-                weather_state = '없음'
+                weather_state = '눈비없음'
             weather_data['code'] = weather_code
-            weather_data['state'] = weather_state
+            weather_data['weather_state'] = weather_state
 
     data['weather'] = weather_data
     print(weather_data)
-
     return data
-
-    '''
-      평균기온(°C)TMP   일강수량(mm)PCP   평균 풍속(m/s)WSD   
-      평균 상대습도(%)REH   합계 일사량(MJ/m2)?   일 최심적설(cm)SNO   
-      평균 전운량(1/10)?
-    '''
-    '''
-    POP    강수확률    %    8
-    PTY    강수형태    코드값    4
-    PCP    1시간 강수량    범주 (1 mm)    8   o
-    REH    습도    %    8                   
-    SNO    1시간 신적설    범주(1 cm)    8   o
-    SKY    하늘상태    코드값    4
-    TMP    1시간 기온    ℃    10
-    TMN    일 최저기온    ℃    10
-    TMX    일 최고기온    ℃    10
-    UUU    풍속(동서성분)    m/s    12
-    VVV    풍속(남북성분)    m/s    12
-    WAV    파고    M    8
-    VEC    풍향    deg    10
-    WSD    풍속    m/s    10
-    '''
 
 
 def geocoder(string):
@@ -175,66 +154,69 @@ def geocoder(string):
     response = requests.get(api_url, params=params)
     result = {}
     if response.status_code == 200:
-        # print(response.json())
         items = response.json().get('response').get('result').get('point')
-        result = {'x': items['y'], 'y': items['x']}  # api에서 x랑 y 좌표값이 다르게 되어있어서...일단 반대로 추출...
-    #print('x, y = ', result['x'], result['y'])
+        result = {'x': items['y'], 'y': items['x']}
     return result
 
 
-def coord_to_loc(lat, long):
-    print('\n coord_to_loc:', lat, long)
+def coord_to_loc(lat, long):  # 해당 함수 안 씀
     long = float(long)
     lat = float(lat)
-    print('\n (float)coord_to_loc:', lat, long)
     long = round(long, 4)
     lat = round(lat, 4)
-    print('\n (round)coord_to_loc:', lat, long)
     long = str(long)
     lat = str(lat)
-    coord = str(long) + "," + str(lat)
-    print('\n coord:', coord)
+    point = long+","+lat
     api_url = "http://api.vworld.kr/req/address?"
     params = {
         "service": "address",
         "request": "getaddress",
         "crs": "epsg:4326",
-        "point": "126.9977,37.5682",
+        "point": point,
         "format": "json",
         "type": "road",
         "key": "DA702333-E74C-3FA1-BD96-B1D8F8512921"
     }
-    print('params:', params)
     response = requests.get(api_url, params=params)
     if response.status_code == 200:
-        print(response.json())
         items = response.json().get('response').get('result')
-        result = {}
         result = {'dist1': items[0]['structure']['level1'],
                   'dist2': items[0]['structure']['level2']}
-        print('----')
-        print(items)  # list type
-        print(result)
-
         return result
 
-'''
-[{'zipcode': '04545', 
-'type': 'road', 
-'text': '서울특별시 중구 창경궁로 65-3 (주교동)', 
-'structure': {
-        'level0': '대한민국', 
-        'level1': '서울특별시', 
-        'level2': '중구', 
-        'level3': '주교동', 
-        'level4L': '창경궁로', 
-        'level4LC': '3005008', 
-        'level4A': '을지로동', 
-        'level4AC': 
-        '1114060500', 
-        'level5': '65-3', 
-        'detail': ''
-    }
-}]   
-'''
 
+def location_to_coord(gu, dong):
+    a_json = open('mainapp/static/json/dong_coords.json', encoding='utf-8')
+    coords = json.load(a_json)
+    return_coord = {}
+    for i in coords:
+        if i["gu"] == gu and i["dong"] == dong:
+            return_coord = {'lat': i["lat"], 'long': i["lng"]}
+    return return_coord
+
+
+def set_background(hour, code):
+    back = ""
+    if 7 < hour < 19:  # 주간
+        if code == '1':
+            back = "/static/videos/rainy.mp4"
+        elif code == '2':
+            back = "/static/videos/snow.mp4"
+        elif code == '3':
+            back = "/static/videos/snow.mp4"
+        elif code == '4':
+            back = "/static/videos/rainy.mp4"
+        else:
+            back = "/static/videos/sunny.mp4"
+    if hour >= 19 or hour <= 7:  # 야간
+        if code == '1':
+            back = "/static/videos/rainy-night.mp4"
+        elif code == '2':
+            back = "/static/videos/snow-night.mp4"
+        elif code == '3':
+            back = "/static/videos/snow-night.mp4"
+        elif code == '4':
+            back = "/static/videos/rainy-night.mp4"
+        else:
+            back = "/static/videos/sunny-night.mp4"
+    return back
