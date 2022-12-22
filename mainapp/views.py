@@ -181,8 +181,5 @@ def mylike(request):
     return render(request, 'users/mylike.html')
 
 
-def err(request):
-    return render(request, 'err.html')
-
 
 

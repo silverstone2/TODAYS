@@ -14,3 +14,4 @@ urlpatterns = [
     path('users/mylike/', views.mylike, name="mylike"),
     path('users/logout/', views.logout, name="logout"),
 ]
+
