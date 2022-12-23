@@ -4,7 +4,9 @@ from mainapp import bookmark as bkmk # 북마크 기능 함수 boomark.py 로 �
 from datetime import date, datetime, timedelta
 # 로그인에 필요한 내장 함수 사용
 from django.contrib import auth
-from django.contrib.auth.hashers import make_password , check_password
+from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.decorators import login_required
 from sqlalchemy.sql.functions import user
 from mainapp.models import Members, Mybookmark
 from datetime import datetime
@@ -229,10 +231,8 @@ def inserterr(request):
 def iderr(request):
     return render(request, 'users/iderr.html')
 
-
 def signupPwdErr(request):
     return render(request, 'users/signupPwdErr.html')
-
 
 def signupInputErr(request):
     return render(request, 'users/signupInputErr.html')
@@ -244,5 +244,4 @@ def signupIdErr(request):
 
 def valiErr(request):
     return render(request, 'users/valiErr.html')
-
 
