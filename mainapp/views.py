@@ -8,7 +8,7 @@ from django.contrib.auth.hashers import make_password , check_password
 from sqlalchemy.sql.functions import user
 from mainapp.models import Members
 from datetime import datetime
-
+import re
 #  기본값: 서울
 hour = datetime.now().hour
 lat = "37.579871128849334"  # 위도
@@ -25,6 +25,7 @@ selected_location = {'dist1': "서울특별시", 'dist2': "중구"}
 
 def main(request):
     return render(request, 'main.html')
+
 
 def result(request):
     if 'Members' not in request.session:
@@ -52,15 +53,18 @@ def result(request):
             global selected_weather
             selected_weather = func.dangi_api(sel_nx_ny['x'], sel_nx_ny['y']).get('weather')
             background = func.set_background(hour, selected_weather['code'])
-
+            # 임시 loop dictionary
+            loop = [{'num': 1, 'name': '카페1', 'addr': '주소1'},
+                    {'num': 2, 'name': '카페2', 'addr': '주소2'},
+                    {'num': 3, 'name': '카페3', 'addr': '주소3'},
+                    {'num': 4, 'name': '카페4', 'addr': '주소4'},
+                    {'num': 5, 'name': '카페5', 'addr': '주소5'},
+                    {'num': 6, 'name': '카페6', 'addr': '주소6'}]
+            print(loop)
             context = {
                 'background': background,
                 'latitude': nx_ny['x'],
                 'longitude': nx_ny['y'],
-
-                # 'current_tmp': current_weather['tmp'],
-                # 'current_location1': current_location['dist1'],
-                # 'current_location2': current_location['dist2'],
 
                 'gu': gu,
                 'dong': dong,
@@ -73,15 +77,16 @@ def result(request):
                 'selected_latitude': sel_nx_ny['x'],
                 'selected_longitude': sel_nx_ny['y'],
 
+                'loop': loop
             }
-            return render(request, 'result.html', context)
+            return render(request, 'result_backup.html', context)
         else:
             # 날씨 정보 차단시 default 값 출력.
             background = ""
             context = {
                 'background': background
             }
-        return render(request, 'result.html', context)
+        return render(request, 'result_backup.html', context)
     except Exception as e:
         return redirect('/')
 
@@ -93,6 +98,8 @@ def bookmark(request):
     cafe3value = request.POST.getlist("cafe3value")
     cafe4value = request.POST.getlist("cafe4value")
     cafe5value = request.POST.getlist("cafe5value")
+
+
     context = {
         'cafe_cnt': cafe_cnt,
         'cafe1value': cafe1value,
@@ -110,36 +117,29 @@ def recommend(request):
     }
     return render(request, 'recommend_list.html', context)
 
+
 def login(request):
     lo_err = {}
-
     if request.method == "POST":
         login_id = request.POST.get('lo_id')
         login_pwd = request.POST.get('lo_pwd')
-
-        if not (login_id):
+        if not login_id:
             # lo_error['err'] = "아이디와 비밀번호 모두 입력하세요"
             return render(request, 'users/inserterr.html')
-
-        if (login_id):
+        if login_id:
             try:
                 members = Members.objects.get(id=login_id)
             except Exception as e:
                 print(e)
                 return render(request, 'users/iderr.html')
-
-        
         if check_password(login_pwd, members.pw1):
             request.session['Members'] = members.id
             request.session['Members1'] = members.name
             request.session['Members2'] = members.email
             request.session['Members3'] = str(members.regdate)
-            
             return redirect('/')
         else:
             return render(request, 'users/pwderr.html')
-        
-
     return render(request, 'users/loginform.html')
 
 
@@ -161,12 +161,15 @@ def signupok(request):
             pw1 = request.POST.get('members_pw1')
             pw2 = request.POST.get('members_pw2')
             email = request.POST.get('members_email')
-            
+            PASSWORD_VALIDATION = r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$'
             err_data = {}
             if not(id and name and pw1 and pw2):
                 return render(request, 'users/signupInputErr.html')
             elif pw1 != pw2:
                 return render(request, 'users/signupPwdErr.html')
+            elif not re.match(PASSWORD_VALIDATION, pw1):
+                return render(request, 'users/valiErr.html')
+
             else:
                 Members(
                     name=name,
@@ -197,30 +200,41 @@ def mypage(request):
     print(context['m_email'])
     print(context['m_regdate'])
     
-    return render(request, 'users/mypage.html' , context)
+    return render(request, 'users/mypage.html', context)
+
 
 def mylike(request):
     if 'Members' not in request.session:
         return render(request, 'users/loginform.html')
     return render(request, 'users/mylike.html')
 
+
 def err(request):
     return render(request, 'err.html')
+
 
 def pwderr(request):
     return render(request, 'users/pwderr.html')
 
+
 def inserterr(request):
     return render(request, 'users/inserterr.html')
+
 
 def iderr(request):
     return render(request, 'users/iderr.html')
 
+
 def signupPwdErr(request):
     return render(request, 'users/signupPwdErr.html')
+
 
 def signupInputErr(request):
     return render(request, 'users/signupInputErr.html')
 
+
 def signupIdErr(request):
     return render(request, 'users/signupIdErr.html')
+
+def valiErr(request):
+    return render(request, 'users/valiErr.html')
