@@ -6,12 +6,30 @@
 <!-- 파비콘 추가 -->
 <link rel="icon" href="/static/images/icon/pavicon.png">
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap');
+
+.fixed{
+font-family: 'Gamja Flower', cursive;
+width: 100%; height: 100%;
+background-image: url(/static/images/bg.jpg);
+background-repeat: no-repeat; /* 배경이미지X */
+background-size: cover; /* 요소를 비율에 맞게 커버 */
+background-position: center; /* 이미지를 요소의 정가운데로 처리 */
+background-attachment: fixed; /* 스크롤바 움직일때 이미지가 따라다님 */
+}
+
 .form {
    border-radius:20px;
    background-color: #F5F5F5;
    padding:1vw;
-   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.5);
    margin:1vw;
+}
+
+.index {
+	text-align: center;
+	background-color:#F5F5F5;
+	border-radius:15px;
+	padding:10px;
 }
 select {
      width:300px;
@@ -38,6 +56,7 @@ select {
   text-transform: uppercase;
   letter-spacing: 2.5px;
   font-weight: 500;
+  font-family: 'Gamja Flower', cursive;
   color: #000;
   background-color: #fff;
   border: none;
@@ -55,21 +74,9 @@ select {
   transform: translateY(-7px);
 }
 
-.index {
-	text-align: center;
-	background-color:white;
-	border-radius:15px;
-	padding:10px;
-}
 
-.fixed{
-width: 100%; height: 100%;
-background-image: url(/static/images/bg.jpg);
-background-repeat: no-repeat; /* 배경이미지X */
-background-size: cover; /* 요소를 비율에 맞게 커버 */
-background-position: center; /* 이미지를 요소의 정가운데로 처리 */
-background-attachment: fixed; /* 스크롤바 움직일때 이미지가 따라다님 */
-}
+
+
 
 </style>
 <!-- Bootstrap CSS -->
@@ -77,12 +84,11 @@ background-attachment: fixed; /* 스크롤바 움직일때 이미지가 따라�
 <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
 <!-- Bootstrap JS -->
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
-<script src="{% static 'js/address.js' %}"></script>
 <!-- jQurey -->
 <script src="https://code.jquery.com/jquery-latest.min.js" type="application/javascript"></script>
 <script type="text/javascript">
 $('document').ready(function() {
- var area0 = ["구/군 선택","강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구","동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"];
+ var area0 = ["구 선택","강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구","동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"];
    var area1 = ['개포동', '논현동', '대치동', '도곡동', '삼성동', '세곡동', '수서동','신사동','압구정동', '역삼동', '일원동','청담동'];
    var area2 = ['강일동', '고덕동', '길동', '둔촌동', '명일동', '상일동', '성내동', '암사동', '천호동'];
    var area3 = ['미아동', '번동', '삼각산동', '삼양동', '송중동', '송천동', '수유동', '우이동', '인수동'];
@@ -118,7 +124,7 @@ $('document').ready(function() {
   $.each(eval(area0), function() {
    $selsido.append("<option value='"+this+"'>"+this+"</option>");
   });
-  $selsido.next().append("<option value=''>구/군 선택</option>");
+  $selsido.next().append("<option value=''>구 선택</option>");
  });
 
 
