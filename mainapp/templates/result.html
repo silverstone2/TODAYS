@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Today's</title>
-</head>
+
 <!-- 파비콘 추가 -->
 <link rel="icon" href="/static/images/icon/pavicon.png">
 
@@ -46,14 +46,10 @@ video { width: 100%; height: 100%; } /*좌우 꽉차게 하기*/
 
 .cafe-text p { margin-top: 10vw; text-align: center; font-size: 1vw; color: #ffffff; }
 
-
-
-
 .swiper {
 	width: 60%;
     height: 100%;
 }
-
 .swiper-slide {
 	text-align: center;
 	font-size: 18px;
@@ -82,7 +78,6 @@ video { width: 100%; height: 100%; } /*좌우 꽉차게 하기*/
     display: none;
   }
 }
-
 .fixed{
 width: 100%; height: 100%;           
 background-image: url(/static/images/bg.jpg);
@@ -91,19 +86,20 @@ background-size: cover; /* 요소를 비율에 맞게 커버 */
 background-position: center; /* 이미지를 요소의 정가운데로 처리 */
 background-attachment: fixed; /* 스크롤바 움직일때 이미지가 따라다님 */
 }
-
-
 </style>
-
-
+</head>
 <body class="fixed">
 <!-- 네비게이션바 -->
 {% include "navbar.html" %}
 <div class="jb-box">
 	<video muted autoplay loop>
-		<source src="/static/videos/sunny.mp4" type="video/mp4">
+		<source src= {{ background }} type="video/mp4">
 	</video>
-
+	<div class="dv-text">
+		<p>
+			상단 정보
+		</p>
+	</div>
 	<div class="dv-text2">
 		<p>
 			서울특별시 <br />
@@ -131,8 +127,7 @@ background-attachment: fixed; /* 스크롤바 움직일때 이미지가 따라�
 
 <div class="swiper mySwiper">
 	<div class="swiper-wrapper">
-      
-      {% for i in loop %} <!-- 장고 템플릿 언어로 for 문 생성 --> <!-- views.py의 55 라인 참고 -->
+      {% for i in loop %}
       	<div class="swiper-slide">
 			<div class="image-content">
 				<span class="overlay"></span>
@@ -145,7 +140,7 @@ background-attachment: fixed; /* 스크롤바 움직일때 이미지가 따라�
      	 		<h2 class="name">{{ i.name }}</h2>
       			<p class="description">{{ i.addr }}</p>
 				{% if 'Members' in request.session %}
-				<input type="checkbox" onClick="testfunction(this)" value="{{i.name }}" id="cafe{{ i.num }}" name="checkbox{{ i.num }}">
+				<input type="checkbox" onClick="testfunction(this)" value="{{i.name }}" id="cafe{{ i.num }}" name="checkbox{{ i.num }}" >
 				{% endif %}
 				<button class="button">View More</button>
      		 </div>    	
@@ -166,11 +161,11 @@ background-attachment: fixed; /* 스크롤바 움직일때 이미지가 따라�
     {% endfor %}
     <input type="text" id="cafeCnt" name="cafeCnt" value="0">
     {% if 'Members' in request.session %}
-    <input type="submit" id="submit" value="북마크 추가">
+    <input type="submit" id="submit" onClick="checkboxChk()" value="북마크 추가">
     {% endif %}
 </form>
 
-<script>
+<script> <!-- 체크박스 제어 함수 -->
     let sum = 0;
     function testfunction(box){
         if(box.checked) { // 체크가 되면 checked==true라는 값을 전달받는다.
@@ -191,10 +186,23 @@ background-attachment: fixed; /* 스크롤바 움직일때 이미지가 따라�
             return false;
         } else return true;
     }
-</script> <!-- 체크박스 제어 함수 -->
+</script>
+<script type="text/javascript"> <!-- 뒤로가기 버튼 작동 시 동작하는 초기화 함수 -->
+    window.onpageshow = function(event){
+        if(event.persisted || (window.performance && window.performance.navigation.type == 2)){
+            document.getElementById("cafeCnt").value = 0;
+            for(let i=1;i<{{ loopCnt }}+1;i++) {
+                let num = "";
+                num = i;
+                document.getElementById("cafe" + num).checked = false;
+                document.getElementById("cafe"+num+"value").value = "";
+            }
+        }
+    }
+</script>
 
 <script>
-var swiper = new Swiper(".mySwiper", {
+let swiper = new Swiper(".mySwiper", {
   slidesPerView: 3,
   spaceBetween: 30,
   slidesPerGroup: 3,
@@ -209,7 +217,6 @@ var swiper = new Swiper(".mySwiper", {
     prevEl: ".swiper-button-prev",
   },
 });
-
 </script>    
 </body>
 </html>

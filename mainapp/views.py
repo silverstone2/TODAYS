@@ -6,7 +6,7 @@ from datetime import date, datetime, timedelta
 from django.contrib import auth
 from django.contrib.auth.hashers import make_password , check_password
 from sqlalchemy.sql.functions import user
-from mainapp.models import Members
+from mainapp.models import Members, Mylike
 from datetime import datetime
 import re
 #  기본값: 서울
@@ -60,7 +60,7 @@ def result(request):
                     {'num': 4, 'name': '카페4', 'addr': '주소4'},
                     {'num': 5, 'name': '카페5', 'addr': '주소5'},
                     {'num': 6, 'name': '카페6', 'addr': '주소6'}]
-            print(loop)
+            loopCnt = len(loop)
             context = {
                 'background': background,
                 'latitude': nx_ny['x'],
@@ -77,21 +77,23 @@ def result(request):
                 'selected_latitude': sel_nx_ny['x'],
                 'selected_longitude': sel_nx_ny['y'],
 
-                'loop': loop
+                'loop': loop,
+                'loopCnt': loopCnt,
             }
-            return render(request, 'result_backup.html', context)
+            return render(request, 'result.html', context)
         else:
             # 날씨 정보 차단시 default 값 출력.
             background = ""
             context = {
                 'background': background
             }
-        return render(request, 'result_backup.html', context)
+        return render(request, 'result.html', context)
     except Exception as e:
+        print(e)
         return redirect('/')
 
 
-def bookmark(request):
+def bookmark(request): # checkForm 함수로 작동하는 함수.
     cafe_cnt = request.POST.getlist("cafeCnt")
     cafe1value = request.POST.getlist("cafe1value")
     cafe2value = request.POST.getlist("cafe2value")
@@ -99,6 +101,17 @@ def bookmark(request):
     cafe4value = request.POST.getlist("cafe4value")
     cafe5value = request.POST.getlist("cafe5value")
 
+    # fields = ('user_id', 'cafename', 'addr', 'category',)
+    user_id = "yoonsunghoon"
+    cafename = request.POST.getlist("cafe1value")
+    addr = "테스트 주소"
+    category = "테스트 카테고리"
+    Mylike(
+        user_id=user_id,
+        cafename=cafename,
+        addr=addr,
+        category=category
+    ).save()
 
     context = {
         'cafe_cnt': cafe_cnt,
@@ -108,7 +121,7 @@ def bookmark(request):
         'cafe4value': cafe4value,
         'cafe5value': cafe5value,
     }
-    return render(request, 'bookmark.html', context)
+    return render(request, 'recommend_list.html', context)
 
 
 def recommend(request):
@@ -236,5 +249,8 @@ def signupInputErr(request):
 def signupIdErr(request):
     return render(request, 'users/signupIdErr.html')
 
+
 def valiErr(request):
     return render(request, 'users/valiErr.html')
+
+

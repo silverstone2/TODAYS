@@ -89,7 +89,7 @@ def dangi_api(v1, v2):
     query_params = '?' + urlencode({quote_plus('serviceKey'): service_key_decoded, quote_plus('base_date'): base_date,
                                    quote_plus('base_time'): base_time, quote_plus('nx'): v1, quote_plus('ny'): v2,
                                    quote_plus('dataType'): 'json', quote_plus('pageNo'): '1',
-                                   quote_plus('numOfRows'): '12'})
+                                   quote_plus('numOfRows'): '24'})
     res = requests.get(url + query_params,  verify=False)
     items = res.json().get('response').get('body').get('items')
     weather_data = dict()
