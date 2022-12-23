@@ -161,7 +161,7 @@ background-attachment: fixed; /* 스크롤바 움직일때 이미지가 따라�
     {% endfor %}
     <input type="text" id="cafeCnt" name="cafeCnt" value="0">
     {% if 'Members' in request.session %}
-    <input type="submit" id="submit" onClick="checkboxChk()" value="북마크 추가">
+    <input type="submit" id="submit" onclick="alert('북마크가 추가되었습니다')" value="북마크 추가">
     {% endif %}
 </form>
 

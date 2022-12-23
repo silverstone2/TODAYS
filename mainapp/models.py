@@ -53,14 +53,17 @@ class Mylike(models.Model):
 
 
 class Mybookmark(models.Model):
-    id = models.CharField(primary_key=True, max_length=50, db_collation='utf8mb4_general_ci')
+    id = models.CharField(max_length=50, db_collation='utf8mb4_general_ci')
+    bookmarkno = models.IntegerField(primary_key=True)
     cafename = models.CharField(max_length=50, db_collation='utf8mb4_general_ci')
     addr = models.CharField(max_length=50, db_collation='utf8mb4_general_ci')
     category = models.CharField(max_length=50, db_collation='utf8mb4_general_ci')
     memo = models.CharField(max_length=250, db_collation='utf8mb4_general_ci')
+
     class Meta:
         managed = False
         db_table = 'mybookmark'
+
 
 
 
