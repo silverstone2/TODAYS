@@ -142,6 +142,7 @@ def signup(request):
 
 # POST 방식으로 각 항목들을 받아서 Err가 없으면 데이터베이스에 값을 삽입하고 회원가입 완료
 def signupok(request):
+<<<<<<< HEAD
     if request.method == "POST":
         name = request.POST.get('members_name')
         id = request.POST.get('members_id')
@@ -164,6 +165,33 @@ def signupok(request):
                 ).save()
             return redirect('/')
     return render(request, 'main.html')
+=======
+    try:
+        if request.method == "POST":
+            name = request.POST.get('members_name')
+            id = request.POST.get('members_id')
+            pw1 = request.POST.get('members_pw1')
+            pw2 = request.POST.get('members_pw2')
+            email = request.POST.get('members_email')
+            
+            err_data = {}
+            if not(id and name and pw1 and pw2):
+                return render(request, 'users/signupInputErr.html')
+            elif pw1 != pw2:
+                return render(request, 'users/signupPwdErr.html')
+            else:
+                Members(
+                    name=name,
+                    id=id,
+                    pw1=make_password(pw1),
+                    pw2=make_password(pw2),
+                    email=email
+                    ).save()
+                return redirect('/')
+        return render(request, 'main.html')
+    except Exception as e:
+        return render(request, 'users/signupIdErr.html')
+>>>>>>> branch 'develop' of https://github.com/silverstone2/TODAYS.git
 
 
 def logout(request):
@@ -196,3 +224,15 @@ def inserterr(request):
 
 def iderr(request):
     return render(request, 'users/iderr.html')
+<<<<<<< HEAD
+=======
+
+def signupPwdErr(request):
+    return render(request, 'users/signupPwdErr.html')
+
+def signupInputErr(request):
+    return render(request, 'users/signupInputErr.html')
+
+def signupIdErr(request):
+    return render(request, 'users/signupIdErr.html')
+>>>>>>> branch 'develop' of https://github.com/silverstone2/TODAYS.git

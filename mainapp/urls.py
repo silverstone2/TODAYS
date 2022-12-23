@@ -17,6 +17,9 @@ urlpatterns = [
     path('users/logout/', views.logout, name="logout"),
     path('users/pwderr/', views.pwderr),
     path('users/inserterr/', views.inserterr),
-    path('users/idterr/', views.iderr),
+    path('users/iderr/', views.iderr),
+    path('users/signupPwdErr/', views.signupPwdErr),
+    path('users/signupInputErr/', views.signupInputErr),
+    path('users/signupIdErr/', views.signupIdErr),
 ]
 
