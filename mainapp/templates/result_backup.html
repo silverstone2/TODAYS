@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> <!-- 해당 파일 백업용이니 배포 테스트 완료까지 지우지 말아주세요~ -->
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -21,6 +21,7 @@
 
 <!-- CARD CSS -->
 <link rel="stylesheet" type="text/css" href="{% static 'css/card.css' %}">
+
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap');
@@ -83,7 +84,7 @@ video { width: 100%; height: 100%; } /*좌우 꽉차게 하기*/
 }
 
 .fixed{
-width: 100%; height: 100%;           
+width: 100%; height: 100%;
 background-image: url(/static/images/bg.jpg);
 background-repeat: no-repeat; /* 배경이미지X */
 background-size: cover; /* 요소를 비율에 맞게 커버 */
@@ -94,14 +95,23 @@ background-attachment: fixed; /* 스크롤바 움직일때 이미지가 따라�
 
 </style>
 
+
 <body class="fixed">
 <!-- 네비게이션바 -->
 {% include "navbar.html" %}
 <div class="jb-box">
 	<video muted autoplay loop>
-		<source src="/static/videos/sunny.mp4" type="video/mp4">
+		<source src= {{ background }} type="video/mp4">
 	</video>
-
+	<div class="dv-text">
+		<p>
+			현재 {{ dong }}의 날씨 정보입니다.</br>
+			풍속은 {{ selected_wsd }}m/s 입니다.</br>
+            <!--
+            위도 경도는 콘솔창에 표시.
+            -->
+		</p>
+	</div>
 	<div class="dv-text2">
 		<p>
 			서울특별시 <br />
@@ -129,8 +139,8 @@ background-attachment: fixed; /* 스크롤바 움직일때 이미지가 따라�
 
 <div class="swiper mySwiper">
 	<div class="swiper-wrapper">
-      
-      {% for i in loop %} <!-- 장고 템플릿 언어로 for 문 생성 --> <!-- views.py의 55 라인 참고 -->
+
+    {% for i in loop %} <!-- 장고 템플릿 언어로 for 문 생성 --> <!-- views.py의 55 라인 참고 -->
       	<div class="swiper-slide">
 			<div class="image-content">
 				<span class="overlay"></span>
@@ -146,10 +156,10 @@ background-attachment: fixed; /* 스크롤바 움직일때 이미지가 따라�
 				<input type="checkbox" onClick="testfunction(this)" value="{{i.name }}" id="cafe{{ i.num }}" name="checkbox{{ i.num }}">
 				{% endif %}
 				<button class="button">View More</button>
-     		 </div>    	
+     		 </div>
       	</div>
 		{% endfor %}
-    
+
       </div>
       <div class="swiper-button-next"></div>
       <div class="swiper-button-prev"></div>
@@ -208,6 +218,6 @@ var swiper = new Swiper(".mySwiper", {
   },
 });
 
-</script>    
+</script>
 </body>
 </html>
