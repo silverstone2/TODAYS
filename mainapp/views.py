@@ -93,21 +93,25 @@ def result(request):
 def bookmark(request):  # checkForm 함수로 작동하는 함수.
     if request.method == 'POST':
         my_id = request.session.get('Members', '')  # 아이디
-        cafe_cnt = request.POST.getlist("cafeCnt")
-        cafe1value = request.POST.get("cafe1value")
-        cafe2value = request.POST.get("cafe2value")
-        cafe3value = request.POST.get("cafe3value")
-        cafe4value = request.POST.get("cafe4value")
-        cafe5value = request.POST.get("cafe5value")
-        cafe6value = request.POST.get("cafe6value")
+        cafe_cnt = request.POST.get("cafeCnt")
+        cafes = {1: request.POST.get("cafe1value"), 2: request.POST.get("cafe2value"),
+                 3: request.POST.get("cafe3value"), 4: request.POST.get("cafe4value"),
+                 5: request.POST.get("cafe5value"), 6: request.POST.get("cafe6value")}
+        cafes_addr = {1: request.POST.get("cafe1addr"), 2: request.POST.get("cafe2addr"),
+                      3: request.POST.get("cafe3addr"), 4: request.POST.get("cafe4addr"),
+                      5: request.POST.get("cafe5addr"), 6: request.POST.get("cafe6addr")}
         context = {
             'cafe_cnt': cafe_cnt,
         }
-        # for num in range
-        new_my_bookmark = Mybookmark()
-        new_my_bookmark.id = my_id
-        new_my_bookmark.cafename = cafe1value
-        new_my_bookmark.save()
+        for num in range(1, 7):
+            if cafes[num] == "":
+                pass
+            else:
+                new_my_bookmark = Mybookmark()
+                new_my_bookmark.id = my_id
+                new_my_bookmark.cafename = cafes[num]
+                new_my_bookmark.addr = cafes_addr[num]
+                new_my_bookmark.save()
         return render(request, 'bookmarkOk.html', context)
     else:
         return render(request, '/')

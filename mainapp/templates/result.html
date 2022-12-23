@@ -157,9 +157,10 @@ background-attachment: fixed; /* 스크롤바 움직일때 이미지가 따라�
 <!-- checkbox value 저장 폼. 추후에 inputType hidden 으로 변경해야 함 -->
 <form action="/bookmark/" onsubmit="return checkForm()" name=recommendedCafe" id="recommendedCafe" method="POST">{% csrf_token %}
     {% for i in loop %}
-    <input type="text" id="cafe{{ i.num }}value" name="cafe{{ i.num }}value" value="">
+    <input type="hidden" id="cafe{{ i.num }}value" name="cafe{{ i.num }}value" value="">
+    <input type="hidden" id="cafe{{ i.num }}addr" name="cafe{{ i.num }}addr" value="{{ i.addr }}">
     {% endfor %}
-    <input type="text" id="cafeCnt" name="cafeCnt" value="0">
+    <input type="hidden" id="cafeCnt" name="cafeCnt" value="0">
     {% if 'Members' in request.session %}
     <input type="submit" id="submit" onclick="alert('북마크가 추가되었습니다')" value="북마크 추가">
     {% endif %}
