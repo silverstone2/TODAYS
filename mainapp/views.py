@@ -8,7 +8,7 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from sqlalchemy.sql.functions import user
-from mainapp.models import Members
+from mainapp.models import Members, Mybookmark
 from datetime import datetime
 import re
 #  기본값: 서울
@@ -32,68 +32,69 @@ def main(request):
 def result(request):
     if 'Members' not in request.session:
         return render(request, 'users/loginform.html')
-    try:
-        if request.method == 'POST':
-            gu = request.POST.get('sido')
-            dong = request.POST.get('gugun')
-            mood = request.POST.get('mood')
-            food = request.POST.get('food')
-            print('responded value:', gu, dong, mood, food)
 
-            # 현 위치 기반
-            # global current_location
-            # current_location = func.coord_to_loc(lat, long)
-            # global nx_ny
-            # nx_ny = func.grid(lat, long)
-            # global current_weather
-            # current_weather = func.dangi_api(nx_ny['x'], nx_ny['y']).get('weather')
+    if request.method == 'POST':
+        gu = request.POST.get('sido')
+        dong = request.POST.get('gugun')
+        mood = request.POST.get('mood')
+        food = request.POST.get('food')
+        print('responded value:', gu, dong, mood, food)
 
-            # 선택된 날짜 기반
-            global sel_lat_long
-            sel_lat_long = func.location_to_coord(gu, dong)
-            sel_nx_ny = func.grid(sel_lat_long['lat'], sel_lat_long['long'])
-            global selected_weather
-            selected_weather = func.dangi_api(sel_nx_ny['x'], sel_nx_ny['y']).get('weather')
-            background = func.set_background(hour, selected_weather['code'])
-            # 임시 loop dictionary
-            loop = [{'num': 1, 'name': '카페1', 'addr': '주소1'},
-                    {'num': 2, 'name': '카페2', 'addr': '주소2'},
-                    {'num': 3, 'name': '카페3', 'addr': '주소3'},
-                    {'num': 4, 'name': '카페4', 'addr': '주소4'},
-                    {'num': 5, 'name': '카페5', 'addr': '주소5'},
-                    {'num': 6, 'name': '카페6', 'addr': '주소6'}]
-            print(loop)
-            context = {
-                'background': background,
-                'latitude': nx_ny['x'],
-                'longitude': nx_ny['y'],
+        # 현 위치 기반
+        # global current_location
+        # current_location = func.coord_to_loc(lat, long)
+        # global nx_ny
+        # nx_ny = func.grid(lat, long)
+        # global current_weather
+        # current_weather = func.dangi_api(nx_ny['x'], nx_ny['y']).get('weather')
 
-                'gu': gu,
-                'dong': dong,
-                'selected_tmp': selected_weather['tmp'],  # 온도 TMP
-                'selected_pcp': selected_weather['pcp'],  # 강수량 PCP
-                'selected_wsd': selected_weather['wsd'],  # 풍속 WSD
-                'selected_reh': selected_weather['reh'],  # 습도 REH
-                'selected_sno': selected_weather['sno'],  # 1시간 신적설 SNO
-                'selected_sky': selected_weather['sky'],  # 전운량 1, 2, 4(범주)
-                'selected_latitude': sel_nx_ny['x'],
-                'selected_longitude': sel_nx_ny['y'],
+        # 선택된 날짜 기반
+        global sel_lat_long
+        sel_lat_long = func.location_to_coord(gu, dong)
+        sel_nx_ny = func.grid(sel_lat_long['lat'], sel_lat_long['long'])
+        global selected_weather
+        selected_weather = func.dangi_api(sel_nx_ny['x'], sel_nx_ny['y']).get('weather')
+        background = func.set_background(hour, selected_weather['code'])
+        # 임시 loop dictionary
+        loop = [{'num': 1, 'name': '카페1', 'addr': '주소1'},
+                {'num': 2, 'name': '카페2', 'addr': '주소2'},
+                {'num': 3, 'name': '카페3', 'addr': '주소3'},
+                {'num': 4, 'name': '카페4', 'addr': '주소4'},
+                {'num': 5, 'name': '카페5', 'addr': '주소5'},
+                {'num': 6, 'name': '카페6', 'addr': '주소6'}]
+        loopCnt = len(loop)
+        context = {
+            'background': background,
+            'latitude': nx_ny['x'],
+            'longitude': nx_ny['y'],
 
-                'loop': loop
-            }
-            return render(request, 'result_backup.html', context)
-        else:
-            # 날씨 정보 차단시 default 값 출력.
-            background = ""
-            context = {
-                'background': background
-            }
-        return render(request, 'result_backup.html', context)
-    except Exception as e:
-        return redirect('/')
+            'gu': gu,
+            'dong': dong,
+            'selected_tmp': selected_weather['tmp'],  # 온도 TMP
+            'selected_pcp': selected_weather['pcp'],  # 강수량 PCP ( 범주 )
+            'selected_wsd': selected_weather['wsd'],  # 풍속 WSD
+            'selected_reh': selected_weather['reh'],  # 습도 REH
+            'selected_sno': selected_weather['sno'],  # 1시간 신적설 SNO ( 범주 )
+            'selected_sky': selected_weather['sky'],  # 전운량 1, 2, 4(범주)
+            'selected_latitude': sel_nx_ny['x'],
+            'selected_longitude': sel_nx_ny['y'],
+
+            'loop': loop,
+            'loopCnt': loopCnt,
+        }
+        return render(request, 'result.html', context)
+    else:
+        # 날씨 정보 차단시 default 값 출력.
+        background = ""
+        context = {
+            'background': background
+        }
+    return render(request, 'result.html', context)
+
+        #return redirect('/')
 
 
-def bookmark(request):
+def bookmark(request): # checkForm 함수로 작동하는 함수.
     cafe_cnt = request.POST.getlist("cafeCnt")
     cafe1value = request.POST.getlist("cafe1value")
     cafe2value = request.POST.getlist("cafe2value")
@@ -101,6 +102,17 @@ def bookmark(request):
     cafe4value = request.POST.getlist("cafe4value")
     cafe5value = request.POST.getlist("cafe5value")
 
+    # fields = ('id', 'cafename', 'addr', 'category',)
+    userid = "yoonsunghoon"
+    cafename = "테스트 카페2"
+    addr = "테스트 주소2"
+    category = "테스트 카테고리2"
+    Mybookmark(
+        id=userid,
+        cafename=cafename,
+        addr=addr,
+        category=category
+    ).save()
 
     context = {
         'cafe_cnt': cafe_cnt,
@@ -110,14 +122,7 @@ def bookmark(request):
         'cafe4value': cafe4value,
         'cafe5value': cafe5value,
     }
-    return render(request, 'bookmark.html', context)
-
-
-def recommend(request):
-    context = {
-        'lat': lat
-    }
-    return render(request, 'recommend_list.html', context)
+    return render(request, 'bookmarkOk.html', context)
 
 
 def login(request):
@@ -236,5 +241,7 @@ def signupInputErr(request):
 def signupIdErr(request):
     return render(request, 'users/signupIdErr.html')
 
+
 def valiErr(request):
     return render(request, 'users/valiErr.html')
+

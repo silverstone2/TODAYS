@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+
 # Create your models here.
 class Members(models.Model):
     name = models.CharField(max_length=50, db_collation='utf8mb4_general_ci')
@@ -10,7 +11,6 @@ class Members(models.Model):
     email = models.CharField(max_length=50, db_collation='utf8mb3_general_ci')
     regdate = models.DateField(db_column='regdate', auto_now_add=True)
     #regdate = models.DateField()
-
 
     class Meta:
         managed = False
@@ -41,7 +41,7 @@ class CafeList(models.Model):
 
 
 class Mylike(models.Model):
-    user_id = models.CharField(max_length=50)
+    userid = models.CharField(max_length=50)
     cafename = models.CharField(max_length=50)
     addr = models.CharField(max_length=50)
     category = models.CharField(max_length=50)
@@ -50,3 +50,17 @@ class Mylike(models.Model):
     class Meta:
         managed = False
         db_table = 'mylike'
+
+
+class Mybookmark(models.Model):
+    id = models.CharField(primary_key=True, max_length=50, db_collation='utf8mb4_general_ci')
+    cafename = models.CharField(max_length=50, db_collation='utf8mb4_general_ci')
+    addr = models.CharField(max_length=50, db_collation='utf8mb4_general_ci')
+    category = models.CharField(max_length=50, db_collation='utf8mb4_general_ci')
+    memo = models.CharField(max_length=250, db_collation='utf8mb4_general_ci')
+    class Meta:
+        managed = False
+        db_table = 'mybookmark'
+
+
+
