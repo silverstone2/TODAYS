@@ -14,6 +14,18 @@
 <p>여긴 즐겨찾기 게시판</p>
 
 <p>즐겨찾기 목록</p>
+
+{% if likes.count > 0 %}
+{% for a in likes %}
+   <b>{{a.id}}</b> {{a.cafename}} {{a.addr}} {{a.category}} <br />
+{% endfor %}
+{% else %}
+   <p>자료가 없어요</p>
+{% endif %}
+
+
+
+
 <div></div>
 
 

@@ -91,38 +91,32 @@ def result(request):
         }
     return render(request, 'result.html', context)
 
-        #return redirect('/')
 
-
-def bookmark(request): # checkForm 함수로 작동하는 함수.
-    cafe_cnt = request.POST.getlist("cafeCnt")
-    cafe1value = request.POST.getlist("cafe1value")
-    cafe2value = request.POST.getlist("cafe2value")
-    cafe3value = request.POST.getlist("cafe3value")
-    cafe4value = request.POST.getlist("cafe4value")
-    cafe5value = request.POST.getlist("cafe5value")
-
-    # fields = ('id', 'cafename', 'addr', 'category',)
-    userid = "yoonsunghoon"
-    cafename = "테스트 카페2"
-    addr = "테스트 주소2"
-    category = "테스트 카테고리2"
-    Mybookmark(
-        id=userid,
-        cafename=cafename,
-        addr=addr,
-        category=category
-    ).save()
-
-    context = {
-        'cafe_cnt': cafe_cnt,
-        'cafe1value': cafe1value,
-        'cafe2value': cafe2value,
-        'cafe3value': cafe3value,
-        'cafe4value': cafe4value,
-        'cafe5value': cafe5value,
-    }
-    return render(request, 'bookmarkOk.html', context)
+def bookmark(request):  # checkForm 함수로 작동하는 함수.
+    if request.method == 'POST':
+        my_id = request.session.get('Members', '')  # 아이디
+        cafe_cnt = request.POST.get("cafeCnt")
+        cafes = {1: request.POST.get("cafe1value"), 2: request.POST.get("cafe2value"),
+                 3: request.POST.get("cafe3value"), 4: request.POST.get("cafe4value"),
+                 5: request.POST.get("cafe5value"), 6: request.POST.get("cafe6value")}
+        cafes_addr = {1: request.POST.get("cafe1addr"), 2: request.POST.get("cafe2addr"),
+                      3: request.POST.get("cafe3addr"), 4: request.POST.get("cafe4addr"),
+                      5: request.POST.get("cafe5addr"), 6: request.POST.get("cafe6addr")}
+        context = {
+            'cafe_cnt': cafe_cnt,
+        }
+        for num in range(1, 7):
+            if cafes[num] == "":
+                pass
+            else:
+                new_my_bookmark = Mybookmark()
+                new_my_bookmark.id = my_id
+                new_my_bookmark.cafename = cafes[num]
+                new_my_bookmark.addr = cafes_addr[num]
+                new_my_bookmark.save()
+        return render(request, 'bookmarkOk.html', context)
+    else:
+        return render(request, '/')
 
 
 def login(request):
@@ -202,11 +196,9 @@ def mypage(request):
     context = {}
     context['m_id'] = request.session.get('Members', '')
     context['m_name'] = request.session.get('Members1', '')
-    context['m_email'] = request.session.get('Members2' , '')
-    context['m_regdate'] = request.session.get('Members3' , '')
-    print(context['m_email'])
-    print(context['m_regdate'])
-    
+    context['m_email'] = request.session.get('Members2', '')
+    context['m_regdate'] = request.session.get('Members3', '')
+
     return render(request, 'users/mypage.html', context)
 
 
@@ -244,4 +236,12 @@ def signupIdErr(request):
 
 def valiErr(request):
     return render(request, 'users/valiErr.html')
+    
+def mylike(request):
+    if 'Members' not in request.session:
+        return render(request, 'users/loginform.html')
 
+    myid = request.session.get('Members', '')
+    print(myid)
+    likes = Mybookmark.objects.filter(id=myid)
+    return render(request, 'users/mylike.html', {'likes': likes})

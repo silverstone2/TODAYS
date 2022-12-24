@@ -10,26 +10,74 @@
 
 .fixed{
 font-family: 'Gamja Flower', cursive;
-width: 100%; height: 100%;
-background-image: url(/static/images/bg.jpg);
-background-repeat: no-repeat; /* 배경이미지X */
-background-size: cover; /* 요소를 비율에 맞게 커버 */
-background-position: center; /* 이미지를 요소의 정가운데로 처리 */
-background-attachment: fixed; /* 스크롤바 움직일때 이미지가 따라다님 */
+background-color: #EEEEEE;  
+        
 }
+
+.cover_image{
+
+    background-attachment: fixed;
+    text-rendering: inherit;
+    height: 450px;
+    background-position: 50% 100%;
+    background-size: cover;
+    display: block;
+    position : relative;
+    
+}
+
+.cover_inner{
+    padding: 0;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 450px;
+    background-color: #000;
+    display: block;
+    opacity: .3;
+    
+}
+
+.cover_title{
+	padding-top: 150px;
+	text-align: center;
+    color: white;
+    position : relative;
+
+}
+
+.cover_title2{
+	text-align: center;
+    color: white;
+    position : relative;
+
+}
+
+
+
+
+
+
 
 .form {
    border-radius:20px;
-   background-color: #F5F5F5;
    padding:1vw;
    margin:1vw;
+   border-radius: 28px;
+   box-shadow: rgba(0, 0, 0, 0.06) 0px 0px 6px 0px;
+   background-color: rgb(255, 255, 255);
+   
 }
 
 .index {
-	text-align: center;
-	background-color:#F5F5F5;
+	text-align: left;
 	border-radius:15px;
 	padding:10px;
+	border-radius: 28px;
+    box-shadow: rgba(0, 0, 0, 0.06) 0px 0px 6px 0px;
+    background-color: rgb(255, 255, 255);
+	
 }
 select {
      width:300px;
@@ -158,16 +206,37 @@ $('button').click(function(){
 <body class= "fixed">
 <!-- 네비게이션바 -->
 {% include "navbar.html" %}
+<div class="cover_image" style="background-image:url(/static/images/banner.jpg);">
+<div class="cover_inner"></div>
+	<h1 class="cover_title" style="font-size: 5vw;"	>HOW DO YOU FEELING TODAY?</h1>
+	<p class="cover_title2" style="font-size: 2vw;">-빅데이터로 찾아보는 내가 원하는 카페-</p>
+</div>
+
 <div id="contentArea" class="container" style= "width: 60%; height: 100%;">
-   <div id = "banner" class="container">
-      <img src="/static/images/banner.png" style= "width: 100%; height: 100%; overflow: hidden;"/>
-   </div>
    <br />
    <div class="index">
-      <h2>분위기에 따라 카페를 추천받고싶을땐?</h2>
+      <h2 style="text-align: center; font-size: 3vw;">분위기에 따라 카페를 추천받고싶을땐?</h2>
+      
       <br />
-      <p>이 웹페이지는 흔한 카페찾기로부터 시작되었습니다.</p>
-      <p>설명 어쩌구저쩌구설명 어쩌구저쩌구설명 어쩌구저쩌구</p>
+      <p style="font-size: 2vw;">이 웹페이지는 흔한 카페찾기로부터 시작되었습니다. <br />
+      설명 어쩌구저쩌구설명 어쩌구저쩌구설명 어쩌구저쩌구</p>
+	<p>Musicovery is a high quality and comprehensive music recommendation engine, very easy to integrate through its API.
+	<br />
+	It provides 4 types of services:
+	<br />
+	descriptive metadata on artists and tracks (genres, moods, era, geographic, acoustics descriptors…) <br />
+	recommendations and playlists, personalized in real time <br />
+	bespoke webservices to provide specific content (recommendation of live concerts, recommendation of playlists, Youtube channels,…) <br />
+	advice on data analysis, algorithms, recommendation optimization, metadata sourcing and music UX design <br />
+	With more than 12 years of experiments on how to provide intuitive, rich and smart radios, how to make sense of behavioural data and produce precise descriptive metadata on music content, Musicovery is in a unique position to provide a comprehensive recommendation engine. It generates any kind of recommendations and playlists: from a mood, a song, an artist, a subgenre, a theme, a place, or for a specific listener.
+	measures the quality of recommendations and playlists with an analytic tool that optimizes recommendations and playlists to each listener.
+	<br />
+ 
+	<br />
+	Recommendations and playlist are provided through an API, very easy to integrate, especially for prototyping new innovative UX.</p>
+      <br />
+    다 지워도 되는 글입니다
+      <br /><br /><br /><br /><br /><br /><br /><br />
 
    </div>
 
