@@ -201,13 +201,6 @@ def mypage(request):
 
     return render(request, 'users/mypage.html', context)
 
-
-def mylike(request):
-    if 'Members' not in request.session:
-        return render(request, 'users/loginform.html')
-    return render(request, 'users/mylike.html')
-
-
 def err(request):
     return render(request, 'err.html')
 
