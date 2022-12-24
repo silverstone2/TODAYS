@@ -51,18 +51,16 @@
 }
 .card-image{
   position: relative;
-  height: 150px;
-  width: 150px;
-  border-radius: 50%;
+  height: 12vw;
+  width: 20vw;
   background: #FFF;
-  padding: 3px;
+  padding: 1px;
 }
 .card-image .card-img{
   height: 100%;
   width: 100%;
   object-fit: cover;
-  border-radius: 50%;
-  border: 4px solid #4070F4;
+  border: 3px solid #c0c0c0;
 }
 .name{
   font-size: 18px;

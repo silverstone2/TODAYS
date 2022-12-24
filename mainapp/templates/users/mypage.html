@@ -6,15 +6,21 @@
 <!-- 파비콘 추가 -->
 <link rel="icon" href="/static/images/icon/pavicon.png">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap');
 *, *:after, *:before {
 	box-sizing: border-box;
 }
-body {
-	font-family: "DM Sans", sans-serif;
-	line-height: 1.5;
-	background-color: #f1f3fb;
+
+.fixed{
+font-family: 'Gamja Flower', cursive;
+width: 100%; height: 100%;
+background-image: url(/static/images/bg.jpg);
+background-repeat: no-repeat; /* 배경이미지X */
+background-size: cover; /* 요소를 비율에 맞게 커버 */
+background-position: center; /* 이미지를 요소의 정가운데로 처리 */
+background-attachment: fixed; /* 스크롤바 움직일때 이미지가 따라다님 */
 }
+
 img {
 	max-width: 100%;
 	display: block;
@@ -119,14 +125,7 @@ img {
 		text-decoration: none;
 	}
 }
-.fixed{
-width: 100%; height: 100%;
-background-image: url(/static/images/bg.jpg);
-background-repeat: no-repeat; /* 배경이미지X */
-background-size: cover; /* 요소를 비율에 맞게 커버 */
-background-position: center; /* 이미지를 요소의 정가운데로 처리 */
-background-attachment: fixed; /* 스크롤바 움직일때 이미지가 따라다님 */
-}
+
 </style>
 <!-- Bootstrap CSS -->
 {% load static %}
@@ -138,12 +137,12 @@ background-attachment: fixed; /* 스크롤바 움직일때 이미지가 따라�
 <div class="container">
 	<div class="card">
 		<div class="card-image">
-			<h2 class="card-heading">
+			<h2 class="card-heading" style="font-size:50px;">
 				<small>{{ m_name }}님,</br>
                     환영합니다.</small>
 			</h2>
 		</div>
-		<form class="card-form" action="" method="post">
+		<form class="card-form" action="" method="post" style="font-size:30px;">
 			{% csrf_token %}
 			<div>
                 <strong>사용자 ID : {{ m_id }}</strong>
