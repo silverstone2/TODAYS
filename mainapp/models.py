@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
 
 # Create your models here.
@@ -14,7 +15,6 @@ class Members(models.Model):
     class Meta:
         managed = False
         db_table = 'members'
-
 
 class Notice(models.Model):
     number = models.IntegerField(primary_key=True)
