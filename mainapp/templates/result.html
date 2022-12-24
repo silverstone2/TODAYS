@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Today's</title>
-</head>
+
 <!-- 파비콘 추가 -->
 <link rel="icon" href="/static/images/icon/pavicon.png">
 
@@ -27,9 +27,11 @@
 
 .fixed{
 font-family: 'Gamja Flower', cursive;
+background-color: #EEEEEE;          
 }
-.jb-box { width: 60%; height: 100%; overflow: hidden;margin: 0px auto; position: relative; } /*동영상이 정해진 높이를 벗어나면 보이지 않도록 overflow 속성을 정하기*/
-video { width: 100%; height: 100%; } /*좌우 꽉차게 하기*/
+
+.jb-box { width: 100%; height: 60%; overflow: hidden;margin: 0px auto; position: relative;} /*동영상이 정해진 높이를 벗어나면 보이지 않도록 overflow 속성을 정하기*/
+video { width: 100%; height: 60%; } /*좌우 꽉차게 하기*/
 .dv-text { position: absolute; top: 18%; width: 100%; } /*텍스트가 동영상 위로 올라가도록 하기*/
 .dv-text p { margin-top: -50px; text-align: center; font-size: 1vw; color: #ffffff; } /*텍스트 위치를 조정하고, 모양을 정하기*/
 
@@ -47,23 +49,28 @@ video { width: 100%; height: 100%; } /*좌우 꽉차게 하기*/
 
 
 
+.section {
+	background-color: #E0E0E0;
+	border-radius: 25px;
+	padding:10px;
+}
+
 
 .swiper {
-	width: 60%;
+	width: 100%;
     height: 100%;
 }
-
 .swiper-slide {
 	text-align: center;
-	font-size: 18px;
 	background: #fff;
+	
 }
 .swiper-button-next{
-	padding: 10px;
-	right: 0;
+	right: 10px;
 }
 .swiper-button-prev{
-	left: 0;
+	left: 10px;
+	
 }
 .swiper-pagination-bullet{
   background-color: #6E93f7;
@@ -77,19 +84,34 @@ video { width: 100%; height: 100%; } /*좌우 꽉차게 하기*/
   .slide-content{
     margin: 0 10px;
   }
-  .swiper-navBtn{
-    display: none;
-  }
+
 }
 
-.fixed{
-width: 100%; height: 100%;           
-background-image: url(/static/images/bg.jpg);
-background-repeat: no-repeat; /* 배경이미지X */
-background-size: cover; /* 요소를 비율에 맞게 커버 */
-background-position: center; /* 이미지를 요소의 정가운데로 처리 */
-background-attachment: fixed; /* 스크롤바 움직일때 이미지가 따라다님 */
+
+.star{
+  display: inline-block; /* 영역적용가능해짐 */
+  width: 20px; height: 20px;
+  box-sizing: border-box;
+  border-radius: 10px; /* 모서리둥글게 처리 */
+  position: relative; top: 4px;
+  cursor: pointer; /* 마우스 올렸을때 손모양 처리 */
+
+  background-image: url(/static/images/icon/star_off.png);
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
 }
+
+#chk:checked + .star{
+
+  background-image: url(/static/images/icon/star.png);
+}
+
+
+/* 체크박스는 display:none;을 주면 데이터 처리가 안됨 */
+#chk{ position: absolute; left: -999em; }
+
+
 
 
 </style>
@@ -99,9 +121,13 @@ background-attachment: fixed; /* 스크롤바 움직일때 이미지가 따라�
 {% include "navbar.html" %}
 <div class="jb-box">
 	<video muted autoplay loop>
-		<source src="/static/videos/sunny.mp4" type="video/mp4">
+		<source src= {{ background }} type="video/mp4">
 	</video>
-
+	<div class="dv-text">
+		<p>
+			상단 정보
+		</p>
+	</div>
 	<div class="dv-text2">
 		<p>
 			서울특별시 <br />
@@ -126,14 +152,15 @@ background-attachment: fixed; /* 스크롤바 움직일때 이미지가 따라�
 		</p>
 	</div>
 </div>
-
+<div class="section">
+	<div class="section-title">
+		<h1 style="border-bottom: 1px solid gray; padding : 10px;">오늘의 추천</h1>
+	</div>
 <div class="swiper mySwiper">
 	<div class="swiper-wrapper">
-      
-      {% for i in loop %} <!-- 장고 템플릿 언어로 for 문 생성 --> <!-- views.py의 55 라인 참고 -->
-      	<div class="swiper-slide">
+      {% for i in loop %}
+      	<div class="swiper-slide" style="border-radius: 25px;">
 			<div class="image-content">
-				<span class="overlay"></span>
 				<div class="card-image">
 					<img src="/static/images/cafe.jpg" alt="" class="card-img">
 				</div>
@@ -142,9 +169,16 @@ background-attachment: fixed; /* 스크롤바 움직일때 이미지가 따라�
 			<div class="card-content">
      	 		<h2 class="name">{{ i.name }}</h2>
       			<p class="description">{{ i.addr }}</p>
+      			
+      			
 				{% if 'Members' in request.session %}
-				<input type="checkbox" onClick="testfunction(this)" value="{{i.name }}" id="cafe{{ i.num }}" name="checkbox{{ i.num }}">
-				{% endif %}
+				<label for="chk">
+					<input type="checkbox" onClick="testfunction(this)" value="{{i.name }}" id="cafe{{ i.num }}" name="checkbox{{ i.num }}" >
+					{% endif %}
+					<i class="star"></i>
+					<span class="text">My Like</span>
+				</label>
+				
 				<button class="button">View More</button>
      		 </div>    	
       	</div>
@@ -155,20 +189,31 @@ background-attachment: fixed; /* 스크롤바 움직일때 이미지가 따라�
       <div class="swiper-button-prev"></div>
       <div class="swiper-pagination"></div>
     </div>
+</div>
 <br />
+
+<form action="#">
+  <!--label태그는 체크박스를 누르지 않아도 연결된 체크박스를 체크해줌-->
+  <label for="chk">
+    <input type="checkbox" id="chk">
+    <i class="star"></i>
+    <span class="text">My Like</span>
+  </label>
+</form>
 
 <!-- checkbox value 저장 폼. 추후에 inputType hidden 으로 변경해야 함 -->
 <form action="/bookmark/" onsubmit="return checkForm()" name=recommendedCafe" id="recommendedCafe" method="POST">{% csrf_token %}
-    {% for i in loop %} <!-- 장고 템플릿 언어로 for 문 생성 -->
-    <input type="text" id="cafe{{ i.num }}value" name="cafe{{ i.num }}value" value="">
+    {% for i in loop %}
+    <input type="hidden" id="cafe{{ i.num }}value" name="cafe{{ i.num }}value" value="">
+    <input type="hidden" id="cafe{{ i.num }}addr" name="cafe{{ i.num }}addr" value="{{ i.addr }}">
     {% endfor %}
-    <input type="text" id="cafeCnt" name="cafeCnt" value="0">
+    <input type="hidden" id="cafeCnt" name="cafeCnt" value="0">
     {% if 'Members' in request.session %}
-    <input type="submit" id="submit" value="북마크 추가">
+    <input type="submit" id="submit" onclick="alert('북마크가 추가되었습니다')" value="북마크 추가">
     {% endif %}
 </form>
 
-<script>
+<script> <!-- 체크박스 제어 함수 -->
     let sum = 0;
     function testfunction(box){
         if(box.checked) { // 체크가 되면 checked==true라는 값을 전달받는다.
@@ -189,10 +234,23 @@ background-attachment: fixed; /* 스크롤바 움직일때 이미지가 따라�
             return false;
         } else return true;
     }
-</script> <!-- 체크박스 제어 함수 -->
+</script>
+<script type="text/javascript"> <!-- 뒤로가기 버튼 작동 시 동작하는 초기화 함수 -->
+    window.onpageshow = function(event){
+        if(event.persisted || (window.performance && window.performance.navigation.type == 2)){
+            document.getElementById("cafeCnt").value = 0;
+            for(let i=1;i<{{ loopCnt }}+1;i++) {
+                let num = "";
+                num = i;
+                document.getElementById("cafe" + num).checked = false;
+                document.getElementById("cafe"+num+"value").value = "";
+            }
+        }
+    }
+</script>
 
 <script>
-var swiper = new Swiper(".mySwiper", {
+let swiper = new Swiper(".mySwiper", {
   slidesPerView: 3,
   spaceBetween: 30,
   slidesPerGroup: 3,
@@ -207,7 +265,6 @@ var swiper = new Swiper(".mySwiper", {
     prevEl: ".swiper-button-prev",
   },
 });
-
 </script>    
 </body>
 </html>
