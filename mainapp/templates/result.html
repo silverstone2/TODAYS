@@ -25,27 +25,105 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap');
 
+html{
+overflow:hidden;
+}
+
 .fixed{
 font-family: 'Gamja Flower', cursive;
 background-color: #EEEEEE;          
 }
 
-.jb-box { width: 100%; height: 60%; overflow: hidden;margin: 0px auto; position: relative;} /*동영상이 정해진 높이를 벗어나면 보이지 않도록 overflow 속성을 정하기*/
-video { width: 100%; height: 60%; } /*좌우 꽉차게 하기*/
-.dv-text { position: absolute; top: 18%; width: 100%; } /*텍스트가 동영상 위로 올라가도록 하기*/
-.dv-text p { margin-top: -50px; text-align: center; font-size: 1vw; color: #ffffff; } /*텍스트 위치를 조정하고, 모양을 정하기*/
+.jb-box { width: 100%; height: 100%; overflow: hidden;margin: 0px auto; position: relative;} /*동영상이 정해진 높이를 벗어나면 보이지 않도록 overflow 속성을 정하기*/
+video { width: 100%; height: 100%; } /*좌우 꽉차게 하기*/
+.dv-text { position: absolute; top: 10%; width: 80%; left: 10%; } /*텍스트가 동영상 위로 올라가도록 하기*/
+.dv-text p { margin-top: -50px; text-align: center; font-size: 2vw; color: #ffffff; } /*텍스트 위치를 조정하고, 모양을 정하기*/
 
-.dv-text2 { position: absolute; top: 20%; width: 100%; }
+.dv-text2 { position: absolute; top: 30%; width: 100%; }
 .dv-text2 p { margin-left: 1vw; text-align: left; font-size: 2vw; color: #ffffff; }
 
-.dv-text3 { position: absolute; top: 20%; width: 100%; }
-.dv-text3 p { margin-right: 1vw; text-align: right; font-size: 1vw; color: #ffffff; }
+.dv-text3 { position: absolute; top: 30%; width: 100%; }
+.dv-text3 p { margin-right: 1vw; text-align: right; font-size: 1.5vw; color: #ffffff; }
 
 .dv-text4 { position: absolute; top: 60%; width: 100%; }
 .dv-text4 p { margin-bottom: 1vw; text-align: center; font-size: 3vw; color: #ffffff; }
 .btn1 { border : none; background-color : rgba(0,0,0,0);}
 
 .cafe-text p { margin-top: 10vw; text-align: center; font-size: 1vw; color: #ffffff; }
+
+.scroll-down {
+  position: absolute;
+  bottom: -4vw;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 마우스 모양 만들기 */
+.scroll {
+  width: 2vw;
+  height: 4vw;
+  border: 2px solid white;
+  border-radius: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 마우스 휠 움직임 */
+.scroll span {
+  width: 0.8vw;
+  height: 0.8vw;
+  border-radius: 50%;
+  background: white;
+  display: block;
+  animation: cursor 1.15s linear infinite;
+}
+
+/* 마우스 아래 화살표 */
+.arrow-down {
+  width: 0.8vw;
+  height: 0.8vw;
+  border: 2px solid transparent;
+  border-right-color: white;
+  border-bottom-color: white;
+  transform: rotate(45deg);
+  margin-top: 0.3vw;
+  animation: arrow 1.15s linear infinite;
+}
+
+@keyframes cursor {
+  0% {
+    opacity: 0;
+    transform: translateY(-1vw);
+  }
+  
+  100% {
+    opacity: 1;
+    transform: translateY(1vw);
+  }
+}
+
+@keyframes arrow {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  75% {
+    opacity: 0.75;
+  }  
+  100% {
+    opacity: 1;
+  }
+}
+
 
 
 
@@ -125,7 +203,8 @@ video { width: 100%; height: 60%; } /*좌우 꽉차게 하기*/
 	</video>
 	<div class="dv-text">
 		<p>
-			상단 정보
+            <span style="font-size: 1.2vw;">{{ maxim_message }}</span><br />
+            {{ maxim_author }}
 		</p>
 	</div>
 	<div class="dv-text2">
@@ -133,7 +212,7 @@ video { width: 100%; height: 60%; } /*좌우 꽉차게 하기*/
 			서울특별시 <br />
 			{{ gu }} <br />
 			{{ dong }} <br />
-			<span style="font-size: 6vw;">{{ selected_tmp }}°C</span>
+			<span style="font-size: 6.5vw;">{{ selected_tmp }}°C</span>
 		</p>
 	</div>
 	<div class="dv-text3">
@@ -148,8 +227,14 @@ video { width: 100%; height: 60%; } /*좌우 꽉차게 하기*/
 	<div class="dv-text4">
 		<p>
 			오늘의 추천 카페 보기<br />
-			▼
 		</p>
+		<a class="scroll-down">           <!-- 마우스 휠 효과를 줄 태그 -->
+    		<div class="scroll">                   <!-- 마우스 모양 도형 -->
+        		<span class="scroll-dot"></span>   <!-- 마우스 휠 움직임 효과를 줄 구체 -->
+    		</div>
+    		<div class="arrow-down"></div>         <!-- 마우스 이미지 아래쪽의 화살표 -->
+		</a>
+		
 	</div>
 </div>
 <div class="section">
@@ -208,6 +293,9 @@ video { width: 100%; height: 60%; } /*좌우 꽉차게 하기*/
     <input type="hidden" id="cafe{{ i.num }}addr" name="cafe{{ i.num }}addr" value="{{ i.addr }}">
     {% endfor %}
     <input type="hidden" id="cafeCnt" name="cafeCnt" value="0">
+    <input type="hidden" id="mood" name="mood" value="{{ mood }}">
+    <input type="hidden" id="food" name="food" value="{{ food }}">
+
     {% if 'Members' in request.session %}
     <input type="submit" id="submit" onclick="alert('북마크가 추가되었습니다')" value="북마크 추가">
     {% endif %}
@@ -265,6 +353,43 @@ let swiper = new Swiper(".mySwiper", {
     prevEl: ".swiper-button-prev",
   },
 });
-</script>    
+</script>
+
+<script>
+<!-- 마우스 휠 기능 삭제 -->
+window.addEventListener("wheel", function(e){
+    e.preventDefault();
+},{passive : false});
+</script>
+
+<script>
+<!-- 만약에 뷰의 Yposition이 0이 아닐 경우를 대비 -->
+var mHtml = $("html");
+var page = 1;
+
+
+mHtml.animate({scrollTop : 0},10);
+</script>
+
+<script>
+<!-- 휠 이벤트 처리 -->
+$(window).on("wheel", function(e) {
+    if(mHtml.is(":animated")) return;
+    if(e.originalEvent.deltaY > 0) {
+        if(page == 2) return;
+        page++;
+    } else if(e.originalEvent.deltaY < 0) {
+        if(page == 1) return;
+        page--;
+    }
+    var posTop =(page-1) * $(window).height();
+    mHtml.animate({scrollTop : posTop});
+})
+
+</script>
+
+
+
+  
 </body>
 </html>

@@ -57,6 +57,7 @@ class Mybookmark(models.Model):
     bookmarkno = models.IntegerField(primary_key=True)
     cafename = models.CharField(max_length=50, db_collation='utf8mb4_general_ci')
     addr = models.CharField(max_length=50, db_collation='utf8mb4_general_ci')
+    mood = models.CharField(max_length=50, db_collation='utf8mb4_general_ci')
     category = models.CharField(max_length=50, db_collation='utf8mb4_general_ci')
     memo = models.CharField(max_length=250, db_collation='utf8mb4_general_ci')
 
