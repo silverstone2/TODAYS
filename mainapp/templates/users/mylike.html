@@ -2,8 +2,20 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>MyLike</title>
+
+<!-- 파비콘 추가 -->
+<link rel="icon" href="/static/images/icon/pavicon.png">
+
 </head>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap');
+
+.fixed{
+font-family: 'Gamja Flower', cursive;
+background-color: #EEEEEE;          
+}
+</style>
 <script type="text/javascript">
 function func(arg){
    let result = confirm("정말 삭제할까요?");
@@ -15,7 +27,7 @@ function func(arg){
 <!-- Bootstrap CSS -->
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
-<body>
+<body class="fixed">
 <!-- 네비게이션바 -->
 {% include "navbar.html" %}
 
