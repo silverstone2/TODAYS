@@ -6,8 +6,7 @@
 
 <!-- 파비콘 추가 -->
 <link rel="icon" href="/static/images/icon/pavicon.png">
-
-</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap');
 
@@ -15,7 +14,11 @@
 font-family: 'Gamja Flower', cursive;
 background-color: #EEEEEE;          
 }
-</style>
+</style><!-- Bootstrap CSS -->
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+</head>
+<body class="fixed">
 <script type="text/javascript">
 function func(arg){
    let result = confirm("정말 삭제할까요?");
@@ -23,11 +26,9 @@ function func(arg){
       document.getElementById(arg).submit();
    }
 }
+
+
 </script>
-<!-- Bootstrap CSS -->
-{% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
-<body class="fixed">
 <!-- 네비게이션바 -->
 {% include "navbar.html" %}
 
@@ -36,13 +37,28 @@ function func(arg){
    {% if likes.count > 0 %}
    {% for a in likes %}
    <tr>
-      <td>{{a.cafename}} | {{a.addr}} | {{ a.mood }} | {{a.category}} <br /></td>
-      <td>
-             <form action="/users/delete" name="frm" method="get" id="{{a.bookmarkno}}" style="display: inline">
-            <input type="hidden" name="bookmarkno" value="{{a.bookmarkno}}" />
-            <a href="javascript:void(0); onclick=func({{a.bookmarkno}})">삭제</a>
-         </form>
-      </td>
+        <td>{{a.cafename}} | {{a.addr}} | {{ a.mood }} | {{a.category}} <br /></td>
+        <td>
+            <form action="/users/delete" name="frm" method="get" id="{{a.bookmarkno}}" style="display: inline">
+                <input type="hidden" name="bookmarkno" value="{{a.bookmarkno}}" />
+                <a href="javascript:void(0); onclick=func({{a.bookmarkno}})">삭제</a>
+            </form>
+        </td>
+   </tr>
+   <tr>
+        <td >
+            <input type="text" class="memoContent{{ a.bookmarkno }}" value="{{ a.memo }}" readonly>
+        </td>
+        <td class="tdMemoModify{{ a.bookmarkno }}">
+            <input type="button" value="수정" onclick="memoModify({{ a.bookmarkno }})">
+        <td>
+        <td class="tdMemoSubmit{{ a.bookmarkno }}" style="display:none">
+            <input type="button" value="수정완료" onclick="memoSubmit({{ a.bookmarkno }})">
+        </td>
+        <td class="tdMemoModifyCancel{{ a.bookmarkno }}"  style="display:none">
+            <input type="button"  value="취소" onclick="memoModifyCancel({{ a.bookmarkno }})">
+        </td>
+
    </tr>
    {% endfor %}
    {% else %}
@@ -51,6 +67,67 @@ function func(arg){
    </tr>
    {% endif %}
 </table>
+
+<script>
+    const memoModify = (id) => {
+        let tdMemoModify = document.querySelector(`.tdMemoModify${id}`);
+        let tdMemoSubmit = document.querySelector(`.tdMemoSubmit${id}`);
+        let tdMemoModifyCancel = document.querySelector(`.tdMemoModifyCancel${id}`);
+        let memoContent = document.querySelector(`.memoContent${id}`);
+
+        tdMemoModify.style.display = 'none';
+        tdMemoSubmit.style.display = 'inline-block';
+        tdMemoModifyCancel.style.display = 'inline-block';
+        memoContent.readOnly = false;
+    }
+
+    const memoModifyCancel = (id) => {
+        let tdMemoModify = document.querySelector(`.tdMemoModify${id}`);
+        let tdMemoSubmit = document.querySelector(`.tdMemoSubmit${id}`);
+        let tdMemoModifyCancel = document.querySelector(`.tdMemoModifyCancel${id}`);
+        let memoContent = document.querySelector(`.memoContent${id}`);
+
+
+        tdMemoModify.style.display = 'inline-block';
+        tdMemoSubmit.style.display = 'none';
+        tdMemoModifyCancel.style.display = 'none';
+        memoContent.readOnly = true;
+
+    }
+
+    const memoSubmit = (id) => {
+        let memoContent = document.querySelector(`.memoContent${id}`).value;
+        let param = {
+            'id': id,
+            'content':memoContent
+        }
+        $.ajax({
+            url : '{% url 'modifymemo' %}',
+            type : 'POST',
+            headers: {
+                'X-CSRFTOKEN' : '{{ csrf_token }}'
+            },
+            data : JSON.stringify(param),
+            success:function(data){
+                console.log(data);
+                if(data.result == 'ok'){
+                    let tdMemoModify = document.querySelector(`.tdMemoModify${id}`);
+                    let tdMemoSubmit = document.querySelector(`.tdMemoSubmit${id}`);
+                    let tdMemoModifyCancel = document.querySelector(`.tdMemoModifyCancel${id}`);
+                    let memoContent = document.querySelector(`.memoContent${id}`);
+                    tdMemoModify.style.display = 'inline-block';
+                    tdMemoSubmit.style.display = 'none';
+                    tdMemoModifyCancel.style.display = 'none';
+                    memoContent.readOnly = true;
+                }
+            },
+            error: function(){
+                alert("안됨 ㅋㅋ")
+            }
+        });
+    }
+    {#https://initstory.tistory.com/24 Ajax 참고#}
+</script>
 
 </body>
 </html>
