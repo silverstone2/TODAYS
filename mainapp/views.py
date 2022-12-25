@@ -1,18 +1,11 @@
 from django.shortcuts import render, redirect
 from mainapp import functions as func  # 기능 함수들 모두 functions.py 로 분리
-from mainapp import bookmark as bkmk # 북마크 기능 함수 boomark.py 로 분리
-from datetime import date, datetime, timedelta
 # 로그인에 필요한 내장 함수 사용
-from django.contrib import auth
 from django.contrib.auth.hashers import make_password, check_password
-from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.decorators import login_required
-from sqlalchemy.sql.functions import user
 from mainapp.models import Members, Mybookmark
 from datetime import datetime
 import re
 from django.http import HttpResponseRedirect
-from django.urls import reverse
 
 #  기본값: 서울
 hour = datetime.now().hour
@@ -59,7 +52,6 @@ def result(request):
                 {'num': 6, 'name': '카페6', 'addr': gu+" "+dong+'주소6'}]
         loop_cnt = len(loop)
 
-        maxim = {}
         maxim = func.maxim()
 
         context = {
@@ -244,7 +236,6 @@ def mylike(request):
         return render(request, 'users/loginform.html')
 
     myid = request.session.get('Members', '')
-    print(myid)
     likes = Mybookmark.objects.filter(id=myid)
     return render(request, 'users/mylike.html', {'likes': likes})
 
