@@ -125,7 +125,8 @@ video { width: 100%; height: 60%; } /*좌우 꽉차게 하기*/
 	</video>
 	<div class="dv-text">
 		<p>
-			상단 정보
+            <span style="font-size: 2vw;">{{ maxim_message }}</span><br />
+            {{ maxim_author }}
 		</p>
 	</div>
 	<div class="dv-text2">
@@ -208,6 +209,9 @@ video { width: 100%; height: 60%; } /*좌우 꽉차게 하기*/
     <input type="hidden" id="cafe{{ i.num }}addr" name="cafe{{ i.num }}addr" value="{{ i.addr }}">
     {% endfor %}
     <input type="hidden" id="cafeCnt" name="cafeCnt" value="0">
+    <input type="hidden" id="mood" name="mood" value="{{ mood }}">
+    <input type="hidden" id="food" name="food" value="{{ food }}">
+
     {% if 'Members' in request.session %}
     <input type="submit" id="submit" onclick="alert('북마크가 추가되었습니다')" value="북마크 추가">
     {% endif %}

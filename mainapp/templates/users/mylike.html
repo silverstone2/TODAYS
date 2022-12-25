@@ -4,6 +4,14 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<script type="text/javascript">
+function func(arg){
+   let result = confirm("정말 삭제할까요?");
+   if(result){
+      document.getElementById(arg).submit();
+   }
+}
+</script>
 <!-- Bootstrap CSS -->
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
@@ -14,20 +22,26 @@
 <p>여긴 즐겨찾기 게시판</p>
 
 <p>즐겨찾기 목록</p>
-
-{% if likes.count > 0 %}
-{% for a in likes %}
-   <b>{{a.id}}</b> {{a.cafename}} {{a.addr}} {{a.category}} <br />
-{% endfor %}
-{% else %}
-   <p>자료가 없어요</p>
-{% endif %}
-
-
-
-
-<div></div>
-
+<table>
+   {% if likes.count > 0 %}
+   {% for a in likes %}
+   <tr>
+      <td>{{a.cafename}} | {{a.addr}} | {{ a.mood }} | {{a.category}} <br /></td>
+      <!-- <td><a href="/users/delete?bookmarkno={{a.bookmarkno}}">삭제</a></td> -->
+      <td>
+             <form action="/users/delete" name="frm" method="get" id="{{a.bookmarkno}}" style="display: inline">
+            <input type="hidden" name="bookmarkno" value="{{a.bookmarkno}}" />
+            <a href="javascript:void(0); onclick=func({{a.bookmarkno}})">삭제</a>
+         </form>
+      </td>
+   </tr>
+   {% endfor %}
+   {% else %}
+   <tr>
+      <p>자료가 없어요</p>
+   </tr>
+   {% endif %}
+</table>
 
 </body>
 </html>

@@ -11,6 +11,9 @@ from sqlalchemy.sql.functions import user
 from mainapp.models import Members, Mybookmark
 from datetime import datetime
 import re
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+
 #  기본값: 서울
 hour = datetime.now().hour
 lat = "37.579871128849334"  # 위도
@@ -40,14 +43,6 @@ def result(request):
         food = request.POST.get('food')
         print('responded value:', gu, dong, mood, food)
 
-        # 현 위치 기반
-        # global current_location
-        # current_location = func.coord_to_loc(lat, long)
-        # global nx_ny
-        # nx_ny = func.grid(lat, long)
-        # global current_weather
-        # current_weather = func.dangi_api(nx_ny['x'], nx_ny['y']).get('weather')
-
         # 선택된 날짜 기반
         global sel_lat_long
         sel_lat_long = func.location_to_coord(gu, dong)
@@ -56,13 +51,17 @@ def result(request):
         selected_weather = func.dangi_api(sel_nx_ny['x'], sel_nx_ny['y']).get('weather')
         background = func.set_background(hour, selected_weather['code'])
         # 임시 loop dictionary
-        loop = [{'num': 1, 'name': '카페1', 'addr': '주소1'},
-                {'num': 2, 'name': '카페2', 'addr': '주소2'},
-                {'num': 3, 'name': '카페3', 'addr': '주소3'},
-                {'num': 4, 'name': '카페4', 'addr': '주소4'},
-                {'num': 5, 'name': '카페5', 'addr': '주소5'},
-                {'num': 6, 'name': '카페6', 'addr': '주소6'}]
-        loopCnt = len(loop)
+        loop = [{'num': 1, 'name': '카페1', 'addr': gu+" "+dong+' 주소1'},
+                {'num': 2, 'name': '카페2', 'addr': gu+" "+dong+'주소2'},
+                {'num': 3, 'name': '카페3', 'addr': gu+" "+dong+'주소3'},
+                {'num': 4, 'name': '카페4', 'addr': gu+" "+dong+'주소4'},
+                {'num': 5, 'name': '카페5', 'addr': gu+" "+dong+'주소5'},
+                {'num': 6, 'name': '카페6', 'addr': gu+" "+dong+'주소6'}]
+        loop_cnt = len(loop)
+
+        maxim = {}
+        maxim = func.maxim()
+
         context = {
             'background': background,
             'latitude': nx_ny['x'],
@@ -70,6 +69,9 @@ def result(request):
 
             'gu': gu,
             'dong': dong,
+            'mood': mood,
+            'food': food,
+
             'selected_tmp': selected_weather['tmp'],  # 온도 TMP
             'selected_pcp': selected_weather['pcp'],  # 강수량 PCP ( 범주 )
             'selected_wsd': selected_weather['wsd'],  # 풍속 WSD
@@ -79,8 +81,11 @@ def result(request):
             'selected_latitude': sel_nx_ny['x'],
             'selected_longitude': sel_nx_ny['y'],
 
+            'maxim_author': maxim['author'],
+            'maxim_message': maxim['message'],
+
             'loop': loop,
-            'loopCnt': loopCnt,
+            'loopCnt': loop_cnt,
         }
         return render(request, 'result.html', context)
     else:
@@ -102,6 +107,8 @@ def bookmark(request):  # checkForm 함수로 작동하는 함수.
         cafes_addr = {1: request.POST.get("cafe1addr"), 2: request.POST.get("cafe2addr"),
                       3: request.POST.get("cafe3addr"), 4: request.POST.get("cafe4addr"),
                       5: request.POST.get("cafe5addr"), 6: request.POST.get("cafe6addr")}
+        cafe_mood = request.POST.get("mood")
+        cafe_food = request.POST.get("food")
         context = {
             'cafe_cnt': cafe_cnt,
         }
@@ -113,6 +120,8 @@ def bookmark(request):  # checkForm 함수로 작동하는 함수.
                 new_my_bookmark.id = my_id
                 new_my_bookmark.cafename = cafes[num]
                 new_my_bookmark.addr = cafes_addr[num]
+                new_my_bookmark.mood = cafe_mood
+                new_my_bookmark.category = cafe_food
                 new_my_bookmark.save()
         return render(request, 'bookmarkOk.html', context)
     else:
@@ -238,3 +247,9 @@ def mylike(request):
     print(myid)
     likes = Mybookmark.objects.filter(id=myid)
     return render(request, 'users/mylike.html', {'likes': likes})
+
+
+def delete(request):
+    delRec = Mybookmark.objects.get(bookmarkno=request.GET.get('bookmarkno'))
+    delRec.delete()
+    return HttpResponseRedirect("/users/mylike")

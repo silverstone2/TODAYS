@@ -2,10 +2,7 @@ from urllib.parse import urlencode, quote_plus, unquote
 import requests
 import math
 from datetime import date, datetime, timedelta
-import json
 import pandas as pd
-import googlemaps
-
 
 def grid(v1, v2):  # v1 = lat, v2 = ln
     v1 = float(v1)
@@ -87,10 +84,12 @@ def dangi_api(v1, v2):
     else:  # 23시 11분~23시 59분
         base_date = today_date
         base_time = "2300"
+
+    print(base_time)
     query_params = '?' + urlencode({quote_plus('serviceKey'): service_key_decoded, quote_plus('base_date'): base_date,
                                    quote_plus('base_time'): base_time, quote_plus('nx'): v1, quote_plus('ny'): v2,
-                                   quote_plus('dataType'): 'json', quote_plus('pageNo'): '1',
-                                   quote_plus('numOfRows'): '24'})
+                                   quote_plus('dataType'): 'json', quote_plus('pageNo'): '2',
+                                   quote_plus('numOfRows'): '12'})
     res = requests.get(url + query_params,  verify=False)
     items = res.json().get('response').get('body').get('items')
     weather_data = dict()
@@ -201,6 +200,16 @@ def location_to_coord(gu, dong):
     return return_coord
 
 
+def maxim():
+    maxim_url = "https://raw.githubusercontent.com/Sayh0/WebpageUpload/main/maxim_kor.json"
+    maxims = requests.get(maxim_url).json()
+    df = pd.DataFrame(maxims)
+    maxim_row = df.sample(n=1)
+    maxim_result = {'author': maxim_row.iloc[0]['author'], 'message': maxim_row.iloc[0]['message']}
+    print(maxim_result)
+    return maxim_result
+
+
 def set_background(hour, code):
     back = ""
     if 7 < hour < 19:  # 주간
@@ -226,3 +235,5 @@ def set_background(hour, code):
         else:
             back = "/static/videos/sunny-night.mp4"
     return back
+
+
