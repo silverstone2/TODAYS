@@ -31,15 +31,12 @@ function func(arg){
 <!-- 네비게이션바 -->
 {% include "navbar.html" %}
 
-<p>여긴 즐겨찾기 게시판</p>
-
 <p>즐겨찾기 목록</p>
 <table>
    {% if likes.count > 0 %}
    {% for a in likes %}
    <tr>
       <td>{{a.cafename}} | {{a.addr}} | {{ a.mood }} | {{a.category}} <br /></td>
-      <!-- <td><a href="/users/delete?bookmarkno={{a.bookmarkno}}">삭제</a></td> -->
       <td>
              <form action="/users/delete" name="frm" method="get" id="{{a.bookmarkno}}" style="display: inline">
             <input type="hidden" name="bookmarkno" value="{{a.bookmarkno}}" />
