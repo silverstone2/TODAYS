@@ -18,12 +18,12 @@ background-color: #EEEEEE;
 
     background-attachment: fixed;
     text-rendering: inherit;
-    height: 400px;
+    height: 21vw;
     background-position: 50% 100%;
     background-size: cover;
     display: block;
     position : relative;
-    
+
 }
 
 .cover_inner{
@@ -32,11 +32,11 @@ background-color: #EEEEEE;
     position: absolute;
     top: 0;
     width: 100%;
-    height: 400px;
+    height: 21vw;
     background-color: #000;
     display: block;
     opacity: .3;
-    
+
 }
 
 .cover_title{
@@ -62,7 +62,7 @@ background-color: #EEEEEE;
    border-radius: 28px;
    box-shadow: rgba(0, 0, 0, 0.06) 0px 0px 6px 0px;
    background-color: rgb(255, 255, 255);
-   
+
 }
 
 .index {
@@ -72,7 +72,7 @@ background-color: #EEEEEE;
    border-radius: 28px;
     box-shadow: rgba(0, 0, 0, 0.06) 0px 0px 6px 0px;
     background-color: rgb(255, 255, 255);
-   
+
 }
 select {
      width:300px;
@@ -122,14 +122,6 @@ legend {
     padding: 3px 6px;
 }
 
-.imsi{           
-   background-repeat: no-repeat; /* 배경이미지X */
-   background-size: cover; /* 요소를 비율에 맞게 커버 */
-   background-position: center; /* 이미지를 요소의 정가운데로 처리 */
-   background-attachment: fixed; /* 스크롤바 움직일때 이미지가 따라다님 */
-}
-
-
 
 
 </style>
@@ -177,7 +169,7 @@ $('document').ready(function() {
   $.each(eval(area0), function() {
    $selsido.append("<option value='"+this+"'>"+this+"</option>");
   });
-  $selsido.next().append("<option value=''>구 선택</option>");
+  $selsido.next().append("<option value=''>동 선택</option>");
  });
 
 
@@ -199,26 +191,48 @@ $('document').ready(function() {
 });
 </script>
 
+<script type="text/javascript">
+$("#sido").click(function(){
+   if($("#sido option").size()==0){
+      alert("지역을 선택해주세요.");
+      return false;
+   }
+})
+</script>
+
+<script language="JavaScript">
+
+function check_submit()
+{
+   if(insertForm.sido.value =="구 선택"){
+      alert("위치를 선택해주세요.");
+      insertForm.sido.focus();
+      return false;
+      } }
+</script>
+
+
 </head>
 <body class= "fixed">
 <!-- 네비게이션바 -->
+
+
 {% include "navbar.html" %}
 <div class="cover_image" style="background-image:url(/static/images/banner.jpg);">
 <div class="cover_inner"></div>
    <h1 class="cover_title" style="font-size: 5vw;"   >HOW DO YOU FEELING TODAY?</h1>
    <p class="cover_title2" style="font-size: 2vw;">-빅데이터로 찾아보는 내가 원하는 카페-</p>
 </div>
-
-   <div style="background: linear-gradient(#B07F4F, #5A4129); height: 18vw; width: 60%; position: relative; margin: auto; top: -120px; border-radius:35px;">
+   <div style="background: linear-gradient(#B07F4F, #5A4129); height: 18vw; width: 60%; position: relative; margin: auto; top: -7vw; border-radius:35px;">
    <div style="display: inline-block; text-align: center; width: 100%; margin-top: 3vw;">
-    <form action="result/" method="post">{% csrf_token %}
-     
+    <form action="result/" name="insertForm" method="post" onsubmit="return check_submit();">{% csrf_token %}
+
       <table style="margin: auto;">
          <tr>
             <td>
                <p style= "color: white; font-size: 1.5vw; padding-right: 3vw;">위치 선택하기</p>
             </td>
-            <td style="text-align: left; margin: 0; padding: 0;">       
+            <td style="text-align: left; margin: 0; padding: 0;">
                <select name="sido" id="sido" style="margin-bottom: 10px; width:15vw;"></select>
 
                <select name="gugun" id="gugun" style="margin-bottom: 10px; width:15vw;"></select>
@@ -238,47 +252,47 @@ $('document').ready(function() {
                   <option>친절한 분위기</option>
                   <option>예쁜 분위기</option>
                </select>
-           
 
-               <select name="food" id="food">
-			        <option selected>베이커리</option>
-			        <option>카페</option>
-			        <option>카페,디저트</option>
-			        <option>브런치</option>
-			        <option>베이글</option>
-			        <option>도넛</option>
-			        <option>양식</option>
-			        <option>케이크전문</option>
-			        <option>호두과자</option>
-			        <option>떡카페</option>
-			        <option>북카페</option>
-			        <option>테이크아웃커피</option>
-			        <option>빙수</option>
-			        <option>스터디카페</option>
-			        <option>아이스크림</option>
-			        <option>공방</option>
-			        <option>갤러리카페</option>
-			        <option>홍차전문점</option>
-			        <option>초콜릿전문점</option>
-			        <option>차</option>
-			        <option>과일,주스전문점</option>
-			        <option>와플</option>
-			        <option>블루보틀</option>
-			        <option>테마카페</option>
-			        <option>플라워카페</option>
-			        <option>라이브카페</option>
-			        <option>마카롱</option>
-			        <option>크레페</option>
-			        <option>커피번</option>
-			        <option>와인</option>
-			        <option>다방</option>
-			        <option>갤러리,화랑</option>
-			        <option>찐빵</option>
-			        <option>한방카페</option>
-			        <option>뷔페</option>
-			        <option>슈</option>
-			        <option>한식</option>
-			    </select>
+               <select name="food" id="food" style="width:15vw;">
+                 <option selected>베이커리</option>
+                 <option>카페</option>
+                 <option>카페,디저트</option>
+                 <option>브런치</option>
+                 <option>베이글</option>
+                 <option>도넛</option>
+                 <option>양식</option>
+                 <option>케이크전문</option>
+                 <option>호두과자</option>
+                 <option>떡카페</option>
+                 <option>북카페</option>
+                 <option>테이크아웃커피</option>
+                 <option>빙수</option>
+                 <option>스터디카페</option>
+                 <option>아이스크림</option>
+                 <option>공방</option>
+                 <option>갤러리카페</option>
+                 <option>홍차전문점</option>
+                 <option>초콜릿전문점</option>
+                 <option>차</option>
+                 <option>과일,주스전문점</option>
+                 <option>와플</option>
+                 <option>블루보틀</option>
+                 <option>테마카페</option>
+                 <option>플라워카페</option>
+                 <option>라이브카페</option>
+                 <option>마카롱</option>
+                 <option>크레페</option>
+                 <option>커피번</option>
+                 <option>와인</option>
+                 <option>다방</option>
+                 <option>갤러리,화랑</option>
+                 <option>찐빵</option>
+                 <option>한방카페</option>
+                 <option>뷔페</option>
+                 <option>슈</option>
+                 <option>한식</option>
+             </select>
+
             </td>
          </tr>
       </table>
@@ -288,12 +302,12 @@ $('document').ready(function() {
    </form>
    </div>
    </div>
-   
+
    <div id="contentArea" class="container" style= "width: 60%; height: 100%; margin-bottom: 100px;">
    <br />
    <div class="index">
       <h2 style="text-align: center; font-size: 3vw;">카페 추천 분석 기법</h2>
-      
+
       <br />
       <p style="font-size: 2vw;">Clustering.</p> <br />
       이미지
@@ -309,7 +323,7 @@ $('document').ready(function() {
    <br />
    <div class="index">
       <h2 style="text-align: center; font-size: 3vw;">About Us</h2>
-      
+
       <br />
       <p style="font-size: 2vw;">강남 Acorn Academy by Team Pinacolada</p><br />
       <br /><br /><br />
@@ -320,7 +334,7 @@ $('document').ready(function() {
    <br />
    <div class="index">
       <h2 style="text-align: center; font-size: 3vw;">Contact Us</h2>
-      
+
       <br />
       <p style="font-size: 2vw;">문의하기</p> <br />
      <p>주소</p>
