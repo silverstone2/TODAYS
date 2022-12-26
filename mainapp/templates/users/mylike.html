@@ -6,17 +6,45 @@
 
 <!-- 파비콘 추가 -->
 <link rel="icon" href="/static/images/icon/pavicon.png">
+<link href="../../static/css/btncss.css" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <style>
+@import url("https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap');
 
 .fixed{
 font-family: 'Gamja Flower', cursive;
-background-color: #EEEEEE;          
+background-color: #EEEEEE;
 }
+*{
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+th, td {
+   padding-left: 0.8vw;
+   padding-top: 0.7vw;
+   padding-bottom: 0.7vw;
+}
+
+.simplecomment {
+  width: 18vw;
+  height: 3vw;
+  font-size: 1.2vw;
+  border: 0;
+  border-radius: 15px;
+  outline: none;
+  padding-left: 2vw;
+  background-color: rgb(233, 233, 233);
+
+}
+
+
 </style><!-- Bootstrap CSS -->
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+
 </head>
 <body class="fixed">
 <script type="text/javascript">
@@ -31,34 +59,55 @@ function func(arg){
 </script>
 <!-- 네비게이션바 -->
 {% include "navbar.html" %}
+<div style="width: 100%; height: 100%; text-align: center;">
+<div style="display: inline-block; background: white; border-radius: 35px; margin-top: 100px; padding-left: 30px; padding-right: 30px; width: 60%;">
 
-<p>즐겨찾기 목록</p>
-<table>
+<p style="font-size: 3vw;">내가 찜한 카페목록</p>
+<table style="font-size: 1.5vw; margin: auto;">
+   <tr style="white-space: nowrap;">
+      <th style="padding-right: 3vw;">카페명</th>
+      <th>주소</th>
+      <th>분위기</th>
+      <th>테마</th>
+      <th><th>
+   <tr>
    {% if likes.count > 0 %}
    {% for a in likes %}
    <tr>
-        <td>{{a.cafename}} | {{a.addr}} | {{ a.mood }} | {{a.category}} <br /></td>
-        <td>
+        <td style="padding-right: 3vw;">{{a.cafename}}</td>
+        <td>{{a.addr}}</td>
+        <td>{{ a.mood }}</td>
+        <td>{{a.category}}</td>
+        <td style="padding-top: 10px;">
             <form action="/users/delete" name="frm" method="get" id="{{a.bookmarkno}}" style="display: inline">
                 <input type="hidden" name="bookmarkno" value="{{a.bookmarkno}}" />
-                <a href="javascript:void(0); onclick=func({{a.bookmarkno}})">삭제</a>
+                <a href="javascript:void(0); onclick=func({{a.bookmarkno}})">
+                   <svg xmlns="http://www.w3.org/2000/svg" width="2vw" height="2vw" fill="black" class="bi bi-trash3" viewBox="0 0 16 16">
+                    <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
+               </svg>
+                </a>
             </form>
         </td>
    </tr>
    <tr>
-        <td >
-            <input type="text" class="memoContent{{ a.bookmarkno }}" value="{{ a.memo }}" readonly>
+         <td>
+            <svg xmlns="http://www.w3.org/2000/svg" transform="rotate(270)" width="2vw" height="2vw" fill="black" class="bi bi-arrow-90deg-down" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M4.854 14.854a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L4 13.293V3.5A2.5 2.5 0 0 1 6.5 1h8a.5.5 0 0 1 0 1h-8A1.5 1.5 0 0 0 5 3.5v9.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4z"/>
+         </svg>
+         <p style="display: inline-block; margin: 0; font-size:1.2vw;">간단 메모 남기기</p>
+         </td>
+        <td colspan="2">
+            <input type="text" class="memoContent{{ a.bookmarkno }} simplecomment" value="{{ a.memo }}" placeholder="간단한 메모를 남겨보세요.." readonly>
         </td>
         <td class="tdMemoModify{{ a.bookmarkno }}">
-            <input type="button" value="수정" onclick="memoModify({{ a.bookmarkno }})">
-        <td>
+            <button class="w-btn-outline w-btn-indigo-outline" onclick="memoModify({{ a.bookmarkno }})">작성하기</button>
+        </td>
         <td class="tdMemoSubmit{{ a.bookmarkno }}" style="display:none">
-            <input type="button" value="수정완료" onclick="memoSubmit({{ a.bookmarkno }})">
+            <button class="w-btn-outline w-btn-indigo-outline" onclick="memoSubmit({{ a.bookmarkno }})">작성완료</button>
         </td>
         <td class="tdMemoModifyCancel{{ a.bookmarkno }}"  style="display:none">
-            <input type="button"  value="취소" onclick="memoModifyCancel({{ a.bookmarkno }})">
+            <button class="w-btn-outline w-btn-indigo-outline" onclick="memoModifyCancel({{ a.bookmarkno }})">취소</button>
         </td>
-
    </tr>
    {% endfor %}
    {% else %}
@@ -67,7 +116,9 @@ function func(arg){
    </tr>
    {% endif %}
 </table>
-
+</div>
+</div>
+<br />
 <script>
     const memoModify = (id) => {
         let tdMemoModify = document.querySelector(`.tdMemoModify${id}`);
