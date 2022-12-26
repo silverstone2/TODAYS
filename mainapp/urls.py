@@ -16,6 +16,7 @@ urlpatterns = [
     path('users/mylike/', views.mylike, name="mylike"),
     path('users/logout/', views.logout, name="logout"),
     path('users/delete/', views.delete),
+    path('users/modifymemo/', views.modifymemo, name="modifymemo"),
     path('users/pwderr/', views.pwderr),
     path('users/inserterr/', views.inserterr),
     path('users/iderr/', views.iderr),

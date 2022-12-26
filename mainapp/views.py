@@ -5,7 +5,9 @@ from django.contrib.auth.hashers import make_password, check_password
 from mainapp.models import Members, Mybookmark
 from datetime import datetime
 import re
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
+import json
+
 
 #  기본값: 서울
 hour = datetime.now().hour
@@ -244,3 +246,18 @@ def delete(request):
     delRec = Mybookmark.objects.get(bookmarkno=request.GET.get('bookmarkno'))
     delRec.delete()
     return HttpResponseRedirect("/users/mylike")
+
+
+def modifymemo(request):
+    jsonObject = json.loads(request.body)
+    memo = Mybookmark.objects.filter(bookmarkno=jsonObject.get('id'))
+    context = {
+        'result': 'no'
+    }
+    if memo is not None:
+        memo.update(memo=jsonObject.get('content'))
+        context = {
+            'result': 'ok'
+        }
+        return JsonResponse(context)
+    return JsonResponse(context)
