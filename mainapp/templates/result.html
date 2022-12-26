@@ -219,6 +219,7 @@ video { width: 100%; height: 100%; } /*좌우 꽉차게 하기*/
 		<p>
 			현재 {{ dong }}의 날씨 정보입니다.</br>
 			풍속은 {{ selected_wsd }}m/s 입니다.</br>
+            습도는 {{ selected_reh }}% 입니다.
             <!--
             위도 경도는 콘솔창에 표시.
             -->
@@ -247,7 +248,7 @@ video { width: 100%; height: 100%; } /*좌우 꽉차게 하기*/
       	<div class="swiper-slide" style="border-radius: 25px;">
 			<div class="image-content">
 				<div class="card-image">
-					<img src="/static/images/cafe.jpg" alt="" class="card-img">
+					<img src={{ i.img_addr }} alt="" class="card-img">
 				</div>
      	 	</div>
 
@@ -342,7 +343,7 @@ let swiper = new Swiper(".mySwiper", {
   slidesPerView: 3,
   spaceBetween: 30,
   slidesPerGroup: 3,
-  loop: true,
+  loop: false,
   loopFillGroupWithBlank: true,
   pagination: {
     el: ".swiper-pagination",
