@@ -38,7 +38,7 @@ def main(request):
 def result(request):
     if 'Members' not in request.session:
         return render(request, 'users/loginform.html')
-
+    
     if request.method == 'POST':
         gu = request.POST.get('sido')
         dong = request.POST.get('gugun')
@@ -169,7 +169,7 @@ def result(request):
 
             'loop': loop,
             'loopCnt': loop_cnt,
-        }
+        }      
         return render(request, 'result.html', context)
     else:
         # 날씨 정보 차단시 default 값 출력.
@@ -186,16 +186,17 @@ def bookmark(request):  # checkForm 함수로 작동하는 함수.
         cafe_cnt = request.POST.get("cafeCnt")
         cafes = {1: request.POST.get("cafe1value"), 2: request.POST.get("cafe2value"),
                  3: request.POST.get("cafe3value"), 4: request.POST.get("cafe4value"),
-                 5: request.POST.get("cafe5value"), 6: request.POST.get("cafe6value")}
+                 5: request.POST.get("cafe5value")}
         cafes_addr = {1: request.POST.get("cafe1addr"), 2: request.POST.get("cafe2addr"),
                       3: request.POST.get("cafe3addr"), 4: request.POST.get("cafe4addr"),
-                      5: request.POST.get("cafe5addr"), 6: request.POST.get("cafe6addr")}
+                      5: request.POST.get("cafe5addr")}
         cafe_mood = request.POST.get("mood")
         cafe_food = request.POST.get("food")
+        print(cafes)
         context = {
             'cafe_cnt': cafe_cnt,
         }
-        for num in range(1, 7):
+        for num in range(1, 6):
             if cafes[num] == "":
                 pass
             else:
@@ -209,7 +210,6 @@ def bookmark(request):  # checkForm 함수로 작동하는 함수.
         return render(request, 'bookmarkOk.html', context)
     else:
         return render(request, '/')
-
 
 def login(request):
     lo_err = {}
