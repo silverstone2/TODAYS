@@ -18,7 +18,7 @@ background-color: #EEEEEE;
 
     background-attachment: fixed;
     text-rendering: inherit;
-    height: 450px;
+    height: 400px;
     background-position: 50% 100%;
     background-size: cover;
     display: block;
@@ -32,7 +32,7 @@ background-color: #EEEEEE;
     position: absolute;
     top: 0;
     width: 100%;
-    height: 450px;
+    height: 400px;
     background-color: #000;
     display: block;
     opacity: .3;
@@ -40,24 +40,19 @@ background-color: #EEEEEE;
 }
 
 .cover_title{
-	padding-top: 150px;
-	text-align: center;
+   padding-top: 50px;
+   text-align: center;
     color: white;
     position : relative;
 
 }
 
 .cover_title2{
-	text-align: center;
+   text-align: center;
     color: white;
     position : relative;
 
 }
-
-
-
-
-
 
 
 .form {
@@ -71,13 +66,13 @@ background-color: #EEEEEE;
 }
 
 .index {
-	text-align: left;
-	border-radius:15px;
-	padding:10px;
-	border-radius: 28px;
+   text-align: left;
+   border-radius:15px;
+   padding:10px;
+   border-radius: 28px;
     box-shadow: rgba(0, 0, 0, 0.06) 0px 0px 6px 0px;
     background-color: rgb(255, 255, 255);
-	
+   
 }
 select {
      width:300px;
@@ -99,7 +94,6 @@ select {
 .btn_search {
   width: 10vw;
   height: 4vw;
-  font-family: 'Roboto', sans-serif;
   font-size: 1vw;
   text-transform: uppercase;
   letter-spacing: 2.5px;
@@ -122,6 +116,18 @@ select {
   transform: translateY(-7px);
 }
 
+legend {
+    background-color: #000;
+    color: #fff;
+    padding: 3px 6px;
+}
+
+.imsi{           
+   background-repeat: no-repeat; /* 배경이미지X */
+   background-size: cover; /* 요소를 비율에 맞게 커버 */
+   background-position: center; /* 이미지를 요소의 정가운데로 처리 */
+   background-attachment: fixed; /* 스크롤바 움직일때 이미지가 따라다님 */
+}
 
 
 
@@ -136,37 +142,36 @@ select {
 <script src="https://code.jquery.com/jquery-latest.min.js" type="application/javascript"></script>
 <script type="text/javascript">
 $('document').ready(function() {
-	let area0 = ["구 선택","강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구","동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"];
-	let area1 = ['개포동', '논현동', '대치동', '도곡동', '삼성동', '세곡동', '수서동','신사동','압구정동', '역삼동', '일원동','청담동']; <!-- 강남구 -->
-	let area2 = ['강일동', '고덕동', '길동', '둔촌동', '명일동', '상일동', '성내동', '암사동', '천호동']; <!-- 강동구 -->
-	let area3 = ['미아동', '번동', '삼각산동', '삼양동', '송중동', '송천동', '수유동', '우이동', '인수동']; <!-- 강북구 -->
-	let area4 = ['가양동', '공항동', '등촌동', '발산동', '방화동', '우장산동', '화곡동','염창동']; <!-- 강서구 -->
-	let area5 = ['낙성대동', '난곡동', '난향동', '남현동', '대학동', '미성동', '보라매동', '삼성동', '서림동', '서원동', '성현동', '신림동', '신사동', '신원동', '인헌동', '조원동', '중앙동', '청룡동', '청림동', '행운동','은천동']; <!-- 관악구 -->
-	let area6 = ['광장동', '구의동', '군자동', '능동', '자양동', '화양동','중곡동']; <!-- 광진구 -->
-	let area7 = ['가리봉동', '개봉동', '고척동', '구로동', '수궁동', '오류동', '항동','신도림동']; <!-- 구로구 -->
-	let area8 = ['가산동', '독산동', '시흥동']; <!-- 금천구 -->
-	let area9 = ['공릉동', '상계동', '중계동', '하계동','월계동']; <!-- 노원구 -->
-	let area10 = ['도봉동', '방학동', '창동','쌍문동']; <!-- 도봉구 -->
-	let area11 = ['답십리동', '이문동', '장안동', '전농동', '청량리동', '회기동', '휘경동','용신동']; <!-- 동대문구 -->
-	let area12 = ['대방동', '사당동', '상도동', '신대방동', '흑석동','노량진동']; <!-- 동작구 -->
-	let area13 = ['공덕동', '대흥동', '도화동', '망원동', '상암동', '서강동', '서교동', '성산동', '신수동', '연남동', '염리동', '용강동', '합정동','아현동']; <!-- 마포구 -->
-	let area14 = ['남가좌동', '북가좌동', '북아현동', '신촌동', '연희동', '천연동', '홍은동','충현동']; <!-- 서대문구 -->
-	let area15 = ['내곡동', '반포동', '방배동', '양재동', '서초동']; <!-- 서초구 -->
-	let area16 = ['금호동', '마장동', '사근동', '성수동', '송정동', '옥수동', '왕십리도선동', '용답동', '응봉동', '행당동','왕십리동']; <!-- 성동구 -->
-	let area17 = ['길음동', '돈암동', '동선동', '보문동', '삼선동', '석관동', '안암동', '월곡동', '장위동', '정릉동', '종암동','성북동']; <!-- 성북구 -->
-	let area18 = ['가락동', '거여동', '마천동', '문정동', '방이동', '삼전동', '석촌동', '송파동', '오금동', '오륜동', '위례동', '잠실동', '장지동','풍납동']; <!-- 송파구 -->
-	let area19 = ['목동', '신월동', '신정동']; <!-- 양천구 -->
-	let area20 = ['당산동', '대림동', '도림동', '문래동', '신길동', '양평동', '여의동','영등포동']; <!-- 영등포구 -->
-	let area21 = ['남영동', '보광동', '서빙고동', '용문동', '용산동', '이촌동', '이태원동', '청파동', '한강로동', '한남동', '효창동','후암동']; <!-- 용산구 -->
-	let area22 = ['갈현동', '구산동', '대조동', '불광동', '신사동', '역촌동', '응암동', '진관동','녹번동']; <!-- 은평구 -->
-	let area23 = ['가회동', '교남동', '무악동', '부암동', '삼청동', '숭인동', '이화동', '종로동', '창신동', '평창동', '혜화동','청운효자동']; <!-- 종로구 -->
-	let area24 = ['광희동', '다산동', '동화동', '명동', '신당동', '약수동', '을지로동', '장충동', '중림동', '청구동', '필동', '황학동', '회현동','소공동']; <!-- 중구 -->
-	let area25 = ['망우동', '묵동', '상봉동', '신내동', '중화동','면목동']; <!-- 중랑구 -->
+   let area0 = ["구 선택","강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구","동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"];
+   let area1 = ['개포동', '논현동', '대치동', '도곡동', '삼성동', '세곡동', '수서동','신사동','압구정동', '역삼동', '일원동','청담동']; <!-- 강남구 -->
+   let area2 = ['강일동', '고덕동', '길동', '둔촌동', '명일동', '상일동', '성내동', '암사동', '천호동']; <!-- 강동구 -->
+   let area3 = ['미아동', '번동', '삼각산동', '삼양동', '송중동', '송천동', '수유동', '우이동', '인수동']; <!-- 강북구 -->
+   let area4 = ['가양동', '공항동', '등촌동', '발산동', '방화동', '우장산동', '화곡동','염창동']; <!-- 강서구 -->
+   let area5 = ['낙성대동', '난곡동', '난향동', '남현동', '대학동', '미성동', '보라매동', '삼성동', '서림동', '서원동', '성현동', '신림동', '신사동', '신원동', '인헌동', '조원동', '중앙동', '청룡동', '청림동', '행운동','은천동']; <!-- 관악구 -->
+   let area6 = ['광장동', '구의동', '군자동', '능동', '자양동', '화양동','중곡동']; <!-- 광진구 -->
+   let area7 = ['가리봉동', '개봉동', '고척동', '구로동', '수궁동', '오류동', '항동','신도림동']; <!-- 구로구 -->
+   let area8 = ['가산동', '독산동', '시흥동']; <!-- 금천구 -->
+   let area9 = ['공릉동', '상계동', '중계동', '하계동','월계동']; <!-- 노원구 -->
+   let area10 = ['도봉동', '방학동', '창동','쌍문동']; <!-- 도봉구 -->
+   let area11 = ['답십리동', '이문동', '장안동', '전농동', '청량리동', '회기동', '휘경동','용신동']; <!-- 동대문구 -->
+   let area12 = ['대방동', '사당동', '상도동', '신대방동', '흑석동','노량진동']; <!-- 동작구 -->
+   let area13 = ['공덕동', '대흥동', '도화동', '망원동', '상암동', '서강동', '서교동', '성산동', '신수동', '연남동', '염리동', '용강동', '합정동','아현동']; <!-- 마포구 -->
+   let area14 = ['남가좌동', '북가좌동', '북아현동', '신촌동', '연희동', '천연동', '홍은동','충현동']; <!-- 서대문구 -->
+   let area15 = ['내곡동', '반포동', '방배동', '양재동', '서초동']; <!-- 서초구 -->
+   let area16 = ['금호동', '마장동', '사근동', '성수동', '송정동', '옥수동', '왕십리도선동', '용답동', '응봉동', '행당동','왕십리동']; <!-- 성동구 -->
+   let area17 = ['길음동', '돈암동', '동선동', '보문동', '삼선동', '석관동', '안암동', '월곡동', '장위동', '정릉동', '종암동','성북동']; <!-- 성북구 -->
+   let area18 = ['가락동', '거여동', '마천동', '문정동', '방이동', '삼전동', '석촌동', '송파동', '오금동', '오륜동', '위례동', '잠실동', '장지동','풍납동']; <!-- 송파구 -->
+   let area19 = ['목동', '신월동', '신정동']; <!-- 양천구 -->
+   let area20 = ['당산동', '대림동', '도림동', '문래동', '신길동', '양평동', '여의동','영등포동']; <!-- 영등포구 -->
+   let area21 = ['남영동', '보광동', '서빙고동', '용문동', '용산동', '이촌동', '이태원동', '청파동', '한강로동', '한남동', '효창동','후암동']; <!-- 용산구 -->
+   let area22 = ['갈현동', '구산동', '대조동', '불광동', '신사동', '역촌동', '응암동', '진관동','녹번동']; <!-- 은평구 -->
+   let area23 = ['가회동', '교남동', '무악동', '부암동', '삼청동', '숭인동', '이화동', '종로동', '창신동', '평창동', '혜화동','청운효자동']; <!-- 종로구 -->
+   let area24 = ['광희동', '다산동', '동화동', '명동', '신당동', '약수동', '을지로동', '장충동', '중림동', '청구동', '필동', '황학동', '회현동','소공동']; <!-- 중구 -->
+   let area25 = ['망우동', '묵동', '상봉동', '신내동', '중화동','면목동']; <!-- 중랑구 -->
     <!-- 제외 - ['동대문구 기동', '서대문구 홍동', '서초구 서초동', '서초구 잠원동', '용산구 원효로동', '은평구 증산동', '은평구 수색동', '종로구 사직동'] -->
 
 
  // 구/군 선택 박스 초기화
-
  $("select[name^=sido]").each(function() {
   $selsido = $(this);
   $.each(eval(area0), function() {
@@ -178,7 +183,6 @@ $('document').ready(function() {
 
 
  // 구/군 선택시 동 설정
-
  $("select[name^=sido]").change(function() {
   let area = "area"+$("option",$(this)).index($("option:selected",$(this))); // 선택지역의 구군 Array
   let $gugun = $(this).next(); // 선택영역 동 객체
@@ -194,13 +198,8 @@ $('document').ready(function() {
  });
 });
 </script>
-<script type="text/javascript">
-$('button').click(function(){
-	if(!$('.selectBox'.value == "")) {
-	    alert("아나 선택 좀..");
-	    $('#sido').focus();
-	}
-});
+
+
 </script>
 </head>
 <body class= "fixed">
@@ -208,110 +207,130 @@ $('button').click(function(){
 {% include "navbar.html" %}
 <div class="cover_image" style="background-image:url(/static/images/banner.jpg);">
 <div class="cover_inner"></div>
-	<h1 class="cover_title" style="font-size: 5vw;"	>HOW DO YOU FEELING TODAY?</h1>
-	<p class="cover_title2" style="font-size: 2vw;">-빅데이터로 찾아보는 내가 원하는 카페-</p>
+   <h1 class="cover_title" style="font-size: 5vw;"   >HOW DO YOU FEELING TODAY?</h1>
+   <p class="cover_title2" style="font-size: 2vw;">-빅데이터로 찾아보는 내가 원하는 카페-</p>
 </div>
 
-<div id="contentArea" class="container" style= "width: 60%; height: 100%;">
+   <div style="background: linear-gradient(#B07F4F, #5A4129); height: 18vw; width: 60%; position: relative; margin: auto; top: -120px; border-radius:35px;">
+   <div style="display: inline-block; text-align: center; width: 100%; margin-top: 3vw;">
+    <form action="result/" method="post">{% csrf_token %}
+     
+      <table style="margin: auto;">
+         <tr>
+            <td>
+               <p style= "color: white; font-size: 1.5vw; padding-right: 3vw;">위치 선택하기</p>
+            </td>
+            <td style="text-align: left; margin: 0; padding: 0;">       
+               <select name="sido" id="sido" style="margin-bottom: 10px; width:15vw;"></select>
+
+               <select name="gugun" id="gugun" style="margin-bottom: 10px; width:15vw;"></select>
+            </td>
+         </tr>
+         <tr>
+            <td>
+               <p style= "color: white; font-size: 1.5vw; padding-right: 3vw;">테마 선택하기</p>
+            </td>
+            <td>
+                <select name="mood" id="mood" style="margin-bottom: 10px; width:15vw;">
+                  <option selected>부드러운 분위기</option>
+                  <option>탁트인 분위기</option>
+                  <option>조용한 분위기</option>
+                  <option>적당한 분위기</option>
+                  <option>깔끔한 분위기</option>
+                  <option>친절한 분위기</option>
+                  <option>예쁜 분위기</option>
+               </select>
+           
+               <select name="food" id="food">
+			        <option selected>베이커리</option>
+			        <option>카페</option>
+			        <option>카페,디저트</option>
+			        <option>브런치</option>
+			        <option>베이글</option>
+			        <option>도넛</option>
+			        <option>양식</option>
+			        <option>케이크전문</option>
+			        <option>호두과자</option>
+			        <option>떡카페</option>
+			        <option>북카페</option>
+			        <option>테이크아웃커피</option>
+			        <option>빙수</option>
+			        <option>스터디카페</option>
+			        <option>아이스크림</option>
+			        <option>공방</option>
+			        <option>갤러리카페</option>
+			        <option>홍차전문점</option>
+			        <option>초콜릿전문점</option>
+			        <option>차</option>
+			        <option>과일,주스전문점</option>
+			        <option>와플</option>
+			        <option>블루보틀</option>
+			        <option>테마카페</option>
+			        <option>플라워카페</option>
+			        <option>라이브카페</option>
+			        <option>마카롱</option>
+			        <option>크레페</option>
+			        <option>커피번</option>
+			        <option>와인</option>
+			        <option>다방</option>
+			        <option>갤러리,화랑</option>
+			        <option>찐빵</option>
+			        <option>한방카페</option>
+			        <option>뷔페</option>
+			        <option>슈</option>
+			        <option>한식</option>
+			    </select>
+
+            </td>
+         </tr>
+      </table>
+      <div class="wrap" style="margin-top: 1.3vw;">
+           <button type="submit" id="submit" class="btn_search" style="font-size:1.5vw;">추천 받기</button>
+      </div>
+   </form>
+   </div>
+   </div>
+   
+   <div id="contentArea" class="container" style= "width: 60%; height: 100%; margin-bottom: 100px;">
    <br />
    <div class="index">
-      <h2 style="text-align: center; font-size: 3vw;">분위기에 따라 카페를 추천받고싶을땐?</h2>
+      <h2 style="text-align: center; font-size: 3vw;">카페 추천 분석 기법</h2>
       
       <br />
-      <p style="font-size: 2vw;">이 웹페이지는 흔한 카페찾기로부터 시작되었습니다. <br />
-      설명 어쩌구저쩌구설명 어쩌구저쩌구설명 어쩌구저쩌구</p>
-	<p>Musicovery is a high quality and comprehensive music recommendation engine, very easy to integrate through its API.
-	<br />
-	It provides 4 types of services:
-	<br />
-	descriptive metadata on artists and tracks (genres, moods, era, geographic, acoustics descriptors…) <br />
-	recommendations and playlists, personalized in real time <br />
-	bespoke webservices to provide specific content (recommendation of live concerts, recommendation of playlists, Youtube channels,…) <br />
-	advice on data analysis, algorithms, recommendation optimization, metadata sourcing and music UX design <br />
-	With more than 12 years of experiments on how to provide intuitive, rich and smart radios, how to make sense of behavioural data and produce precise descriptive metadata on music content, Musicovery is in a unique position to provide a comprehensive recommendation engine. It generates any kind of recommendations and playlists: from a mood, a song, an artist, a subgenre, a theme, a place, or for a specific listener.
-	measures the quality of recommendations and playlists with an analytic tool that optimizes recommendations and playlists to each listener.
-	<br />
- 
-	<br />
-	Recommendations and playlist are provided through an API, very easy to integrate, especially for prototyping new innovative UX.</p>
+      <p style="font-size: 2vw;">Clustering.</p> <br />
+      이미지
+      <p style="font-size: 2vw;">Modeling.</p> <br />
+      이미지
+      <p style="font-size: 2vw;">Clustering.</p> <br />
+     이미지
+   <br />
+   <br />
+   </div>
+   </div>
+    <div id="contentArea" class="container" style= "width: 60%; height: 100%; margin-bottom: 100px;">
+   <br />
+   <div class="index">
+      <h2 style="text-align: center; font-size: 3vw;">About Us</h2>
+      
       <br />
-    다 지워도 되는 글입니다
-      <br /><br /><br /><br /><br /><br /><br /><br />
+      <p style="font-size: 2vw;">강남 Acorn Academy by Team Pinacolada</p><br />
+      <br /><br /><br />
 
    </div>
+   </div>
+    <div id="contentArea" class="container" style= "width: 60%; height: 100%; margin-bottom: 100px;">
+   <br />
+   <div class="index">
+      <h2 style="text-align: center; font-size: 3vw;">Contact Us</h2>
+      
+      <br />
+      <p style="font-size: 2vw;">문의하기</p> <br />
+     <p>주소</p>
+     <p>이메일</p>
+     <p>연락처</p>
+      <br /><br /><br />
 
-   <form action="result/" method="post">{% csrf_token %}
-   <fieldset class="form">
-      <legend>
-         서울시 지역선택(구, 동)
-      </legend>
-         <div class = "selectBox">
-            <select name="sido" id="sido"></select>
-            <select name="gugun" id="gugun"></select>
-         </div>
-      <legend>
-         분위기
-      </legend>
-         <div class = "selectBox">
-            <select name="mood" id="modd">
-               <option selected>부드러운 분위기</option>
-               <option>다양한 분위기</option>
-               <option>아늑한 분위기</option>
-               <option>깔끔한 분위기</option>
-               <option>특별한 분위기</option>
-               <option>편한 분위기</option>
-               <option>넓은 분위기</option>
-            </select>
-         </div>
-      <legend>
-         카페 종류
-      </legend>
-         <div class = "selectBox">
-            <select name="food" id="food">
-                <option selected>베이커리</option>
-                <option>카페</option>
-                <option>카페,디저트</option>
-                <option>브런치</option>
-                <option>베이글</option>
-                <option>도넛</option>
-                <option>양식</option>
-                <option>케이크전문</option>
-                <option>호두과자</option>
-                <option>떡카페</option>
-                <option>북카페</option>
-                <option>테이크아웃커피</option>
-                <option>빙수</option>
-                <option>스터디카페</option>
-                <option>아이스크림</option>
-                <option>공방</option>
-                <option>갤러리카페</option>
-                <option>홍차전문점</option>
-                <option>초콜릿전문점</option>
-                <option>차</option>
-                <option>과일,주스전문점</option>
-                <option>와플</option>
-                <option>블루보틀</option>
-                <option>테마카페</option>
-                <option>플라워카페</option>
-                <option>라이브카페</option>
-                <option>마카롱</option>
-                <option>크레페</option>
-                <option>커피번</option>
-                <option>와인</option>
-                <option>다방</option>
-                <option>갤러리,화랑</option>
-                <option>찐빵</option>
-                <option>한방카페</option>
-                <option>뷔페</option>
-                <option>슈</option>
-                <option>한식</option>
-            </select>
-         </div>
-         <div class="wrap">
-                <button type="submit" id="submit" class="btn_search">추천 받기</button>
-         </div>
-   </fieldset>
-   </form>
-</div>
+   </div>
+   </div>
 </body>
 </html>
