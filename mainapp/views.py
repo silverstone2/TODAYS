@@ -60,36 +60,36 @@ def result(request):
         data = {}
 
         # [ 자치구 칼럼 전처리 ]
-        with open('./mainapp/encoders/자치구_encoder.pickle', 'rb') as f:
+        with open('./todays/mainapp/encoders/자치구_encoder.pickle', 'rb') as f:
             administ_encoder = pickle.load(f)
         administ = administ_encoder.transform([gu])[0]
         data['자치구'] = [administ]
 
         # [ 행정동 칼럼 전처리 ]
-        with open('./mainapp/encoders/자치구별_행정동_encoders.pickle', 'rb') as f:
+        with open('./todays/mainapp/encoders/자치구별_행정동_encoders.pickle', 'rb') as f:
             building_encoders = pickle.load(f)
         building_encoder = building_encoders[administ]
         building = building_encoder.transform([dong])[0]
         data['행정동'] = [building]
 
         # [ 카테고리 칼럼 전처리 ]
-        with open('./mainapp/encoders/카테고리_encoder.pickle', 'rb') as f:
+        with open('./todays/mainapp/encoders/카테고리_encoder.pickle', 'rb') as f:
             category_encoder = pickle.load(f)
         category = category_encoder.transform([food])[0]
 
-        with open('./mainapp/encoders/카테고리_정규화.pickle', 'rb') as f:
+        with open('./todays/mainapp/encoders/카테고리_정규화.pickle', 'rb') as f:
             category_scaler = pickle.load(f)
         category = category_scaler.transform([[category]]).flatten()[0]
         data['카테고리'] = [category]
 
         # [ 분위기 칼럼 전처리 ]
-        with open('./mainapp/encoders/분위기 넘버링 데이터.pickle', 'rb') as f:
+        with open('./todays/mainapp/encoders/분위기 넘버링 데이터.pickle', 'rb') as f:
             mood_dict = pickle.load(f)
         mood_number = [k for k, v in mood_dict.items() if v == mood][0]
         data['분위기'] = [mood_number]
 
         # [ 평균기온(°C) 칼럼 전처리 ]
-        with open('./mainapp/encoders/평균기온_정규화.pickle', 'rb') as f:
+        with open('./todays/mainapp/encoders/평균기온_정규화.pickle', 'rb') as f:
             meantemp_scaler = pickle.load(f)
         tmp = float(selected_weather['tmp'])
         meantemp = meantemp_scaler.transform([[selected_weather['tmp']]]).flatten()[0]
@@ -107,10 +107,10 @@ def result(request):
 
 
         # 모델 예측
-        with open('./mainapp/encoders/카페명_encoder.pickle', 'rb') as f:
+        with open('./todays/mainapp/encoders/카페명_encoder.pickle', 'rb') as f:
             cafe_encoder = pickle.load(f)
 
-        data_list_df = pd.read_csv('./mainapp/datasets/Django에서 쓸 데이터프레임.csv')
+        data_list_df = pd.read_csv('./todays/mainapp/datasets/Django에서 쓸 데이터프레임.csv')
         data_list_df.drop(['Unnamed: 0'], axis=1, inplace=True)
 
         model = models[0]
