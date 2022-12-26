@@ -8,7 +8,7 @@ class MainappConfig(AppConfig):
     name = "mainapp"
 
     def ready(self):
-        model = load_model('./mainapp/DL_model/최종_MLP.hdf5')
+        model = load_model('./todays/mainapp/DL_model/최종_MLP.hdf5') 
         models.append(model)
         print(models[0])
         pass
