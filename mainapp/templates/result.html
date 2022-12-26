@@ -21,17 +21,16 @@
 
 <!-- CARD CSS -->
 <link rel="stylesheet" type="text/css" href="{% static 'css/card.css' %}">
-
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap');
 
 html{
-overflow:hidden;
+   overflow:hidden;
 }
 
 .fixed{
 font-family: 'Gamja Flower', cursive;
-background-color: #EEEEEE;          
+background-color: #EEEEEE;
 }
 
 .jb-box { width: 100%; height: 100%; overflow: hidden;margin: 0px auto; position: relative;} /*동영상이 정해진 높이를 벗어나면 보이지 않도록 overflow 속성을 정하기*/
@@ -99,7 +98,7 @@ video { width: 100%; height: 100%; } /*좌우 꽉차게 하기*/
     opacity: 0;
     transform: translateY(-1vw);
   }
-  
+
   100% {
     opacity: 1;
     transform: translateY(1vw);
@@ -118,7 +117,7 @@ video { width: 100%; height: 100%; } /*좌우 꽉차게 하기*/
   }
   75% {
     opacity: 0.75;
-  }  
+  }
   100% {
     opacity: 1;
   }
@@ -128,27 +127,27 @@ video { width: 100%; height: 100%; } /*좌우 꽉차게 하기*/
 
 
 .section {
-	background-color: #E0E0E0;
-	border-radius: 25px;
-	padding:10px;
+   background-color: #E0E0E0;
+   border-radius: 25px;
+   padding:10px;
 }
 
 
 .swiper {
-	width: 100%;
+   width: 100%;
     height: 100%;
 }
 .swiper-slide {
-	text-align: center;
-	background: #fff;
-	
+   text-align: center;
+   background: #fff;
+
 }
 .swiper-button-next{
-	right: 10px;
+   right: 10px;
 }
 .swiper-button-prev{
-	left: 10px;
-	
+   left: 10px;
+
 }
 .swiper-pagination-bullet{
   background-color: #6E93f7;
@@ -166,29 +165,56 @@ video { width: 100%; height: 100%; } /*좌우 꽉차게 하기*/
 }
 
 
-.star{
+input[type="checkbox"] + label{
   display: inline-block; /* 영역적용가능해짐 */
   width: 20px; height: 20px;
   box-sizing: border-box;
-  border-radius: 10px; /* 모서리둥글게 처리 */
   position: relative; top: 4px;
   cursor: pointer; /* 마우스 올렸을때 손모양 처리 */
-
   background-image: url(/static/images/icon/star_off.png);
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
 }
 
-#chk:checked + .star{
+input[id="cafe{{ i.num }}"]:checked + label{
 
-  background-image: url(/static/images/icon/star.png);
+ background-image: url(/static/images/icon/star.png);
+
 }
 
 
 /* 체크박스는 display:none;을 주면 데이터 처리가 안됨 */
-#chk{ position: absolute; left: -999em; }
+input[type="checkbox"]{ position: absolute; left: -999em; }
 
+
+
+
+
+
+input[type=submit] {
+  width: 150px;
+  height: 60px;
+  font-size: 1vw;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+  background-color: #fff;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  }
+
+input[type=submit]:hover {
+  background-color: #2EE59D;
+  box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+  color: #fff;
+  transform: translateY(-7px);
+}
 
 
 
@@ -198,78 +224,80 @@ video { width: 100%; height: 100%; } /*좌우 꽉차게 하기*/
 <!-- 네비게이션바 -->
 {% include "navbar.html" %}
 <div class="jb-box">
-	<video muted autoplay loop>
-		<source src= {{ background }} type="video/mp4">
-	</video>
-	<div class="dv-text">
-		<p>
-            <span style="font-size: 1.2vw;">{{ maxim_message }}</span><br />
-            {{ maxim_author }}
-		</p>
-	</div>
-	<div class="dv-text2">
-		<p>
-			서울특별시 <br />
-			{{ gu }} <br />
-			{{ dong }} <br />
-			<span style="font-size: 6.5vw;">{{ selected_tmp }}°C</span>
-		</p>
-	</div>
-	<div class="dv-text3">
-		<p>
-			현재 {{ dong }}의 날씨 정보입니다.</br>
-			풍속은 {{ selected_wsd }}m/s 입니다.</br>
+   <video muted autoplay loop>
+      <source src= {{ background }} type="video/mp4">
+   </video>
+   <div class="dv-text">
+      <p>
+            <span style="font-size: 1.2vw;"></span><br />
+      </p>
+   </div>
+   <div class="dv-text2">
+      <p>
+         서울특별시 <br />
+         {{ gu }} <br />
+         {{ dong }} <br />
+         <span style="font-size: 6.5vw;">{{ selected_tmp }}°C</span>
+      </p>
+   </div>
+   <div class="dv-text3">
+      <p>
+         현재 {{ dong }}의 날씨 정보입니다.</br>
+         풍속은 {{ selected_wsd }}m/s 입니다.</br>
             습도는 {{ selected_reh }}% 입니다.
             <!--
             위도 경도는 콘솔창에 표시.
             -->
-		</p>
-	</div>
-	<div class="dv-text4">
-		<p>
-			오늘의 추천 카페 보기<br />
-		</p>
-		<a class="scroll-down">           <!-- 마우스 휠 효과를 줄 태그 -->
-    		<div class="scroll">                   <!-- 마우스 모양 도형 -->
-        		<span class="scroll-dot"></span>   <!-- 마우스 휠 움직임 효과를 줄 구체 -->
-    		</div>
-    		<div class="arrow-down"></div>         <!-- 마우스 이미지 아래쪽의 화살표 -->
-		</a>
-		
-	</div>
-</div>
-<div class="section">
-	<div class="section-title">
-		<h1 style="border-bottom: 1px solid gray; padding : 10px;">오늘의 추천</h1>
-	</div>
-<div class="swiper mySwiper">
-	<div class="swiper-wrapper">
-      {% for i in loop %}
-      	<div class="swiper-slide" style="border-radius: 25px;">
-			<div class="image-content">
-				<div class="card-image">
-					<img src={{ i.img_addr }} alt="" class="card-img">
-				</div>
-     	 	</div>
+      </p>
+   </div>
+   <div class="dv-text4">
+      <p>
+         오늘의 추천 카페 보기<br />
+      </p>
+      <a class="scroll-down">           <!-- 마우스 휠 효과를 줄 태그 -->
+          <div class="scroll">                   <!-- 마우스 모양 도형 -->
+              <span class="scroll-dot"></span>   <!-- 마우스 휠 움직임 효과를 줄 구체 -->
+          </div>
+          <div class="arrow-down"></div>         <!-- 마우스 이미지 아래쪽의 화살표 -->
+      </a>
 
-			<div class="card-content">
-     	 		<h2 class="name">{{ i.name }}</h2>
-      			<p class="description">{{ i.addr }}</p>
-      			<p></p>
-      			
-				{% if 'Members' in request.session %}
-				<label for="chk">
-					<input type="checkbox" onClick="testfunction(this)" value="{{i.name }}" id="cafe{{ i.num }}" name="checkbox{{ i.num }}" >
-					{% endif %}
-					<i class="star"></i>
-					<span class="text">My Like</span>
-				</label>
-				
-				<button class="button">View More</button>
-     		 </div>    	
-      	</div>
-		{% endfor %}
-    
+   </div>
+</div>
+<div>
+   <div class="section-title">
+      <h1 style="border-bottom: 1px solid gray; padding : 10px;">오늘의 추천</h1>
+   </div>
+<div class="swiper mySwiper">
+   <div class="swiper-wrapper">
+      {% for i in loop %}
+         <div class="swiper-slide" style="border-radius: 25px;">
+         <div class="image-content">
+         <div class="overlay"></div>
+            <div class="card-image">
+               <img src={{ i.img_addr }} alt="" class="card-img">
+            </div>
+            </div>
+
+         <div class="card-content">
+               <h2 class="name" style="font-size:1.6vw;">{{ i.name }}</h2>
+               <p class="description" style="font-size:1.3vw;">{{ i.addr }}</p>
+               <p></p>
+
+            {% if 'Members' in request.session %}
+
+
+               <input type="checkbox" onClick="testfunction(this)" value="{{i.name }}" id="cafe{{ i.num }}"  name="checkbox{{ i.num }}">
+               <label for="cafe{{ i.num }}"></label>
+               {% endif %}
+
+               <span class="text">My Like</span>
+
+            <br /><br />
+
+            </div>
+         </div>
+      {% endfor %}
+
       </div>
       <div class="swiper-button-next"></div>
       <div class="swiper-button-prev"></div>
@@ -278,30 +306,26 @@ video { width: 100%; height: 100%; } /*좌우 꽉차게 하기*/
 </div>
 <br />
 
-<form action="#">
-  <!--label태그는 체크박스를 누르지 않아도 연결된 체크박스를 체크해줌-->
-  <label for="chk">
-    <input type="checkbox" id="chk">
-    <i class="star"></i>
-    <span class="text">My Like</span>
-  </label>
-</form>
+      <input type="checkbox" id="cafe{{ i.num }}">
+      <label for="cafe{{ i.num }}"></label>
+
 
 <!-- checkbox value 저장 폼. 추후에 inputType hidden 으로 변경해야 함 -->
-<form action="/bookmark/" onsubmit="return checkForm()" name=recommendedCafe" id="recommendedCafe" method="POST">{% csrf_token %}
+<form action="/bookmark/" onsubmit="return checkForm()" name=recommendedCafe" id="recommendedCafe" method="POST"
+ style="text-align:center;">{% csrf_token %}
     {% for i in loop %}
-    <input type="hidden" id="cafe{{ i.num }}value" name="cafe{{ i.num }}value" value="">
-    <input type="hidden" id="cafe{{ i.num }}addr" name="cafe{{ i.num }}addr" value="{{ i.addr }}">
+    <input type="hidden" id="cafe{{ i.num }}value" name="cafe{{ i.num }}value" value="" >
+    <input type="hidden" id="cafe{{ i.num }}addr" name="cafe{{ i.num }}addr" value="{{ i.addr }}" >
     {% endfor %}
-    <input type="hidden" id="cafeCnt" name="cafeCnt" value="0">
-    <input type="hidden" id="mood" name="mood" value="{{ mood }}">
-    <input type="hidden" id="food" name="food" value="{{ food }}">
+    <input type="hidden" id="cafeCnt" name="cafeCnt" value="0" >
+    <input type="hidden" id="mood" name="mood" value="{{ mood }}" >
+    <input type="hidden" id="food" name="food" value="{{ food }}" >
 
     {% if 'Members' in request.session %}
-    <input type="submit" id="submit" onclick="alert('북마크가 추가되었습니다')" value="북마크 추가">
+    <input type="submit" id="submit" value="북마크 추가">
     {% endif %}
 </form>
-
+<br />
 <script> <!-- 체크박스 제어 함수 -->
     let sum = 0;
     function testfunction(box){
@@ -321,7 +345,9 @@ video { width: 100%; height: 100%; } /*좌우 꽉차게 하기*/
         if (sum == 0) {
             alert("하나 이상 체크하세요");
             return false;
-        } else return true;
+        } else
+            alert('북마크가 추가되었습니다');
+            return true;
     }
 </script>
 <script type="text/javascript"> <!-- 뒤로가기 버튼 작동 시 동작하는 초기화 함수 -->
@@ -338,7 +364,7 @@ video { width: 100%; height: 100%; } /*좌우 꽉차게 하기*/
     }
 </script>
 
-<script>
+<script> <!-- Swiper -->
 let swiper = new Swiper(".mySwiper", {
   slidesPerView: 3,
   spaceBetween: 30,
@@ -356,15 +382,15 @@ let swiper = new Swiper(".mySwiper", {
 });
 </script>
 
-<script>
-<!-- 마우스 휠 기능 삭제 -->
+<script> <!-- 마우스 휠 기능 삭제 -->
+
 window.addEventListener("wheel", function(e){
     e.preventDefault();
 },{passive : false});
 </script>
 
-<script>
-<!-- 만약에 뷰의 Yposition이 0이 아닐 경우를 대비 -->
+<script> <!-- 만약에 뷰의 Yposition이 0이 아닐 경우를 대비 -->
+
 var mHtml = $("html");
 var page = 1;
 
@@ -372,8 +398,8 @@ var page = 1;
 mHtml.animate({scrollTop : 0},10);
 </script>
 
-<script>
-<!-- 휠 이벤트 처리 -->
+<script> <!-- 휠 이벤트 처리 -->
+
 $(window).on("wheel", function(e) {
     if(mHtml.is(":animated")) return;
     if(e.originalEvent.deltaY > 0) {
@@ -389,8 +415,5 @@ $(window).on("wheel", function(e) {
 
 </script>
 
-
-
-  
 </body>
 </html>

@@ -24,5 +24,6 @@ urlpatterns = [
     path('users/signupInputErr/', views.signupInputErr),
     path('users/signupIdErr/', views.signupIdErr),
     path('users/valiErr/', views.valiErr),
+
 ]
 
